@@ -1,0 +1,53 @@
+﻿@model Product
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    div.gallery {
+        margin: 5px;
+        border: 1px solid #ccc;
+        float: none;
+        width: 400px;
+    }
+
+        div.gallery img {
+            width: 100%;
+            height: auto;
+        }
+
+    div.desc {
+        padding: 15px;
+        text-align: center;
+    }
+</style>
+
+<div class="gallery">
+    <div class="desc"> @Html.DisplayFor(model => model.Name)</div>
+    <img class="img-responsive full-width" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" />
+    <div class="desc"> @Html.DisplayFor(model => model.Description)</div>
+</div>
+<div>
+    @if (User.IsInRole(Roles.AdminRole))
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete |</a>
+    }
+    @if (this.User.Identity.IsAuthenticated)
+    {
+        if (!this.User.IsInRole(Roles.AdminRole))
+        {
+            @if (ViewBag.isFavorite == false)
+            {
+                <a asp-action="AddToFavoriteList" asp-route-id="@Model.Id">Add To Favorites</a>
+            }
+            else
+            {
+                <a asp-action="RemoveFromFavoriteList" asp-route-id="@Model.Id">Remove From Favorites</a>
+            }
+        }
+    }
+    | <a asp-action="Index">Back to Products</a>
+</div>
