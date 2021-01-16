@@ -58,7 +58,7 @@
                 return NotFound();
             }
 
-            var product = await this.productService.GetProduct((int)id);
+            var product = await this.productService.GetProductDetailsRequestModel((int)id);
 
             if (product == null)
             {
@@ -170,7 +170,7 @@
                 return NotFound();
             }
 
-            var product = await this.productService.GetProduct((int)id);
+            var product = await this.productService.GetProductDetailsRequestModel((int)id);
 
             if (product == null)
             {

@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
     using Data;
     using Data.Models;
+    using WebStore.MVC.ViewModels.Products;
 
     public class ProductService : IProductService
     {
@@ -39,10 +40,24 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<Product> GetProduct(int id)
+        public async Task<ProductDetailsRequestModel> GetProductDetailsRequestModel(int id)
         {
             return await this.context.Products.
-                FirstOrDefaultAsync(p => p.Id == id);
+                Where(p => p.Id == id)
+                .Select(p => new ProductDetailsRequestModel 
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Image = p.Image
+                })
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<Product> GetProduct(int id)
+        {
+            return await this.context.Products
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Product>> GettAll()

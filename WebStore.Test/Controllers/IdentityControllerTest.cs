@@ -10,7 +10,7 @@
     using static Helpers.GetMock;
     using Microsoft.AspNetCore.Mvc;
     using FluentAssertions;
-    using WebStore.MVC.ViewModels;
+    using WebStore.MVC.ViewModels.Identity;
     using System.Linq;
     using System.ComponentModel.DataAnnotations;
 

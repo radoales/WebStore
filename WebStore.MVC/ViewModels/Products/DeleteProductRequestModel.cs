@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using WebStore.MVC.Data.Models;
 
-    public class DeleteProductRequestViewModel
+    public class DeleteProductRequestModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

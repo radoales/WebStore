@@ -3,6 +3,8 @@
     using Data.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using ViewModels.Products;
+
     public interface IProductService
     {
         public Task Create(string name, string description, byte[] image);
@@ -10,6 +12,7 @@
         public Task<IEnumerable<Product>> GettAll();
 
         public Task<Product> GetProduct(int id);
+        public Task<ProductDetailsRequestModel> GetProductDetailsRequestModel(int id);
 
         public Task Update(int id, string name, string description, byte[] image);
 

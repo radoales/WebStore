@@ -18,14 +18,6 @@
         {
             return new Mock<IProductService>();
         }
-
-        public static Mock<IProductService> ProductServiceMockWithProducts()
-        {
-            var productServiceMock = new Mock<IProductService>();
-            productServiceMock.Object.Create("Product 1", "Description 1", new byte[] { });
-            return productServiceMock;
-        }
-
         public static Mock<SignInManager<User>> SignInManagerMock()
         {
             var httpContextAccessor = new Mock<IHttpContextAccessor>();

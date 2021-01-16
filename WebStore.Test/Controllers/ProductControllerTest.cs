@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore.Metadata.Internal;
+    using Moq;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -140,7 +141,7 @@
                 .Should().BeOfType<CreateProductRequestModel>();
         }
 
-        //Product.Delete Tests
+        //Product.Delete Get Tests
         [Fact]
         public async Task DeleteProductGet_WithoutId_ShouldReturnNotFound()
         {
@@ -176,7 +177,10 @@
         public async Task DeleteProductGet_WithValidId_ShouldReturnViewResultWithProduct()
         {
             //Arrange
-            var productServiceMock = ProductServiceMockWithProducts();
+            var productServiceMock = ProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProductDetailsRequestModel(It.IsAny<int>()))
+                .ReturnsAsync(new ProductDetailsRequestModel());
 
             var productsController = new ProductsController(null, productServiceMock.Object, null);
 
@@ -188,8 +192,11 @@
                 .Should().BeOfType<ViewResult>()
                 .Subject
                 .Model
-                .Should().BeOfType<Product>();
+                .Should().BeOfType<ProductDetailsRequestModel>();
         }
+
+        //Product.Delete Post Tests
+
 
         private MethodInfo GetGetMethodInfo(string methodName)
         {
