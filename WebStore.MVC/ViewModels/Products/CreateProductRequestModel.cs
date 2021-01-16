@@ -1,4 +1,4 @@
-﻿namespace WebStore.MVC.ViewModels
+﻿namespace WebStore.MVC.ViewModels.Products
 {
     using Microsoft.AspNetCore.Http;
     using System;

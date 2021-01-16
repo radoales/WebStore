@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using Data.Models;
     using Services;
-    using ViewModels;
+    using ViewModels.Products;
     using static WebConstants;
     using static Helpers.ImageHelper;
 

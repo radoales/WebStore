@@ -1,4 +1,4 @@
-﻿namespace WebStore.MVC.ViewModels
+﻿namespace WebStore.MVC.ViewModels.Users
 {
     public class UserDetailRequestModel
     {

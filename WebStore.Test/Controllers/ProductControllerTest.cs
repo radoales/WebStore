@@ -2,21 +2,19 @@
 {
     using FluentAssertions;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore.Metadata.Internal;
+    using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
-    using WebStore.MVC;
     using WebStore.MVC.Controllers;
-    using WebStore.MVC.ViewModels;
-    using Xunit;
-    using static WebStore.Test.Helpers.GetMock;
-    using static WebStore.MVC.WebConstants;
-    using Microsoft.AspNetCore.Http;
-    using System.IO;
-    using System.Collections.Generic;
     using WebStore.MVC.Data.Models;
+    using WebStore.MVC.ViewModels.Products;
+    using Xunit;
+    using static WebStore.MVC.WebConstants;
+    using static WebStore.Test.Helpers.GetMock;
 
     public class ProductControllerTest
     {
@@ -63,7 +61,7 @@
                 .NotContain(Roles.UserRole);
         }
 
-        //Index Product Tests
+        //Products.Index Tests
         [Fact]
         public async Task Index_ShouldReturn_ViewResultWithListOfProducts()
         {
@@ -83,7 +81,7 @@
                 .Should().BeOfType<Product[]>();
         }
 
-        //Create Product Tests
+        //Product.Create Tests
         [Fact]
         public void CreateProductGet_ShouldReturn_ViewResult()
         {
@@ -140,6 +138,57 @@
                 .Subject
                 .Model
                 .Should().BeOfType<CreateProductRequestModel>();
+        }
+
+        //Product.Delete Tests
+        [Fact]
+        public async Task DeleteProductGet_WithoutId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Delete(null);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }
+        [Fact]
+        public async Task DeleteProductGet_WithInvalidId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Delete(1);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task DeleteProductGet_WithValidId_ShouldReturnViewResultWithProduct()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMockWithProducts();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Delete(1);
+
+            //Assert
+            result
+                .Should().BeOfType<ViewResult>()
+                .Subject
+                .Model
+                .Should().BeOfType<Product>();
         }
 
         private MethodInfo GetGetMethodInfo(string methodName)

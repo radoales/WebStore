@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
     using Data.Models;
     using Services;
-    using ViewModels;
+    using ViewModels.Identity;
     using static MVC.WebConstants;
 
     public class IdentityController : Controller

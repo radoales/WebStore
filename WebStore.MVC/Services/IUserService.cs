@@ -1,6 +1,6 @@
 ﻿namespace WebStore.MVC.Services
 {
-    using ViewModels;
+    using ViewModels.Users;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     public interface IUserService

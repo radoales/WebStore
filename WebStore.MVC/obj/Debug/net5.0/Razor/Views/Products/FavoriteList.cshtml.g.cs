@@ -28,20 +28,34 @@ using WebStore.MVC.Data.Models;
 #nullable disable
 #nullable restore
 #line 3 "C:\Programming\Projects\WebStore\WebStore.MVC\Views\_ViewImports.cshtml"
-using WebStore.MVC.ViewModels;
+using WebStore.MVC.ViewModels.Identity;
 
 #line default
 #line hidden
 #nullable disable
 #nullable restore
 #line 4 "C:\Programming\Projects\WebStore\WebStore.MVC\Views\_ViewImports.cshtml"
+using WebStore.MVC.ViewModels.Products;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 5 "C:\Programming\Projects\WebStore\WebStore.MVC\Views\_ViewImports.cshtml"
+using WebStore.MVC.ViewModels.Users;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 6 "C:\Programming\Projects\WebStore\WebStore.MVC\Views\_ViewImports.cshtml"
 using static WebStore.MVC.WebConstants;
 
 #line default
 #line hidden
 #nullable disable
     [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"fe7b424fb4f3027709c3a128a33ff54549b5e8c6", @"/Views/Products/FavoriteList.cshtml")]
-    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"ac21ee3552d69ddfb3e6dab08a9adc827e3880d8", @"/Views/_ViewImports.cshtml")]
+    [global::Microsoft.AspNetCore.Razor.Hosting.RazorSourceChecksumAttribute(@"SHA1", @"2a1b4d4d180950a8fef4ad4cf4148babfebffdd2", @"/Views/_ViewImports.cshtml")]
     public class Views_Products_FavoriteList : global::Microsoft.AspNetCore.Mvc.Razor.RazorPage<IEnumerable<Product>>
     {
         private static readonly global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute __tagHelperAttribute_0 = new global::Microsoft.AspNetCore.Razor.TagHelpers.TagHelperAttribute("asp-controller", "Products", global::Microsoft.AspNetCore.Razor.TagHelpers.HtmlAttributeValueStyle.DoubleQuotes);
@@ -90,7 +104,7 @@ using static WebStore.MVC.WebConstants;
 #line hidden
 #nullable disable
             WriteLiteral("    <div class=\"list-gallery\">\r\n        ");
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fe7b424fb4f3027709c3a128a33ff54549b5e8c64739", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fe7b424fb4f3027709c3a128a33ff54549b5e8c65131", async() => {
                 WriteLiteral("\r\n            <img");
                 BeginWriteAttribute("src", " src=\"", 364, "\"", 428, 2);
                 WriteAttributeValue("", 370, "data:image/jpeg;base64,", 370, 23, true);

@@ -5,7 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Data;
-    using ViewModels;
+    using ViewModels.Users;
     public class UserService : IUserService
     {
         private readonly WebStoreDbContext context;

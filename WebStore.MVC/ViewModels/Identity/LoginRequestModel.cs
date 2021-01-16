@@ -1,4 +1,4 @@
-﻿namespace WebStore.MVC.ViewModels
+﻿namespace WebStore.MVC.ViewModels.Identity
 {
     using System.ComponentModel.DataAnnotations;
     using static WebConstants;
