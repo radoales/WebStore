@@ -15,9 +15,12 @@
     using static WebStore.MVC.WebConstants;
     using Microsoft.AspNetCore.Http;
     using System.IO;
+    using System.Collections.Generic;
+    using WebStore.MVC.Data.Models;
 
     public class ProductControllerTest
     {
+        //Accessability Tests
         [Fact]
         public void CreateProductGet_ShouldBeAccessableOnly_ByAdministrators()
         {
@@ -60,8 +63,29 @@
                 .NotContain(Roles.UserRole);
         }
 
+        //Index Product Tests
         [Fact]
-        public void CreateProductGet_ShouldReturn_ViewPage()
+        public async Task Index_ShouldReturn_ViewResultWithListOfProducts()
+        {
+            //arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //act
+            var result = await productsController.Index();
+
+            //assert
+            result
+                .Should().BeOfType<ViewResult>()
+                .Subject
+                .Model
+                .Should().BeOfType<Product[]>();
+        }
+
+        //Create Product Tests
+        [Fact]
+        public void CreateProductGet_ShouldReturn_ViewResult()
         {
             //arrange
             var productsController = new ProductsController(null, null, null);
@@ -98,7 +122,7 @@
         }
 
         [Fact]
-        public async Task CreateProductPostWithInvalidModelState_ShouldReturn_ViewPageWithCtreateProductRequestModel()
+        public async Task CreateProductPostWithInvalidModelState_ShouldReturn_ViewResultWithCtreateProductRequestModel()
         {
             //arrange
             var userManagerMock = UserManagerMock();
@@ -115,8 +139,7 @@
                 .Should().BeOfType<ViewResult>()
                 .Subject
                 .Model
-                .Should()
-                .BeOfType<CreateProductRequestModel>();
+                .Should().BeOfType<CreateProductRequestModel>();
         }
 
         private MethodInfo GetGetMethodInfo(string methodName)
