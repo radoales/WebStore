@@ -285,6 +285,77 @@
                 .Model
                 .Should().BeOfType<ProductDetailsRequestModel>();
         }
+
+        [Fact]
+        public async Task DetailsProduct_WithValidIdAndIsInFavouriteEqualsTrue_ShouldHaveViewBagIsFavoriteEqualsTrue()
+        {
+            //Arrange
+            var userManagerMock = UserManagerMock();
+            userManagerMock
+                .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new User());
+
+            var productServiceMock = ProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProductDetailsRequestModel(It.IsAny<int>()))
+                .ReturnsAsync(new ProductDetailsRequestModel());
+            productServiceMock
+                .Setup(x => x.IsproductInFavoriteList(It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync(true);
+
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                        new Claim(ClaimTypes.NameIdentifier, "X"),
+                                        new Claim(ClaimTypes.Name, "x@xxx.com")
+                                        // other required and custom claims
+                                   }, "TestAuthentication"));
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
+            productsController.ControllerContext = new ControllerContext();
+            productsController.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+            //Act
+            await productsController.Details(1);
+            var result = productsController.ViewBag.isFavorite;
+
+            //Assert
+            Assert.Equal(true, result);
+        }
+
+        [Fact]
+        public async Task DetailsProduct_WithValidIdAndIsInFavouriteEqualsFalse_ShouldHaveViewBagIsFavoriteEqualsFalse()
+        {
+            //Arrange
+            var userManagerMock = UserManagerMock();
+            userManagerMock
+                .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new User());
+
+            var productServiceMock = ProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProductDetailsRequestModel(It.IsAny<int>()))
+                .ReturnsAsync(new ProductDetailsRequestModel());
+            productServiceMock
+                .Setup(x => x.IsproductInFavoriteList(It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync(false);
+
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                        new Claim(ClaimTypes.NameIdentifier, "X"),
+                                        new Claim(ClaimTypes.Name, "x@xxx.com")
+                                        // other required and custom claims
+                                   }, "TestAuthentication"));
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
+            productsController.ControllerContext = new ControllerContext();
+            productsController.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+            //Act
+            await productsController.Details(1);
+            var result = productsController.ViewBag.isFavorite;
+
+            //Assert
+            Assert.Equal(false, result);
+        }
+
         //Helpers
         private MethodInfo GetGetMethodInfo(string methodName)
         {
