@@ -72,28 +72,42 @@ body {
 
 /*-------------------------------------------------------*/
 
-.index-gallery {
+.list-gallery {
     margin: 5px;
     border: 1px solid #ccc;
     float: left;
     width: 180px;
 }
 
-.index-gallery img {
+.list-gallery img {
     width: 100%;
     height: auto;
 }
 
-.index-galery-text {
+.list-galery-text {
     text-align: center;
 }
 
-.index-galery-zoom {
+.list-galery-zoom {
     transition: transform .2s;
     align-content: center;
 }
 
-    .index-galery-zoom:hover {
+    .list-galery-zoom:hover {
         transform: scale(1.1);
         border: 1px solid #777;
     }
+
+/*-------------------------------------------------------*/
+
+.detail-galary {
+    margin: 5px;
+    border: 1px solid #ccc;
+    float: none;
+    width: 300px;
+}
+
+.detail-galary img {
+    width: 100%;
+    height: auto;
+}
