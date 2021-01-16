@@ -9,6 +9,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Security.Claims;
     using System.Threading.Tasks;
     using WebStore.MVC.Controllers;
     using WebStore.MVC.Data.Models;
@@ -196,8 +197,95 @@
         }
 
         //Product.Delete Post Tests
+        [Fact]
+        public async Task DeleteProductConfirmed_ShouldReturn_RedirectToActionIndexPage()
+        {
+            //arrange
+            var productServiceMock = ProductServiceMock();
 
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+            var model = new CreateProductRequestModel();
 
+            //act
+            var result = await productsController.DeleteConfirmed(1);
+
+            //assert
+            result
+                .Should().BeOfType<RedirectToActionResult>()
+                .Subject
+                .ActionName
+                .Should()
+                .Be(nameof(Index));
+        }
+
+        //Product.Details Tests
+        [Fact]
+        public async Task DetailsProduct_WithoutId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Details(null);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task DetailsProduct_WithInvalidId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Details(1);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task DetailsProduct_WithValidId_ShouldReturnViewResultWithProduct()
+        {
+            //Arrange
+            var userManagerMock = UserManagerMock();
+            userManagerMock
+                .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new User());
+
+            var productServiceMock = ProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetProductDetailsRequestModel(It.IsAny<int>()))
+                .ReturnsAsync(new ProductDetailsRequestModel());
+
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
+                                        new Claim(ClaimTypes.NameIdentifier, "X"),
+                                        new Claim(ClaimTypes.Name, "x@xxx.com")
+                                        // other required and custom claims
+                                   }, "TestAuthentication"));
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
+            productsController.ControllerContext = new ControllerContext();
+            productsController.ControllerContext.HttpContext = new DefaultHttpContext { User = user };
+
+            //Act
+            var result = await productsController.Details(1);
+
+            //Assert
+            result
+                .Should().BeOfType<ViewResult>()
+                .Subject
+                .Model
+                .Should().BeOfType<ProductDetailsRequestModel>();
+        }
+        //Helpers
         private MethodInfo GetGetMethodInfo(string methodName)
         {
             return typeof(ProductsController)
