@@ -19,7 +19,8 @@ namespace WebStore.MVC
         {
             services.AddDatabase(this.Configuration)
                 .AddAppServices()
-                .AddIdentity();
+                .AddIdentity()
+                .AddDefaultLoginPath();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

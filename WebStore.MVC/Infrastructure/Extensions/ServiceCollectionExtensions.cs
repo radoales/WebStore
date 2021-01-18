@@ -41,5 +41,12 @@
 
             return services;
         }
+
+        public static IServiceCollection AddDefaultLoginPath(this IServiceCollection services)
+        {
+            services.ConfigureApplicationCookie(options => options.LoginPath = "/Identity/LogIn");
+
+            return services;
+        }
     }
 }

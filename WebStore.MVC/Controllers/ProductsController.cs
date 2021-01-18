@@ -34,14 +34,15 @@
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> FavoriteList()
         {
-            var isAuhtenticated = this.User.Identity.IsAuthenticated;
+            //var isAuhtenticated = this.User.Identity.IsAuthenticated;
 
-            if (!isAuhtenticated)
-            {
-                return Unauthorized();
-            }
+            //if (!isAuhtenticated)
+            //{
+            //    return Unauthorized();
+            //}
 
             var user = await this.userManager.GetUserAsync(this.User);
 
@@ -187,19 +188,21 @@
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         public async Task<IActionResult> AddToFavoriteList(int id)
         {
-            var isAuhtenticated = this.User.Identity.IsAuthenticated;
+            //var isAuhtenticated = this.User.Identity.IsAuthenticated;
 
-            if (!isAuhtenticated)
-            {
-                return Unauthorized();
-            }
+            //if (!isAuhtenticated)
+            //{
+            //    return Unauthorized();
+            //}
 
             var user = await this.userManager.GetUserAsync(this.User);
 
             await this.productService.AddTooFavoriteList(user.Id, id);
             TempData[TempDataSuccessMessageKey] = "Added to favorites.";
+
             return RedirectToAction(nameof(Details), new { id = id });
         }
 
