@@ -119,21 +119,19 @@
                 return NotFound();
             }
 
-            var product = await this.productService.GetProduct((int)id);
+            var product = await this.productService.GetUpdateProductRequestModel((int)id);
 
             if (product == null)
             {
                 return NotFound();
             }
 
-            var image = ArrayToFormFile(product.Image, product.Name);
-
             var model = new UpdateProductRequestModel
             {
                 Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
-                Image = image
+                Image = product.Image
             };
 
             return View(model);
@@ -152,8 +150,7 @@
 
             if (ModelState.IsValid)
             {
-                var imageArray = FileToArray(model.Image);
-                await this.productService.Update(model.Id, model.Name, model.Description, imageArray);
+                await this.productService.Update(model.Id, model.Name, model.Description);
 
                 return RedirectToAction(nameof(Index));
             }

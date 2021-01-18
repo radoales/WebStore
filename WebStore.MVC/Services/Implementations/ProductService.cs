@@ -8,6 +8,7 @@
     using Data;
     using Data.Models;
     using WebStore.MVC.ViewModels.Products;
+    using static Helpers.ImageHelper;
 
     public class ProductService : IProductService
     {
@@ -53,11 +54,24 @@
                 })
                 .FirstOrDefaultAsync();
         }
+        public async Task<UpdateProductRequestModel> GetUpdateProductRequestModel(int id)
+        {
+            return await this.context.Products.
+                Where(p => p.Id == id)
+                .Select(p => new UpdateProductRequestModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Description = p.Description,
+                    Image = p.Image
+                })
+                .FirstOrDefaultAsync();
+        }
 
         public async Task<Product> GetProduct(int id)
         {
             return await this.context.Products
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Product>> GettAll()
@@ -65,13 +79,12 @@
             return await this.context.Products.ToListAsync();
         }
 
-        public async Task Update(int id, string name, string description, byte[] image)
+        public async Task Update(int id, string name, string description)
         {
             var product = await GetProduct(id);
 
             product.Name = name;
             product.Description = description;
-            product.Image = image;
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();

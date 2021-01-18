@@ -102,7 +102,7 @@
         {
             //arrange
             var userManagerMock = UserManagerMock();
-            var productServiceMock = ProductServiceMock();
+            var productServiceMock = ProductServiceMock();       
 
             var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
             var model = new CreateProductRequestModel();
@@ -320,7 +320,7 @@
             //Assert
             Assert.Equal(true, result);
         }
-
+   
         [Fact]
         public async Task DetailsProduct_WithValidIdAndIsInFavouriteEqualsFalse_ShouldHaveViewBagIsFavoriteEqualsFalse()
         {
@@ -355,6 +355,39 @@
             //Assert
             Assert.Equal(false, result);
         }
+
+        //Product.Edit Get Tests
+        [Fact]
+        public async Task EditProduct_WithoutId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Edit(null);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task EditProduct_WithInvalidId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Edit(1);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }      
 
         //Helpers
         private MethodInfo GetGetMethodInfo(string methodName)

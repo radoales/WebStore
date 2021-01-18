@@ -39,8 +39,14 @@
         {
             using (var ms = new MemoryStream(arr))
             {
+                System.Net.Mime.ContentDisposition cd = new System.Net.Mime.ContentDisposition
+                {
+                    FileName = name
+                    
+                };
                 IFormFile formFile = new FormFile(ms, 0, ms.Length, name, name);
-
+                formFile.Headers.Add("Content-Disposition", cd.ToString());
+                formFile.Headers.Add("Content-Type", "image/jpeg");
                 return formFile;
             }
         }

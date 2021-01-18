@@ -14,7 +14,7 @@
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredField)]
-        public IFormFile Image { get; set; }
+        //[Required(ErrorMessage = ErrorMessages.RequiredField)]
+        public byte[] Image { get; set; }
     }
 }
