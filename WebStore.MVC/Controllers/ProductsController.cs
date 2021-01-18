@@ -33,23 +33,6 @@
             return View(await this.productService.GettAll());
         }
 
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> FavoriteList()
-        {
-            //var isAuhtenticated = this.User.Identity.IsAuthenticated;
-
-            //if (!isAuhtenticated)
-            //{
-            //    return Unauthorized();
-            //}
-
-            var user = await this.userManager.GetUserAsync(this.User);
-
-
-            return View(await this.productService.GetFavoriteListByUser(user.Id));
-        }
-
         // GET: Products/Details/5
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
@@ -188,16 +171,20 @@
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> FavoriteList()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var favList = await this.productService.GetFavoriteListByUser(user.Id);
+
+            return View(favList);
+        }
+
         [Authorize]
         public async Task<IActionResult> AddToFavoriteList(int id)
         {
-            //var isAuhtenticated = this.User.Identity.IsAuthenticated;
-
-            //if (!isAuhtenticated)
-            //{
-            //    return Unauthorized();
-            //}
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             await this.productService.AddTooFavoriteList(user.Id, id);
@@ -205,20 +192,14 @@
 
             return RedirectToAction(nameof(Details), new { id = id });
         }
-
+        [Authorize]
         public async Task<IActionResult> RemoveFromFavoriteList(int id)
         {
-            var isAuhtenticated = this.User.Identity.IsAuthenticated;
-
-            if (!isAuhtenticated)
-            {
-                return Unauthorized();
-            }
-
             var user = await this.userManager.GetUserAsync(this.User);
 
             await this.productService.RemoveFromFavoriteList(user.Id, id);
             TempData[TempDataSuccessMessageKey] = "Removed from favorites.";
+
             return RedirectToAction(nameof(Details), new { id = id });
         }
     }

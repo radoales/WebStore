@@ -8,6 +8,8 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
+    using ViewModels.Products;
+
     public class HomeController : Controller
     {
         private readonly UserManager<User> userManager;
@@ -31,7 +33,7 @@
                 var userProducts = await this.productService.GetFavoriteListByUser(user.Id);
                 return View(userProducts.Take(5));
             }
-            var products = new List<Product>();
+            var products = new List<ListProductRequestModel>();
             return View(products);
         }
 

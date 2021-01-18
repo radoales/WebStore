@@ -9,7 +9,7 @@
     {
         public Task<int> Create(string name, string description, byte[] image);
 
-        public Task<IEnumerable<Product>> GettAll();
+        public Task<IEnumerable<ListProductRequestModel>> GettAll();
 
         public Task<Product> GetProduct(int id);
         public Task<ProductDetailsRequestModel> GetProductDetailsRequestModel(int id);
@@ -23,6 +23,6 @@
         Task RemoveFromFavoriteList(string userId, int productId);
 
         Task<bool> IsproductInFavoriteList(string userId, int productId);
-        Task<IEnumerable<Product>> GetFavoriteListByUser(string id);
+        Task<IEnumerable<ListProductRequestModel>> GetFavoriteListByUser(string id);
     }
 }

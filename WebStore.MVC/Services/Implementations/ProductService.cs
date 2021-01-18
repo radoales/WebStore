@@ -75,9 +75,16 @@
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<Product>> GettAll()
+        public async Task<IEnumerable<ListProductRequestModel>> GettAll()
         {
-            return await this.context.Products.ToListAsync();
+            return await this.context.Products
+                .Select(p => new ListProductRequestModel
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Image = p.Image
+                })
+                .ToListAsync();
         }
 
         public async Task Update(int id, string name, string description)
@@ -134,13 +141,18 @@
             return true;
         }
 
-        public async Task<IEnumerable<Product>> GetFavoriteListByUser(string id)
+        public async Task<IEnumerable<ListProductRequestModel>> GetFavoriteListByUser(string id)
         {
             var products = await this.context
                 .UserProducts
                 .Include(up => up.Product)
                 .Where(u => u.UserId == id)
-                .Select(up => up.Product)
+                .Select(up => new ListProductRequestModel
+                {
+                    Id = up.ProductId,
+                    Name = up.Product.Name,
+                    Image = up.Product.Image
+                })
                 .ToListAsync();
 
             return products;

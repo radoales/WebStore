@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ViewFeatures;
     using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using Moq;
     using System.IO;
@@ -80,7 +81,7 @@
                 .Should().BeOfType<ViewResult>()
                 .Subject
                 .Model
-                .Should().BeOfType<Product[]>();
+                .Should().BeOfType<ListProductRequestModel[]>();
         }
 
         //Product.Create Tests
@@ -467,6 +468,96 @@
                 .Subject
                 .Model
                 .Should().BeOfType<UpdateProductRequestModel>();
+        }
+
+        //Product.FavoriteList Tests
+        [Fact]
+        public async Task FavoriteProducts_ShouldReturn_ViewResultWithListOfListProductRequestModel()
+        {
+            //arrange
+            var productServiceMock = ProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetFavoriteListByUser(It.IsAny<string>()))
+                .ReturnsAsync(new ListProductRequestModel[] { });
+
+            var userManagerMock = UserManagerMock();
+            userManagerMock
+                .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new User());
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
+
+            //act
+            var result = await productsController.FavoriteList();
+
+            //assert
+            result
+                .Should().BeOfType<ViewResult>()
+                .Subject
+                .Model
+                .Should().BeOfType<ListProductRequestModel[]>();
+        }
+
+        //Product.AddToFavoriteList Tests
+        [Fact]
+        public async Task AddToFavoriteList__ShouldReturn_RedirectToActionDetails()
+        {
+            //arrange
+            var httpContext = new DefaultHttpContext();
+            var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+            tempData[TempDataSuccessMessageKey] = " ";
+
+            var productServiceMock = ProductServiceMock();
+
+            var userManagerMock = UserManagerMock();
+            userManagerMock
+                .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new User());
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null)
+            { TempData = tempData };
+
+            //act
+            var result = await productsController.AddToFavoriteList(1);
+
+            //assert
+            result
+                .Should().BeOfType<RedirectToActionResult>()
+                .Subject
+                .ActionName
+                .Should()
+                .Be("Details");
+        }
+
+        //Product.RemoveFromFavoriteList Tests
+        [Fact]
+        public async Task RemoveFromFavoriteList__ShouldReturn_RedirectToActionDetails()
+        {
+            //arrange
+            var httpContext = new DefaultHttpContext();
+            var tempData = new TempDataDictionary(httpContext, Mock.Of<ITempDataProvider>());
+            tempData[TempDataSuccessMessageKey] = " ";
+
+            var productServiceMock = ProductServiceMock();
+
+            var userManagerMock = UserManagerMock();
+            userManagerMock
+                .Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                .ReturnsAsync(new User());
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null)
+            { TempData = tempData };
+
+            //act
+            var result = await productsController.RemoveFromFavoriteList(1);
+
+            //assert
+            result
+                .Should().BeOfType<RedirectToActionResult>()
+                .Subject
+                .ActionName
+                .Should()
+                .Be("Details");
         }
 
         //Helpers
