@@ -21,7 +21,7 @@
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task Create(string name, string description, byte[] image)
+        public async Task<int> Create(string name, string description, byte[] image)
         {
             var product = new Product
             {
@@ -32,6 +32,7 @@
 
             this.context.Add(product);
             await this.context.SaveChangesAsync();
+            return product.Id;
         }
 
         public async Task Delete(int id)

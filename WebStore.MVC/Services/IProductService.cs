@@ -7,7 +7,7 @@
 
     public interface IProductService
     {
-        public Task Create(string name, string description, byte[] image);
+        public Task<int> Create(string name, string description, byte[] image);
 
         public Task<IEnumerable<Product>> GettAll();
 

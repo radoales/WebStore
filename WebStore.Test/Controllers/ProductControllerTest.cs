@@ -98,7 +98,7 @@
         }
 
         [Fact]
-        public async Task CreateProductPost_ShouldReturn_RedirectToActionIndex()
+        public async Task CreateProductPost_WithValidModelState_ShouldReturnRedirectToActionDetails()
         {
             //arrange
             var userManagerMock = UserManagerMock();
@@ -118,11 +118,11 @@
                 .Subject
                 .ActionName
                 .Should()
-                .Be(nameof(Index));
+                .Be("Details");
         }
 
         [Fact]
-        public async Task CreateProductPostWithInvalidModelState_ShouldReturn_ViewResultWithCtreateProductRequestModel()
+        public async Task CreateProductPost_WithInvalidModelState_ShouldReturnViewResultWithCtreateProductRequestModel()
         {
             //arrange
             var userManagerMock = UserManagerMock();
@@ -198,7 +198,7 @@
 
         //Product.Delete Post Tests
         [Fact]
-        public async Task DeleteProductConfirmed_ShouldReturn_RedirectToActionIndexPage()
+        public async Task DeleteProductConfirmed_WithValidId_ShouldReturnRedirectToActionIndexPage()
         {
             //arrange
             var productServiceMock = ProductServiceMock();
@@ -358,7 +358,7 @@
 
         //Product.Edit Get Tests
         [Fact]
-        public async Task EditProduct_WithoutId_ShouldReturnNotFound()
+        public async Task EditProductGet_WithoutId_ShouldReturnNotFound()
         {
             //Arrange
             var productServiceMock = ProductServiceMock();
@@ -374,7 +374,7 @@
         }
 
         [Fact]
-        public async Task EditProduct_WithInvalidId_ShouldReturnNotFound()
+        public async Task EditProductGet_WithInvalidId_ShouldReturnNotFound()
         {
             //Arrange
             var productServiceMock = ProductServiceMock();
@@ -387,7 +387,87 @@
             //Assert
             result
                 .Should().BeOfType<NotFoundResult>();
-        }      
+        }
+
+        [Fact]
+        public async Task EditProductGet_WithValidId_ShouldReturnViewResultWithProduct()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+            productServiceMock
+                .Setup(x => x.GetUpdateProductRequestModel(It.IsAny<int>()))
+                .ReturnsAsync(new UpdateProductRequestModel());
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+
+            //Act
+            var result = await productsController.Edit(1);
+
+            //Assert
+            result
+                .Should().BeOfType<ViewResult>()
+                .Subject
+                .Model
+                .Should().BeOfType<UpdateProductRequestModel>();
+        }
+
+        //Product.Edit Post Tests
+        [Fact]
+        public async Task EditProductPost_WithInvalidId_ShouldReturnNotFound()
+        {
+            //Arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+            var model = new UpdateProductRequestModel();
+            //Act
+            var result = await productsController.Edit(1, model);
+
+            //Assert
+            result
+                .Should().BeOfType<NotFoundResult>();
+        }
+
+        [Fact]
+        public async Task EditProductPost_WithValidModelState_ShouldReturnRedirectToActionDetails()
+        {
+            //arrange
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(null, productServiceMock.Object, null);
+            var model = new UpdateProductRequestModel() { Id = 1 };
+            //act
+            var result = await productsController.Edit(1, model);
+
+            //assert
+            result
+                .Should().BeOfType<RedirectToActionResult>()
+                .Subject
+                .ActionName
+                .Should()
+                .Be("Details");
+        }
+
+        [Fact]
+        public async Task EditProductPost_WithInvalidModelState_ShouldReturnViewResultWithUpdateProductRequestModel()
+        {
+            //arrange
+            var userManagerMock = UserManagerMock();
+            var productServiceMock = ProductServiceMock();
+
+            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
+            var model = new UpdateProductRequestModel() { Id = 1 };
+            productsController.ModelState.AddModelError("", "");
+            //act
+            var result = await productsController.Edit(1,model);
+
+            //assert
+            result
+                .Should().BeOfType<ViewResult>()
+                .Subject
+                .Model
+                .Should().BeOfType<UpdateProductRequestModel>();
+        }
 
         //Helpers
         private MethodInfo GetGetMethodInfo(string methodName)

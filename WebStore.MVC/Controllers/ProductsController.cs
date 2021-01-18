@@ -103,8 +103,8 @@
                 //Transform the image file to byte[];
                 var imageFileToArray = FileToArray(model.Image);
 
-                await this.productService.Create(model.Name, model.Description, imageFileToArray);
-                return RedirectToAction(nameof(Index));
+               var id = await this.productService.Create(model.Name, model.Description, imageFileToArray);
+                return RedirectToAction(nameof(Details), new { id = id });
             }
             return View(model);
         }
@@ -152,7 +152,7 @@
             {
                 await this.productService.Update(model.Id, model.Name, model.Description);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Details), new {id = model.Id });
             }
             return View(model);
         }
