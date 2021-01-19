@@ -83,17 +83,19 @@
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Image = p.Image
+                    Image = p.Image,
+                    Quantity = p.Quantity                    
                 })
                 .ToListAsync();
         }
 
-        public async Task Update(int id, string name, string description)
+        public async Task Update(int id, string name, string description, int quantity)
         {
             var product = await GetProduct(id);
 
             product.Name = name;
             product.Description = description;
+            product.Quantity = quantity;
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();

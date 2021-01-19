@@ -134,7 +134,7 @@
 
             if (ModelState.IsValid)
             {
-                await this.productService.Update(model.Id, model.Name, model.Description);
+                await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity);
 
                 return RedirectToAction(nameof(Details), new {id = model.Id });
             }

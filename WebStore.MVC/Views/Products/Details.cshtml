@@ -16,6 +16,7 @@
 <div>
     @if (User.IsInRole(Roles.AdminRole))
     {
+        <div>Available on stock:  @Html.DisplayFor(model => model.Quantity)</div>
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete |</a>
     }
