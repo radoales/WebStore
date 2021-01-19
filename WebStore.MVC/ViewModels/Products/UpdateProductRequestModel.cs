@@ -13,6 +13,7 @@
 
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public string Description { get; set; }
+        public int Quantity { get; set; }
 
         //[Required(ErrorMessage = ErrorMessages.RequiredField)]
         public byte[] Image { get; set; }

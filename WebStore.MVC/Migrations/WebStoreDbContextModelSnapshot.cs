@@ -166,33 +166,12 @@ namespace WebStore.MVC.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StockItemId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StockItemId")
-                        .IsUnique();
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("WebStore.MVC.Data.Models.StockItem", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Location")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("StockItem");
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.User", b =>
@@ -326,17 +305,6 @@ namespace WebStore.MVC.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebStore.MVC.Data.Models.Product", b =>
-                {
-                    b.HasOne("WebStore.MVC.Data.Models.StockItem", "StockItem")
-                        .WithOne("Product")
-                        .HasForeignKey("WebStore.MVC.Data.Models.Product", "StockItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("StockItem");
-                });
-
             modelBuilder.Entity("WebStore.MVC.Data.Models.UserProducts", b =>
                 {
                     b.HasOne("WebStore.MVC.Data.Models.Product", "Product")
@@ -359,11 +327,6 @@ namespace WebStore.MVC.Migrations
             modelBuilder.Entity("WebStore.MVC.Data.Models.Product", b =>
                 {
                     b.Navigation("UserProducts");
-                });
-
-            modelBuilder.Entity("WebStore.MVC.Data.Models.StockItem", b =>
-                {
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.User", b =>

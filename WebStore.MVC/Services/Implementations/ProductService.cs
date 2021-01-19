@@ -64,7 +64,8 @@
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
-                    Image = p.Image
+                    Image = p.Image,
+                    Quantity = p.Quantity
                 })
                 .FirstOrDefaultAsync();
         }
