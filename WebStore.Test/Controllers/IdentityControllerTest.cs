@@ -26,11 +26,12 @@
             var result = identityController.Register();
 
             //assert
-            result.Should().BeOfType<ViewResult>();
+            result
+                .Should().BeOfType<ViewResult>();
         }
 
         [Fact]
-        public async Task RegisterPostWithInvalidModel_ShouldReturn_ViewWithModel()
+        public async Task RegisterPost_WithInvalidModel_ShouldReturnViewWithModel()
         {
             //arrange
             var userManagerMock = UserManagerMock();
@@ -50,9 +51,11 @@
 
             //assert
 
-            results.Should().BeOfType<ViewResult>()
+            results
+                .Should().BeOfType<ViewResult>()
                 .Subject
-                .Model.Should().BeOfType<RegisterRequestModel>();
+                .Model
+                .Should().BeOfType<RegisterRequestModel>();
         }
 
         [Theory]
