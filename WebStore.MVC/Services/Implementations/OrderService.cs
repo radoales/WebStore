@@ -77,6 +77,19 @@
             return true;
         }
 
+        public async Task<int> ChangeCartItemQuantity(CartItem cartItem)
+        {
+            //var cartItem = await this.context
+            //    .CartItems.FindAsync(id);
+
+            //cartItem.Quantity = quantity;
+
+           this.context.CartItems.Update(cartItem);
+            await this.context.SaveChangesAsync();
+
+            return cartItem.Quantity;
+        }
+
         public async Task<ShoppingCart> GetShoppingCartWithItems(string id)
         {
             var parsedId = Guid.Parse(id);
@@ -102,6 +115,15 @@
             var numberOfItems = items.CartItems.Count();
 
             return numberOfItems;
+        }
+
+        public async Task DeleteCartItem(Guid id)
+        {
+            var cartItem = await this.context
+                .CartItems.FindAsync(id);
+
+            this.context.CartItems.Remove(cartItem);
+            await this.context.SaveChangesAsync();
         }
     }
 }

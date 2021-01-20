@@ -19,7 +19,6 @@
         <div>Available on stock:  @Html.DisplayFor(model => model.Quantity)</div>
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete |</a>
-        <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id">Add to Cart |</a>
     }
     @if (this.User.Identity.IsAuthenticated)
     {
@@ -35,5 +34,6 @@
             }
         }
     }
-    | <a asp-action="Index">Back to Products</a>
+    <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@Model.Id">Add to Cart | </a>
+    <a asp-action="Index">Back to Products</a>
 </div>

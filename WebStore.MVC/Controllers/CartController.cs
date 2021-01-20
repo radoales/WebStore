@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Threading.Tasks;
+    using WebStore.MVC.Data.Models;
     using WebStore.MVC.Services;
     using static WebConstants;
 
@@ -40,6 +41,18 @@
             }
 
             return RedirectToAction("Details", "Products", new { id = productId });
+        }
+
+        public async Task<IActionResult> DeleteCartItem(Guid id)
+        {
+            await this.orderService.DeleteCartItem(id);
+            return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> EditCartItemQuantity(CartItem cartItem)
+        {
+           await this.orderService.ChangeCartItemQuantity(cartItem);
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }

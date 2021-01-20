@@ -4,19 +4,39 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Cart</h1>
-<table>
-    <tr>
-        <th>Product name</th>
-        <th>Quantity</th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            @*<img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Product.Image)" />*@
-            <th asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId">
-            @Html.DisplayFor(modelItem => item.Product.Name)</th>
-            <th> @Html.DisplayFor(modelItem => item.Quantity)</th>
-        </tr>
+<style>
+    img {
+        height: 70px;
     }
-</table>
+
+    .item {
+        width: 320px;
+        padding: 10px;
+        border: 5px solid gray;
+        margin: 0;
+    }
+</style>
+
+<h1>Cart</h1>
+@foreach (var item in Model)
+{
+    <div class="item">
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId"><div asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId">
+            @Html.DisplayFor(modelItem => item.Product.Name)
+        </div>
+        <div><img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Product.Image)" /></div>
+        </a>
+        <form asp-action="EditCartItemQuantity">
+            <input  name="quantity" class="qty form-control" asp-for="@item.Quantity" />
+            <input hidden name="id" asp-for="@item.Id" />
+            <input hidden name="productId" asp-for="@item.ProductId" />  
+        </form>
+        <a asp-action="DeleteCartItem" asp-route-id="@item.Id">Delete</a>
+    </div>
+}
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(".qty").change(function () {
+        $(this).closest('form').submit();
+    });
+</script>
