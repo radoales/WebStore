@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "nqVvQG5gGxNL9diHv9o0g8xs1PMWyQQzAZb31pYJuX7klzg/o0V2f+GCZphUBwOrBrEPld1YYgipE6Whd8TDyA==",
+  "dgSpecHash": "qjVpUwV8wUE28NjmQygeu7nauU7y0v+adCttD7cMHP9TWjtfBOWS9hAs2dohGxXMTZ7TJ1z0LQsdNOEnD+aeSQ==",
   "success": true,
   "projectFilePath": "C:\\Programming\\Projects\\WebStore\\WebStore.MVC\\WebStore.MVC.csproj",
   "expectedPackageFiles": [
@@ -64,6 +64,7 @@
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\runtime.native.system\\4.3.0\\runtime.native.system.4.3.0.nupkg.sha512",
+    "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\sixlabors.imagesharp\\1.0.2\\sixlabors.imagesharp.1.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\system.collections.concurrent\\4.3.0\\system.collections.concurrent.4.3.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\system.collections.immutable\\5.0.0\\system.collections.immutable.5.0.0.nupkg.sha512",

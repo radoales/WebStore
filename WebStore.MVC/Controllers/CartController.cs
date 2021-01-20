@@ -40,7 +40,7 @@
                 await this.orderService.AddToShoppingCart(parsedId, productId);
             }
 
-            return RedirectToAction("Details", "Products", new { id = productId });
+            return RedirectToAction("Index","Products");
         }
 
         public async Task<IActionResult> DeleteCartItem(Guid id)

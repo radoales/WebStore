@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "YI5jId/YXgVD/+8Z3w+TDpFv8DBPLCKIXCx+CTGf1EjzkV5PVDvkcGg2YxHy7CDsBzFbJ0fRt5QKjYQYcCb5nw==",
+  "dgSpecHash": "Ok1eQtwqBalfU0mWFfC2xm5DdA3MDhP2bdrs+iHUpMdZLI6GAh07LaYJeQ6UyJ18LAqIWpdToBhq2MI7Cdn54A==",
   "success": true,
   "projectFilePath": "C:\\Programming\\Projects\\WebStore\\WebStore.Test\\WebStore.Test.csproj",
   "expectedPackageFiles": [
@@ -89,6 +89,7 @@
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl\\4.3.0\\runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
+    "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\sixlabors.imagesharp\\1.0.2\\sixlabors.imagesharp.1.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\system.appcontext\\4.3.0\\system.appcontext.4.3.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\system.buffers\\4.3.0\\system.buffers.4.3.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
