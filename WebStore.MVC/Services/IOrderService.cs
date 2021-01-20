@@ -8,6 +8,7 @@
     {
         Task<Guid> CreateShoppingCart(int productId);
         Task<bool> AddToShoppingCart(Guid id, int productId);
-        Task<ShoppingCart> GetShoppingCart(string id);
+        Task<ShoppingCart> GetShoppingCartWithItems(string id);
+        Task<int> GetCartItemsInCart(string id);
     }
 }

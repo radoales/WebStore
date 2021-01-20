@@ -15,6 +15,15 @@
             this.orderService = orderService;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            var cartId = Request.Cookies[CartKey];
+
+            var cart = await this.orderService.GetShoppingCartWithItems(cartId);
+            var items = cart.CartItems;
+            return View(items);
+        }
+
         public async Task<IActionResult> AddToCart(int productId)
         {
             var cartId = Request.Cookies[CartKey];

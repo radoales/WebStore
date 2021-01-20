@@ -1,0 +1,22 @@
+﻿@model IEnumerable<WebStore.MVC.Data.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Cart</h1>
+<table>
+    <tr>
+        <th>Product name</th>
+        <th>Quantity</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            @*<img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Product.Image)" />*@
+            <th asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId">
+            @Html.DisplayFor(modelItem => item.Product.Name)</th>
+            <th> @Html.DisplayFor(modelItem => item.Quantity)</th>
+        </tr>
+    }
+</table>

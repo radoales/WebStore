@@ -77,16 +77,31 @@
             return true;
         }
 
-        public async Task<ShoppingCart> GetShoppingCart(string id)
+        public async Task<ShoppingCart> GetShoppingCartWithItems(string id)
         {
             var parsedId = Guid.Parse(id);
 
             var cart = await this.context
                 .ShoppingCarts
                 .Include(sc => sc.CartItems)
+                .ThenInclude(ci => ci.Product)
                 .FirstOrDefaultAsync(sc => sc.Id == parsedId);
 
             return cart;
+        }
+
+        public async Task<int> GetCartItemsInCart(string id)
+        {
+            var parsedId = Guid.Parse(id);
+
+            var items = await this.context
+                .ShoppingCarts
+                .Include(x => x.CartItems)
+                .FirstOrDefaultAsync(x => x.Id == parsedId);
+
+            var numberOfItems = items.CartItems.Count();
+
+            return numberOfItems;
         }
     }
 }
