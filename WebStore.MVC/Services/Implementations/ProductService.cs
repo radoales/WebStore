@@ -9,6 +9,7 @@
     using Data.Models;
     using WebStore.MVC.ViewModels.Products;
     using static Helpers.ImageHelper;
+    using System;
 
     public class ProductService : IProductService
     {
@@ -46,7 +47,7 @@
         {
             return await this.context.Products.
                 Where(p => p.Id == id)
-                .Select(p => new ProductDetailsRequestModel 
+                .Select(p => new ProductDetailsRequestModel
                 {
                     Id = p.Id,
                     Name = p.Name,
@@ -84,7 +85,7 @@
                     Id = p.Id,
                     Name = p.Name,
                     Image = p.Image,
-                    Quantity = p.Quantity                    
+                    Quantity = p.Quantity
                 })
                 .ToListAsync();
         }
@@ -160,7 +161,5 @@
 
             return products;
         }
-
-
     }
 }

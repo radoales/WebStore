@@ -10,8 +10,8 @@ using WebStore.MVC.Data;
 namespace WebStore.MVC.Migrations
 {
     [DbContext(typeof(WebStoreDbContext))]
-    [Migration("20210119130308_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20210120083540_AddCartItems")]
+    partial class AddCartItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,6 +152,30 @@ namespace WebStore.MVC.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("WebStore.MVC.Data.Models.CartItem", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("ShoppingCartId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ShoppingCartId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("WebStore.MVC.Data.Models.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -174,6 +198,20 @@ namespace WebStore.MVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("WebStore.MVC.Data.Models.ShoppingCart", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShoppingCarts");
                 });
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.User", b =>
@@ -307,6 +345,21 @@ namespace WebStore.MVC.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("WebStore.MVC.Data.Models.CartItem", b =>
+                {
+                    b.HasOne("WebStore.MVC.Data.Models.Product", "Product")
+                        .WithMany("CartItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebStore.MVC.Data.Models.ShoppingCart", null)
+                        .WithMany("CartItems")
+                        .HasForeignKey("ShoppingCartId");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("WebStore.MVC.Data.Models.UserProducts", b =>
                 {
                     b.HasOne("WebStore.MVC.Data.Models.Product", "Product")
@@ -328,7 +381,14 @@ namespace WebStore.MVC.Migrations
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.Product", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("UserProducts");
+                });
+
+            modelBuilder.Entity("WebStore.MVC.Data.Models.ShoppingCart", b =>
+                {
+                    b.Navigation("CartItems");
                 });
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.User", b =>

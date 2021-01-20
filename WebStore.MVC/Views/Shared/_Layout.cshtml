@@ -20,23 +20,23 @@
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="Index">Browse Products</a>
+                            <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Products" asp-action="Index">Browse Products</a>
                         </li>
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             @if (this.User.IsInRole(Roles.AdminRole))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
+                                    <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Products" asp-action="FavoriteList">Favorite Products</a>
+                                    <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Products" asp-action="FavoriteList">Favorite Products</a>
                                 </li>
                             }
                         }

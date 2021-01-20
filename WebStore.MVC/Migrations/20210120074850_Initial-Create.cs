@@ -63,6 +63,18 @@ namespace WebStore.MVC.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShoppingCarts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoppingCarts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -192,6 +204,32 @@ namespace WebStore.MVC.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "CartItem",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ShoppingCartId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CartItem", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CartItem_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CartItem_ShoppingCarts_ShoppingCartId",
+                        column: x => x.ShoppingCartId,
+                        principalTable: "ShoppingCarts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -232,6 +270,16 @@ namespace WebStore.MVC.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CartItem_ProductId",
+                table: "CartItem",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CartItem_ShoppingCartId",
+                table: "CartItem",
+                column: "ShoppingCartId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserProducts_ProductId",
                 table: "UserProducts",
                 column: "ProductId");
@@ -255,10 +303,16 @@ namespace WebStore.MVC.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "CartItem");
+
+            migrationBuilder.DropTable(
                 name: "UserProducts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "ShoppingCarts");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

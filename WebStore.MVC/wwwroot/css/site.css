@@ -126,3 +126,13 @@ body {
     display: table;
     clear: both;
 }
+
+/*--------------------------------------------------------*/
+.navbar-button-zoom {
+    transition: transform .2s;
+    align-content: center;
+}
+
+    .navbar-button-zoom:hover {
+        transform: scale(1.1);
+    }

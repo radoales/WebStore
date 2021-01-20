@@ -13,6 +13,8 @@
 
         public DbSet<Product> Products { get; set; }
         public DbSet<UserProducts> UserProducts { get; set; }
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

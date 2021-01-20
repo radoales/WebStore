@@ -10,6 +10,10 @@
     using ViewModels.Products;
     using static WebConstants;
     using static Helpers.ImageHelper;
+    using Microsoft.AspNetCore.Http;
+    using System.Linq;
+    using System;
+    using System.Collections.Generic;
 
     public class ProductsController : Controller
     {
@@ -30,6 +34,7 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
+            var coockies = HttpContext.Request.Cookies[CartKey];
             return View(await this.productService.GettAll());
         }
 
@@ -201,6 +206,6 @@
             TempData[TempDataSuccessMessageKey] = "Removed from favorites.";
 
             return RedirectToAction(nameof(Details), new { id = id });
-        }
+        }       
     }
 }
