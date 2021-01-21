@@ -8,7 +8,7 @@
 
     public interface IProductService
     {
-        public Task<int> Create(string name, string description, byte[] image);
+        public Task<int> Create(string name, string description, byte[] image, decimal price);
 
         public Task<IEnumerable<ListProductRequestModel>> GettAll();
 
@@ -16,7 +16,7 @@
         public Task<ProductDetailsRequestModel> GetProductDetailsRequestModel(int id);
         public Task<UpdateProductRequestModel> GetUpdateProductRequestModel(int id);
 
-        public Task Update(int id, string name, string description, int quantity);
+        public Task Update(int id, string name, string description, int quantity, decimal price);
 
         public Task Delete(int id);
 

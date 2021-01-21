@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using WebStore.MVC.Data.Models;
     using WebStore.MVC.Services;
+    using WebStore.MVC.ViewModels.Cart;
     using static WebConstants;
 
     public class CartController : Controller
@@ -23,14 +24,14 @@
 
             if (cartId == null)
             {
-                var emptyCart = new List<CartItem>();
+                var emptyCart = new List<CartItemViewModel>();
                 return View(emptyCart);
             }
 
             var cart = await this.orderService.GetShoppingCartWithItems(cartId);
-            var items = cart.CartItems;
+          //  var items = cart.CartItems;
 
-            return View(items);
+            return View(cart);
         }
 
         public async Task<IActionResult> AddToCart(int productId)

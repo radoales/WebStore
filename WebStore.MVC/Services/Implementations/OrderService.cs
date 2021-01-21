@@ -2,11 +2,11 @@
 {
     using Microsoft.EntityFrameworkCore;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using WebStore.MVC.Data;
-    using WebStore.MVC.Data.Models;
+    using ViewModels.Cart;
+    using Data;
+    using Data.Models;
 
     public class OrderService : IOrderService
     {
@@ -49,7 +49,7 @@
 
             if (cart == null)
             {
-               await CreateShoppingCart(productId);
+                await CreateShoppingCart(productId);
                 return true;
             }
 
@@ -79,13 +79,13 @@
 
         public async Task<int> ChangeCartItemQuantity(CartItem cartItem)
         {
-           this.context.CartItems.Update(cartItem);
+            this.context.CartItems.Update(cartItem);
             await this.context.SaveChangesAsync();
 
             return cartItem.Quantity;
         }
 
-        public async Task<ShoppingCart> GetShoppingCartWithItems(string id)
+        public async Task<ShoppingCartViewModel> GetShoppingCartWithItems(string id)
         {
             var parsedId = Guid.Parse(id);
 
@@ -93,12 +93,25 @@
                 .ShoppingCarts
                 .Include(sc => sc.CartItems)
                 .ThenInclude(ci => ci.Product)
+                .Where(sc => sc.Id == parsedId)
+                .Select(x => new ShoppingCartViewModel
+                {
+                    Id = x.Id,
+                    CartItems = x.CartItems.Select(ci => new CartItemViewModel
+                    {
+                        Id = ci.Id,
+                        Quantity = ci.Quantity,
+                        Product = ci.Product,
+                        ProductId = ci.ProductId
+                    }).ToList(),
+                    Amount = x.CartItems.Sum(x => x.Product.Price * x.Quantity)
+                })
                 .FirstOrDefaultAsync(sc => sc.Id == parsedId);
 
             return cart;
         }
 
-        public async Task<int> GetCartItemsInCart(string id)
+        public async Task<int> GetNumberOfCartItemsInCart(string id)
         {
             if (id == null)
             {

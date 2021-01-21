@@ -22,13 +22,14 @@
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<int> Create(string name, string description, byte[] image)
+        public async Task<int> Create(string name, string description, byte[] image, decimal price)
         {
             var product = new Product
             {
                 Name = name,
                 Description = description,
-                Image = image
+                Image = image,
+                Price = price
             };
 
             this.context.Add(product);
@@ -52,7 +53,9 @@
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
-                    Image = p.Image
+                    Image = p.Image,
+                    Price = p.Price,
+                    Quantity = p.Quantity
                 })
                 .FirstOrDefaultAsync();
         }
@@ -85,18 +88,20 @@
                     Id = p.Id,
                     Name = p.Name,
                     Image = p.Image,
-                    Quantity = p.Quantity
+                    Quantity = p.Quantity,
+                    Price = p.Price
                 })
                 .ToListAsync();
         }
 
-        public async Task Update(int id, string name, string description, int quantity)
+        public async Task Update(int id, string name, string description, int quantity, decimal price)
         {
             var product = await GetProduct(id);
 
             product.Name = name;
             product.Description = description;
             product.Quantity = quantity;
+            product.Price = price;
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();

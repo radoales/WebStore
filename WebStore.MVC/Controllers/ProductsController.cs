@@ -92,7 +92,7 @@
                 //Transform the image file to byte[];
                 var imageFileToArray = FileToArray(model.Image);
 
-               var id = await this.productService.Create(model.Name, model.Description, imageFileToArray);
+               var id = await this.productService.Create(model.Name, model.Description, imageFileToArray, model.Price);
                 return RedirectToAction(nameof(Details), new { id = id });
             }
             return View(model);
@@ -130,7 +130,7 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image")] UpdateProductRequestModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image,Quantity,Price")] UpdateProductRequestModel model)
         {
             if (id != model.Id)
             {
@@ -139,7 +139,7 @@
 
             if (ModelState.IsValid)
             {
-                await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity);
+                await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity, model.Price);
 
                 return RedirectToAction(nameof(Details), new {id = model.Id });
             }

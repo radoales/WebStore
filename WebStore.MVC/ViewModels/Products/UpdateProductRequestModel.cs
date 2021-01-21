@@ -14,6 +14,7 @@
         [Required(ErrorMessage = ErrorMessages.RequiredField)]
         public string Description { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
 
         //[Required(ErrorMessage = ErrorMessages.RequiredField)]
         public byte[] Image { get; set; }

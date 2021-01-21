@@ -1,4 +1,4 @@
-﻿@model IEnumerable<WebStore.MVC.Data.Models.CartItem>
+﻿@model ShoppingCartViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -18,7 +18,7 @@
 </style>
 
 <h1>Cart</h1>
-@foreach (var item in Model)
+@foreach (var item in Model.CartItems)
 {
     <div class="item">
         <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId"><div asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId">
@@ -31,9 +31,12 @@
             <input hidden name="id" asp-for="@item.Id" />
             <input hidden name="productId" asp-for="@item.ProductId" />  
         </form>
+        <div>Price: @Html.DisplayFor(modelItem => item.Product.Price)</div>
         <a asp-action="DeleteCartItem" asp-route-id="@item.Id">Delete</a>
     </div>
 }
+
+<div>Amount: @Html.DisplayFor(modelItem => Model.Amount)</div>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     $(".qty").change(function () {

@@ -28,6 +28,7 @@
         </li>
     }
     <li class="nav-item">
-        <a style="background-color:lightskyblue" asp-controller="Cart" asp-action="IndexPartial"  class="nav-link btn btn-link text-dark list-galery-zoom">Cart Items: @await orderService.GetCartItemsInCart(id)</a>
+        <a style="background-color:lightskyblue" asp-controller="Cart" asp-action="Index" 
+           class="nav-link btn btn-link text-dark list-galery-zoom">Cart: @await orderService.GetNumberOfCartItemsInCart(id)</a>
     </li>
 </ul>
