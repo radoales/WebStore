@@ -34,7 +34,6 @@
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var coockies = HttpContext.Request.Cookies[CartKey];
             return View(await this.productService.GettAll());
         }
 

@@ -8,6 +8,7 @@
     using Services.Implementations;
     using Data.Models;
     using Microsoft.AspNetCore.Identity;
+    using AutoMapper;
 
     public static class ServiceCollectionExtensions
     {
@@ -46,6 +47,13 @@
         public static IServiceCollection AddDefaultLoginPath(this IServiceCollection services)
         {
             services.ConfigureApplicationCookie(options => options.LoginPath = "/Identity/LogIn");
+
+            return services;
+        }
+
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(Startup));
 
             return services;
         }

@@ -21,7 +21,7 @@ namespace WebStore.MVC
                 .AddAppServices()
                 .AddIdentity()
                 .AddDefaultLoginPath()
-                .AddSession();
+                .AddAutoMapper();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -45,7 +45,6 @@ namespace WebStore.MVC
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
