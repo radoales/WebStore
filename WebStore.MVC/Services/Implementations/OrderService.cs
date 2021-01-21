@@ -79,11 +79,6 @@
 
         public async Task<int> ChangeCartItemQuantity(CartItem cartItem)
         {
-            //var cartItem = await this.context
-            //    .CartItems.FindAsync(id);
-
-            //cartItem.Quantity = quantity;
-
            this.context.CartItems.Update(cartItem);
             await this.context.SaveChangesAsync();
 
@@ -105,6 +100,10 @@
 
         public async Task<int> GetCartItemsInCart(string id)
         {
+            if (id == null)
+            {
+                return 0;
+            }
             var parsedId = Guid.Parse(id);
 
             var items = await this.context

@@ -20,8 +20,8 @@ namespace WebStore.MVC
             services.AddDatabase(this.Configuration)
                 .AddAppServices()
                 .AddIdentity()
-                .AddDefaultLoginPath()
-                .AddAutoMapper();
+                .AddDefaultLoginPath();
+               // .AddResponseCaching();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
@@ -46,7 +46,7 @@ namespace WebStore.MVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-
+           //// app.UseResponseCaching();
             app.UseAuthentication();
             app.UseAuthorization();
 

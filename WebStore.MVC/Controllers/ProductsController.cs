@@ -32,6 +32,7 @@
 
         // GET: Products
         [HttpGet]
+        //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
         public async Task<IActionResult> Index()
         {
             return View(await this.productService.GettAll());

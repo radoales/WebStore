@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using WebStore.MVC.Data.Models;
     using WebStore.MVC.Services;
@@ -20,8 +21,15 @@
         {
             var cartId = Request.Cookies[CartKey];
 
+            if (cartId == null)
+            {
+                var emptyCart = new List<CartItem>();
+                return View(emptyCart);
+            }
+
             var cart = await this.orderService.GetShoppingCartWithItems(cartId);
             var items = cart.CartItems;
+
             return View(items);
         }
 
