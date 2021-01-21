@@ -9,6 +9,7 @@
         public string Description { get; set; }
         public byte[] Image { get; set; }
         public int Quantity { get; set; }
+        public decimal Price { get; set; }
         public IEnumerable<CartItem> CartItems { get; set; }
         public IEnumerable<UserProducts> UserProducts { get; set; } = new List<UserProducts>();
     }
