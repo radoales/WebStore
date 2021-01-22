@@ -96,7 +96,7 @@ body {
 
     .list-galery-zoom:hover {
         transform: scale(1.1);
-        border: 1px solid #777;
+        border: 1px solid #777;*/
     }
 
 /*-------------------------------------------------------*/
@@ -138,7 +138,7 @@ body {
     }
 
 /*----------------------Table-------------------------------*/
-table {
+/*table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
@@ -152,4 +152,4 @@ td, th {
 
 tr:nth-child(even) {
     background-color: #dddddd;
-}
+}*/

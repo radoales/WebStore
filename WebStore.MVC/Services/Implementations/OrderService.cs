@@ -102,7 +102,8 @@
                         Id = ci.Id,
                         Quantity = ci.Quantity,
                         Product = ci.Product,
-                        ProductId = ci.ProductId
+                        ProductId = ci.ProductId,
+                        TotalPrice = ci.Quantity * ci.Product.Price
                     }).ToList(),
                     Amount = x.CartItems.Sum(x => x.Product.Price * x.Quantity)
                 })

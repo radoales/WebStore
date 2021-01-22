@@ -69,7 +69,8 @@
                     Name = p.Name,
                     Description = p.Description,
                     Image = p.Image,
-                    Quantity = p.Quantity
+                    Quantity = p.Quantity,
+                    Price = p.Price
                 })
                 .FirstOrDefaultAsync();
         }

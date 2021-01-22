@@ -115,15 +115,7 @@
                 return NotFound();
             }
 
-            var model = new UpdateProductRequestModel
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                Image = product.Image
-            };
-
-            return View(model);
+            return View(product);
         }
 
         // POST: Products/Edit/5
