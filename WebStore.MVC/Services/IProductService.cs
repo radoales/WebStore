@@ -25,5 +25,6 @@
 
         Task<bool> IsproductInFavoriteList(string userId, int productId);
         Task<IEnumerable<ListProductRequestModel>> GetFavoriteListByUser(string id);
+        Task<int> GetProductQuantity(int id);
     }
 }

@@ -167,5 +167,12 @@
 
             return products;
         }
+
+        public async Task<int> GetProductQuantity(int id)
+        {
+            var product = await GetProduct(id);
+
+            return product.Quantity;
+        }
     }
 }

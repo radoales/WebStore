@@ -11,7 +11,7 @@
         Task<bool> AddToShoppingCart(Guid id, int productId);
         Task<ShoppingCartViewModel> GetShoppingCartWithItems(string id);
         Task<int> GetNumberOfCartItemsInCart(string id);
-        Task<int> ChangeCartItemQuantity(CartItem cartItem);
+        Task<bool> ChangeCartItemQuantity(CartItem cartItem);
         Task DeleteCartItem(Guid id);
     }
 }

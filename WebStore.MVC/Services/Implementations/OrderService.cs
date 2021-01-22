@@ -11,10 +11,12 @@
     public class OrderService : IOrderService
     {
         private readonly WebStoreDbContext context;
+        private readonly IProductService productService;
 
-        public OrderService(WebStoreDbContext context)
+        public OrderService(WebStoreDbContext context, IProductService productService)
         {
             this.context = context;
+            this.productService = productService;
         }
 
         public async Task<Guid> CreateShoppingCart(int productId)
@@ -77,12 +79,18 @@
             return true;
         }
 
-        public async Task<int> ChangeCartItemQuantity(CartItem cartItem)
+        public async Task<bool> ChangeCartItemQuantity(CartItem cartItem)
         {
+            var isAvailable = await this.productService.GetProductQuantity(cartItem.ProductId) >= cartItem.Quantity;
+
+            if (!isAvailable)
+            {
+                return false;
+            }
             this.context.CartItems.Update(cartItem);
             await this.context.SaveChangesAsync();
 
-            return cartItem.Quantity;
+            return true;
         }
 
         public async Task<ShoppingCartViewModel> GetShoppingCartWithItems(string id)
@@ -125,7 +133,7 @@
                 .Include(x => x.CartItems)
                 .FirstOrDefaultAsync(x => x.Id == parsedId);
 
-            var numberOfItems = items.CartItems.Count();
+            var numberOfItems = items.CartItems.Sum(x => x.Quantity);
 
             return numberOfItems;
         }

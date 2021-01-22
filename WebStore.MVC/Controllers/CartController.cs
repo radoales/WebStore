@@ -59,7 +59,13 @@
         }
         public async Task<IActionResult> EditCartItemQuantity(CartItem cartItem)
         {
-           await this.orderService.ChangeCartItemQuantity(cartItem);
+          var isChanged = await this.orderService.ChangeCartItemQuantity(cartItem);
+            if (!isChanged)
+            {
+                TempData[TempDataErrorMessageKey] = "For big orders, please contact us directly!";
+                return RedirectToAction(nameof(Index));
+            }
+            TempData[TempDataSuccessMessageKey] = "Product amount was changed";
 
             return RedirectToAction(nameof(Index));
         }
