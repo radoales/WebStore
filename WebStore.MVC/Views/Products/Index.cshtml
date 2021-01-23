@@ -4,9 +4,13 @@
     ViewData["Title"] = "Browse Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<style src="~/css/site.css"></style>
 
 <h1>Browse Products</h1>
+<form>
+    <input id="searchString" asp-action="Index" name="searchString" class="form-control searchString" type="text" placeholder="Type a search word" />
+</form>
+
+
 @if (this.User.IsInRole(Roles.AdminRole))
 {
     <p>
@@ -25,4 +29,37 @@
         <div class="list-galery-text"><a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">Add to Cart</a></div>
     </div>
 }
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(".searchString").change(function () {
+        $(this).closest('form').submit();
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Products/GetAllProductNames",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                $("#searchString").keyup(function (e) {
+                    $("#searchString").autocomplete({
+                        source: response
+                    });
+                });
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    });
+
+</script>
 

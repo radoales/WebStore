@@ -33,9 +33,14 @@
         // GET: Products
         [HttpGet]
         //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await this.productService.GettAll());
+            if (String.IsNullOrEmpty(searchString))
+            {
+                return View(await this.productService.GettAll());
+            }
+
+            return View(await this.productService.GetFiltered(searchString));
         }
 
         // GET: Products/Details/5
@@ -199,5 +204,10 @@
 
             return RedirectToAction(nameof(Details), new { id = id });
         }       
+
+        public async Task<IEnumerable<string>>GetAllProductNames()
+        {
+            return await this.productService.GetAllProductNames();
+        }
     }
 }

@@ -148,7 +148,6 @@ C:\Programming\Projects\WebStore\WebStore.Test\obj\Debug\net5.0\WebStore.Test.dl
 C:\Programming\Projects\WebStore\WebStore.Test\obj\Debug\net5.0\ref\WebStore.Test.dll
 C:\Programming\Projects\WebStore\WebStore.Test\obj\Debug\net5.0\WebStore.Test.pdb
 C:\Programming\Projects\WebStore\WebStore.Test\obj\Debug\net5.0\WebStore.Test.genruntimeconfig.cache
-C:\Programming\Projects\WebStore\WebStore.Test\bin\Debug\net5.0\WebStore.MVC.StaticWebAssets.xml
 C:\Programming\Projects\WebStore\WebStore.Test\bin\Debug\net5.0\AutoMapper.dll
 C:\Programming\Projects\WebStore\WebStore.Test\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Programming\Projects\WebStore\WebStore.Test\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll

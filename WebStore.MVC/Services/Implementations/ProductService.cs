@@ -95,6 +95,21 @@
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<ListProductRequestModel>> GetFiltered(string searchString)
+        {
+            return await this.context.Products
+                .Where(p => p.Name.StartsWith(searchString))
+               .Select(p => new ListProductRequestModel
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   Image = p.Image,
+                   Quantity = p.Quantity,
+                   Price = p.Price
+               })
+               .ToListAsync();
+        }
+
         public async Task Update(int id, string name, string description, int quantity, decimal price)
         {
             var product = await GetProduct(id);
@@ -173,6 +188,13 @@
             var product = await GetProduct(id);
 
             return product.Quantity;
+        }
+
+        public async Task<IEnumerable<string>> GetAllProductNames()
+        {
+            return await this.context.Products
+               .Select(p => p.Name)
+               .ToListAsync();
         }
     }
 }
