@@ -19,7 +19,17 @@
                     @foreach (var item in Model.CartItems)
                     {
                         <tr>
-                            <td><img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Product.Image)" alt="" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75"></td>
+                            <td>
+                                @if (item.Product.Image == null)
+                                {
+                                    <img src="~/no-image.png" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75" />
+                                }
+                                else
+                                {
+                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Product.Image)" alt="" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75">
+                                }
+
+                            </td>
                             <td width="100%">
                                 <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId"> @Html.DisplayFor(modelItem => item.Product.Name)</a><br>
                                 <span class="small"></span>

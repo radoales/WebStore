@@ -18,5 +18,6 @@
 
         //[Required(ErrorMessage = ErrorMessages.RequiredField)]
         public byte[] Image { get; set; }
+        public IFormFile ImageNew { get; set; }
     }
 }

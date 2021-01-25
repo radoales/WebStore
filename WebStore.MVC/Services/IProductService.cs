@@ -16,7 +16,7 @@
         public Task<ProductDetailsRequestModel> GetProductDetailsRequestModel(int id);
         public Task<UpdateProductRequestModel> GetUpdateProductRequestModel(int id);
 
-        public Task Update(int id, string name, string description, int quantity, decimal price);
+        public Task Update(int id, string name, string description, int quantity, decimal price, byte[] imageNew);
 
         public Task Delete(int id);
 

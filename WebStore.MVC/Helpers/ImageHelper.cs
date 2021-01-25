@@ -19,8 +19,11 @@
                 height = image.Height;
             }
             var resized = Image.Load(file.OpenReadStream());
-            resized.Mutate(x => x.Resize(width / 4, height / 4));         
-
+            if (width > 300 || height > 300)
+            {
+                resized.Mutate(x => x.Resize(width / 8, height / 8));
+            }
+                  
             var imageArray = new byte[] { };
             using (var ms = new MemoryStream())
             {

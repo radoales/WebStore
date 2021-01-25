@@ -110,7 +110,7 @@
                .ToListAsync();
         }
 
-        public async Task Update(int id, string name, string description, int quantity, decimal price)
+        public async Task Update(int id, string name, string description, int quantity, decimal price, byte[] imageNew)
         {
             var product = await GetProduct(id);
 
@@ -118,6 +118,10 @@
             product.Description = description;
             product.Quantity = quantity;
             product.Price = price;
+            if (imageNew != null)
+            {
+                product.Image = imageNew;
+            }
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();

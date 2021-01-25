@@ -16,8 +16,7 @@
 
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredField),
-         AllowedExtensions(new string[] { ".jpg", ".png" })]
+        [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile Image { get; set; }
 
         public int Quantity { get; set; }

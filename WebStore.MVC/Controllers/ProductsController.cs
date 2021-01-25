@@ -35,7 +35,7 @@
         [HttpGet]
         //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
         public async Task<IActionResult> Index(string searchString, int? pageNumber)
-        {          
+        {
             if (String.IsNullOrEmpty(searchString))
             {
                 var products = await this.productService.GettAll();
@@ -101,7 +101,11 @@
             if (ModelState.IsValid)
             {
                 //Transform the image file to byte[];
-                var imageFileToArray = FileToArray(model.Image);
+                byte[] imageFileToArray = null;
+                if (model.Image != null)
+                {
+                    imageFileToArray = FileToArray(model.Image);
+                }
 
                 var id = await this.productService.Create(model.Name, model.Description, imageFileToArray, model.Price);
                 return RedirectToAction(nameof(Details), new { id = id });
@@ -133,7 +137,7 @@
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image,Quantity,Price")] UpdateProductRequestModel model)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Image,ImageNew,Quantity,Price")] UpdateProductRequestModel model)
         {
             if (id != model.Id)
             {
@@ -142,7 +146,16 @@
 
             if (ModelState.IsValid)
             {
-                await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity, model.Price);
+                if (model.ImageNew == null)
+                {
+                    await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity, model.Price, null);
+                }
+                else
+                {
+
+                    var imageFileToArray = FileToArray(model.ImageNew);
+                    await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity, model.Price, imageFileToArray);
+                }
 
                 return RedirectToAction(nameof(Details), new { id = model.Id });
             }
