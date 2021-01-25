@@ -60,7 +60,7 @@ html {
 
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 60px;
+  margin-bottom: 6px;
 }
 .footer {
   position: absolute;
@@ -96,7 +96,7 @@ body {
 
     .list-galery-zoom:hover {
         transform: scale(1.1);
-        border: 1px solid #777;*/
+      
     }
 
 /*-------------------------------------------------------*/

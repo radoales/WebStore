@@ -14,6 +14,7 @@
     using System.Linq;
     using System;
     using System.Collections.Generic;
+    using WebStore.MVC.Helpers;
 
     public class ProductsController : Controller
     {
@@ -33,22 +34,19 @@
         // GET: Products
         [HttpGet]
         //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
-        public async Task<IActionResult> Index()
-        {
-            return View(await this.productService.GettAll());
-        }
-
-        // GET: Products
-        [HttpPost]
-        //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
-        public async Task<IActionResult> Index(string searchString)
-        {
+        public async Task<IActionResult> Index(string searchString, int? pageNumber)
+        {          
             if (String.IsNullOrEmpty(searchString))
             {
-                return View(await this.productService.GettAll());
+                var products = await this.productService.GettAll();
+
+                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10));
             }
 
-            return View(await this.productService.GetFiltered(searchString));
+            pageNumber = 1;
+            var filteredProducts = await this.productService.GetFiltered(searchString);
+
+            return View(await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 10));
         }
 
         // GET: Products/Details/5
