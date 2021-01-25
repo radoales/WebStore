@@ -1,7 +1,7 @@
 ﻿@model ShoppingCartViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Cart";
 }
 <div class="row">
     <div class="col-xs-12 col-sm-8 col-md-9">
@@ -34,7 +34,7 @@
                             <td align="right">@Html.DisplayFor(modelItem => item.Product.Price)</td>
                             <td align="right">@Html.DisplayFor(modelItem => item.TotalPrice)</td>
                             <td>
-                                <a asp-action="DeleteCartItem" asp-route-id="@item.Id"><strong style="color:red">X</strong></a>
+                                <a asp-action="DeleteCartItem" asp-route-id="@item.Id"><span class="fas fa-times" style="color:red"></span></a>
                             </td>
                         </tr>
                     }
@@ -48,12 +48,12 @@
         </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-3"></div>
-    </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script>
-        $(".qty").change(function () {
-            $(this).closest('form').submit();
-        });
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+    $(".qty").change(function () {
+        $(this).closest('form').submit();
+    });
 
-    </script>
+</script>

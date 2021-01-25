@@ -33,6 +33,14 @@
         // GET: Products
         [HttpGet]
         //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
+        public async Task<IActionResult> Index()
+        {
+            return View(await this.productService.GettAll());
+        }
+
+        // GET: Products
+        [HttpPost]
+        //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
         public async Task<IActionResult> Index(string searchString)
         {
             if (String.IsNullOrEmpty(searchString))
@@ -97,7 +105,7 @@
                 //Transform the image file to byte[];
                 var imageFileToArray = FileToArray(model.Image);
 
-               var id = await this.productService.Create(model.Name, model.Description, imageFileToArray, model.Price);
+                var id = await this.productService.Create(model.Name, model.Description, imageFileToArray, model.Price);
                 return RedirectToAction(nameof(Details), new { id = id });
             }
             return View(model);
@@ -138,7 +146,7 @@
             {
                 await this.productService.Update(model.Id, model.Name, model.Description, model.Quantity, model.Price);
 
-                return RedirectToAction(nameof(Details), new {id = model.Id });
+                return RedirectToAction(nameof(Details), new { id = model.Id });
             }
             return View(model);
         }
@@ -203,9 +211,9 @@
             TempData[TempDataSuccessMessageKey] = "Removed from favorites.";
 
             return RedirectToAction(nameof(Details), new { id = id });
-        }       
+        }
 
-        public async Task<IEnumerable<string>>GetAllProductNames()
+        public async Task<IEnumerable<string>> GetAllProductNames()
         {
             return await this.productService.GetAllProductNames();
         }

@@ -23,18 +23,19 @@
 
         public async Task<IActionResult> Index()
         {
-            var isAuhtenticated = this.User.Identity.IsAuthenticated;
+            //var isAuhtenticated = this.User.Identity.IsAuthenticated;
 
 
-            if (isAuhtenticated)
-            {
-                var user = await this.userManager.GetUserAsync(this.User);
+            //if (isAuhtenticated)
+            //{
+            //    var user = await this.userManager.GetUserAsync(this.User);
 
-                var userProducts = await this.productService.GetFavoriteListByUser(user.Id);
-                return View(userProducts.Take(5));
-            }
-            var products = new List<ListProductRequestModel>();
-            return View(products);
+            //    var userProducts = await this.productService.GetFavoriteListByUser(user.Id);
+            //    return View(userProducts.Take(5));
+            //}
+
+            var products = await this.productService.GettAll();
+            return View(products.Take(5));
         }
 
         public IActionResult Privacy()

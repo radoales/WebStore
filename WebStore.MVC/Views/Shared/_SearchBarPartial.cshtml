@@ -1,0 +1,34 @@
+﻿<form asp-controller="Products" asp-action="Index" class="form-inline my-2 my-lg-0">
+    <input id="searchString" name="searchString" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+    <button type="submit" class="btn btn-light">Search</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(".searchString").change(function () {
+        $(this).closest('form').submit();
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Products/GetAllProductNames",
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                $("#searchString").keyup(function (e) {
+                    $("#searchString").autocomplete({
+                        source: response
+                    });
+                });
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    });
+
+</script>
