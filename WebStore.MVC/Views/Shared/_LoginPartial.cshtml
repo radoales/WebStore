@@ -29,6 +29,6 @@
     }
     <li class="nav-item">
         <a style="background-color:lightskyblue" asp-controller="Cart" asp-action="Index" 
-           class="nav-link btn btn-link text-dark list-galery-zoom">Cart: @await orderService.GetNumberOfCartItemsInCart(id)</a>
+           class="nav-link btn btn-link text-dark list-galery-zoom"><i class="fas fa-shopping-cart"></i> @await orderService.GetNumberOfCartItemsInCart(id)</a>
     </li>
 </ul>

@@ -74,7 +74,7 @@
             var productsController = new ProductsController(null, productServiceMock.Object, null);
 
             //act
-            var result = await productsController.Index();
+            var result = await productsController.Index(null,null);
 
             //assert
             result

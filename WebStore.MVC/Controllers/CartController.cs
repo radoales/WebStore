@@ -65,7 +65,7 @@
                 TempData[TempDataErrorMessageKey] = "For big orders, please contact us directly!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData[TempDataSuccessMessageKey] = "Product amount was changed";
+            TempData[TempDataSuccessMessageKey] = "Product quantity was changed";
 
             return RedirectToAction(nameof(Index));
         }

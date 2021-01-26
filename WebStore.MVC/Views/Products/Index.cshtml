@@ -5,12 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    .centeredDiv {
-        text-align: center;
-    }
-</style>
-
 <h1>Products</h1>
 
 
@@ -22,6 +16,7 @@
 }
 <div class="container">
     <div class="row">
+        @{ var count = 0;}
         @foreach (var item in Model)
         {
             <div class="list-gallery list-galery-zoom">
@@ -34,23 +29,46 @@
                     {
                         <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" />
                     }
-                    <div class="list-galery-text"> @Html.DisplayFor(modelItem => item.Name)</div>
-                    <div class="list-galery-text"> @Html.DisplayFor(modelItem => item.Price)</div>
+                    <hr />
+                    <div class="list-galery-text"><p>@Html.DisplayFor(modelItem => item.Name)</p></div>
                 </a>
-                <div class="list-galery-text"><a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">Add to Cart</a></div>
+                <hr />
+                <div style="padding:3px">
+                    <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+
+                    <span style="float:right">
+                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">
+                            <input class="btn btn-success" type="button" value="Add">
+                        </a>
+                    </span>
+                </div>
             </div>
+            count++;
+            if (count == 5)
+            {
+                <div><hr /></div>
+                count = 0;
+            }
         }
     </div>
     @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     }
-    <div class="centeredDiv">
+    <div class="center-div">
         <a asp-action="Index"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
            class="btn btn-default @prevDisabled">
             Previous
         </a>
+        @if (Model.PageIndex > 2)
+        {
+            <a asp-action="Index"
+               asp-route-pageNumber="1">
+                1
+            </a>
+            <span>...</span>
+        }
         @if (Model.HasPreviousPage)
         {
             <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">
@@ -62,6 +80,14 @@
         {
             <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">
                 @(Model.PageIndex + 1)
+            </a>
+        }
+        @if (Model.TotalPages > Model.PageIndex + 1)
+        {
+            <span>...</span>
+            <a asp-action="Index"
+               asp-route-pageNumber="@Model.TotalPages">
+                @Model.TotalPages
             </a>
         }
         <a asp-action="Index"

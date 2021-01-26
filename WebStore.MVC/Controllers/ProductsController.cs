@@ -40,13 +40,13 @@
             {
                 var products = await this.productService.GettAll();
 
-                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10));
+                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 20));
             }
 
             pageNumber = 1;
             var filteredProducts = await this.productService.GetFiltered(searchString);
 
-            return View(await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 10));
+            return View(await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 20));
         }
 
         // GET: Products/Details/5

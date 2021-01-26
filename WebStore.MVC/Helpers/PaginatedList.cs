@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace WebStore.MVC.Helpers
+﻿namespace WebStore.MVC.Helpers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     public class PaginatedList<T> : List<T>
     {
         public int PageIndex { get; private set; }
@@ -37,8 +35,8 @@ namespace WebStore.MVC.Helpers
 
         public static async Task<PaginatedList<T>> CreateAsync(IEnumerable<T> source, int pageIndex, int pageSize)
         {
-            var count =  source.Count();
-            var items =  source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            var count = source.Count();
+            var items = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             return new PaginatedList<T>(items, count, pageIndex, pageSize);
         }
     }
