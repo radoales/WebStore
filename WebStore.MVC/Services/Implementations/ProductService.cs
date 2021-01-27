@@ -10,6 +10,8 @@
     using WebStore.MVC.ViewModels.Products;
     using static Helpers.ImageHelper;
     using System;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class ProductService : IProductService
     {
@@ -22,14 +24,15 @@
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<int> Create(string name, string description, byte[] image, decimal price)
+        public async Task<int> Create(string name, string description, byte[] image, decimal price, int productTypeId)
         {
             var product = new Product
             {
                 Name = name,
                 Description = description,
                 Image = image,
-                Price = price
+                Price = price,
+                ProductTypeId = productTypeId
             };
 
             this.context.Add(product);
@@ -199,6 +202,42 @@
             return await this.context.Products
                .Select(p => p.Name)
                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetAllCategoryNames()
+        {
+            return await this.context
+                .Categories
+                .Select(c => c.Name)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<ProductType>> GetAllProductTypesInCategory(int categoryId)
+        {
+            return await this.context
+                .ProductTypes
+                .Where(pt => pt.CategoryId == categoryId)
+                 .ToListAsync();
+        }
+
+        public SelectList GetCategoriesAsSelectedList()
+        {
+            var categories = this.context
+                .Categories.ToList();
+
+            categories.Insert(0, new Category { Id = 0, Name = "Select Category" });
+
+            return new SelectList(categories, "Id", "Name");
+        }
+
+        public SelectList GetProductTypesAsSelectedList()
+        {
+            var productTypes = this.context
+                .ProductTypes.ToList();
+
+            //productTypes.Insert(0, new ProductType { Id = 0, Name = "Select Product Type" });
+
+            return new SelectList(productTypes, "Id", "Name");
         }
     }
 }

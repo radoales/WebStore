@@ -16,45 +16,38 @@
 }
 <div class="container">
     <div class="row">
-        @{ var count = 0;}
         @foreach (var item in Model)
-        {
-            <div class="list-gallery list-galery-zoom">
-                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
-                    @if (item.Image == null)
-                    {
-                        <img src="~/no-image.png" />
-                    }
-                    else
-                    {
-                        <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)" />
-                    }
-                    <hr />
-                    <div class="list-galery-text"><p>@Html.DisplayFor(modelItem => item.Name)</p></div>
+        {       
+        <div class="card bg-light mb-3 list-galery-zoom" style="width: 13.5rem;">
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                @if (item.Image == null)
+                {
+                    <img class="card-img-top" src="~/no-image.png" />
+                }
+                else
+                {
+                    <img class="card-img-top" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
+                         alt="@Html.DisplayFor(modelItem => item.Name)">
+                }
+            </a>         
+            <div style="margin:5px; padding:3px;" class="card-body text-center">
+                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                <p class="card-text">Some quick example text to build on the card title.</p>
+                <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+                <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">
+                    <input class="btn btn-success" type="button" value="Add">
                 </a>
-                <hr />
-                <div style="padding:3px">
-                    <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-
-                    <span style="float:right">
-                        <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">
-                            <input class="btn btn-success" type="button" value="Add">
-                        </a>
-                    </span>
-                </div>
             </div>
-            count++;
-            if (count == 5)
-            {
-                <div><hr /></div>
-                count = 0;
-            }
+        </div>
         }
     </div>
+
+    @*Paging*@
     @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     }
+
     <div class="center-div">
         <a asp-action="Index"
            asp-route-pageNumber="@(Model.PageIndex - 1)"

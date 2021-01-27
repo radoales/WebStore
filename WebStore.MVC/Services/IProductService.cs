@@ -1,6 +1,8 @@
 ﻿namespace WebStore.MVC.Services
 {
     using Data.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -8,7 +10,7 @@
 
     public interface IProductService
     {
-        public Task<int> Create(string name, string description, byte[] image, decimal price);
+        public Task<int> Create(string name, string description, byte[] image, decimal price, int productTypeId);
 
         public Task<IEnumerable<ListProductRequestModel>> GettAll();
 
@@ -28,5 +30,9 @@
         Task<int> GetProductQuantity(int id);
         Task<IEnumerable<ListProductRequestModel>> GetFiltered(string searchString);
         Task<IEnumerable<string>> GetAllProductNames();
+        Task<IEnumerable<string>> GetAllCategoryNames();
+        Task<IEnumerable<ProductType>> GetAllProductTypesInCategory(int categoryId);
+        SelectList GetCategoriesAsSelectedList();
+        SelectList GetProductTypesAsSelectedList();
     }
 }

@@ -5,13 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
 
-<h4>Product</h4>
+<h1>Add new product</h1>
+
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create" enctype="multipart/form-data">
+<form asp-action="Create" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
@@ -24,31 +24,66 @@
                 <textarea rows="4" cols="5" asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
-
-            <div class="col-md-14">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Image" class="control-label"></label>
-                    <div class="custom-file">
-                        <input asp-for="Image" class="custom-file-input" id="customFile">
-                        <label class="custom-file-label" for="customFile">Choose file</label>
-                    </div>
-                    <span asp-validation-for="Image" class="text-danger"></span>
-                </div>
-            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <input asp-page-handler="Upload" type="submit" value="Create" class="btn btn-primary" />
+                <label asp-for="Image" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="Image" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
-        </form>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group" onchange="hideProductTypeDropdown()">
+                <label asp-for="Category" class="control-label"></label>
+                <select class="form-control" id="CategoryId" name="CategoryId"
+                        asp-for="CategoryId"
+                        asp-items="Model.Categories"></select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div style="visibility:hidden" id="productTypes" class="form-group">
+                <label asp-for="ProductType" class="control-label"></label>
+                <select class="form-control" id="ProductTypeId" name="ProductTypeId"
+                        asp-for="ProductTypeId"
+                        asp-items="Model.ProductTypes"></select>
+                <span asp-validation-for="ProductType" class="text-danger"></span>
+            </div>
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <input asp-page-handler="Upload" type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
 
 <div>
-    <a asp-action="Index">Back to Products</a>
+    <a asp-action="Index">All Products</a>
 </div>
-<script src="~/js/site.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#CategoryId').change(function () {
+            var url = '@Url.Content("~/")' + "Products/ProductTypesInCategory";
+            var ddlSource = "#CategoryId";
+            document.getElementById("productTypes").style.visibility = "visible";
+            $.getJSON(url, { CategoryId: $(ddlSource).val() }, function (data) {
+                var items = '';
+                $("#ProductTypeId").empty();
+                $.each(data, function (i, productType) {
+                    items += "<option value='" + productType.value + "'>" + productType.text + "</option>";
+                });
+                $('#ProductTypeId').html(items);
+            });
+        });
+    });
+
+</script>

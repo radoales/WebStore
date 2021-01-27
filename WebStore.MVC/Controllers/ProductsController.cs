@@ -15,6 +15,7 @@
     using System;
     using System.Collections.Generic;
     using WebStore.MVC.Helpers;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class ProductsController : Controller
     {
@@ -40,13 +41,13 @@
             {
                 var products = await this.productService.GettAll();
 
-                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 20));
+                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10));
             }
 
             pageNumber = 1;
             var filteredProducts = await this.productService.GetFiltered(searchString);
 
-            return View(await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 20));
+            return View(await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 10));
         }
 
         // GET: Products/Details/5
@@ -89,7 +90,12 @@
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            return View();
+            //Add all Categories and ProductTypes to a model to pass to the dropdownList in the View
+            var model = new CreateProductRequestModel();
+            model.Categories = this.productService.GetCategoriesAsSelectedList();
+            model.ProductTypes = this.productService.GetProductTypesAsSelectedList();
+
+            return View(model);
         }
 
         // POST: Products/Create
@@ -98,6 +104,10 @@
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CreateProductRequestModel model)
         {
+            if (model.CategoryId == 0 || model.ProductTypeId == 0)
+            {
+                ModelState.AddModelError("Category", "Select Category and Product Type");
+            }
             if (ModelState.IsValid)
             {
                 //Transform the image file to byte[];
@@ -107,9 +117,20 @@
                     imageFileToArray = FileToArray(model.Image);
                 }
 
-                var id = await this.productService.Create(model.Name, model.Description, imageFileToArray, model.Price);
+                var id = await this.productService.Create(
+                    model.Name,
+                    model.Description, 
+                    imageFileToArray,
+                    model.Price, 
+                    (int)model.ProductTypeId);
+
                 return RedirectToAction(nameof(Details), new { id = id });
             }
+
+            //Add all Categories and ProductTypes to the model to pass to the dropdownList in the View
+            model.Categories = this.productService.GetCategoriesAsSelectedList();
+            model.ProductTypes = this.productService.GetProductTypesAsSelectedList();
+
             return View(model);
         }
 
@@ -227,6 +248,17 @@
         public async Task<IEnumerable<string>> GetAllProductNames()
         {
             return await this.productService.GetAllProductNames();
+        }
+
+        public async Task<JsonResult> ProductTypesInCategory(int categoryId)
+        {
+            var productTypes = await this.productService.GetAllProductTypesInCategory(categoryId);
+
+           var productTypesList = productTypes.ToList();
+
+            productTypesList.Insert(0, new ProductType { Id = 0, Name = "Select Product Type" });
+
+            return Json(new SelectList(productTypes, "Id", "Name"));
         }
     }
 }
