@@ -9,5 +9,6 @@
         public DateTime CreatedOn { get; set; }
         public decimal Amount { get; set; }
         public ICollection<CartItemViewModel> CartItems { get; set; } = new List<CartItemViewModel>();
+        public int ItemsInCart { get; set; }
     }
 }

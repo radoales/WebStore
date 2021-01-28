@@ -1,0 +1,14 @@
+﻿@inject IOrderService orderService
+@*@model ShoppingCartViewModel*@
+
+@{
+    var id = this.Context.Request.Cookies[CartKey];
+}
+ 
+<li class="nav-item">
+    <a style="background-color:lightskyblue" asp-controller="Cart" asp-action="Index"
+       class="nav-link btn btn-link text-dark list-galery-zoom">
+        <i class="fas fa-shopping-cart"></i>
+        <span id="items-in-cart">@await this.orderService.GetNumberOfCartItemsInCart(id)</span>
+    </a>
+</li>

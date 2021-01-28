@@ -34,9 +34,10 @@
             return View(cart);
         }
 
-        public async Task<IActionResult> AddToCart(int productId)
+        public async Task<int> AddToCart(int productId)
         {
             var cartId = Request.Cookies[CartKey];
+            var itemsInCart = 0;
 
             if (cartId == null)
             {
@@ -47,9 +48,12 @@
             {
                 var parsedId = Guid.Parse(cartId);
                 await this.orderService.AddToShoppingCart(parsedId, productId);
+                TempData[TempDataSuccessMessageKey] = "Added to cart!";
             }
 
-            return RedirectToAction("Index","Products");
+            itemsInCart = await this.orderService.GetNumberOfCartItemsInCart(cartId);
+
+            return itemsInCart;
         }
 
         public async Task<IActionResult> DeleteCartItem(Guid id)
@@ -68,6 +72,17 @@
             TempData[TempDataSuccessMessageKey] = "Product quantity was changed";
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CartButtonPartial()
+        {
+            //var cartId = Request.Cookies[CartKey];
+
+            //var model = new ShoppingCartViewModel();
+            //model.ItemsInCart = await this.orderService.GetNumberOfCartItemsInCart(cartId);
+
+            return PartialView("_ShopingCartButtonPartial");
         }
     }
 }

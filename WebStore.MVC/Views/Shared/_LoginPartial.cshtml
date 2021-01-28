@@ -1,10 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
-@inject IOrderService orderService
-@{ 
-    var id = this.Context.Request.Cookies[CartKey];
-}
+
 
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
@@ -26,9 +23,6 @@
         <li class="nav-item">
             <a class="nav-link text-dark list-galery-zoom" asp-controller="Identity" asp-action="Login">Login</a>
         </li>
-    }
-    <li class="nav-item">
-        <a style="background-color:lightskyblue" asp-controller="Cart" asp-action="Index" 
-           class="nav-link btn btn-link text-dark list-galery-zoom"><i class="fas fa-shopping-cart"></i> @await orderService.GetNumberOfCartItemsInCart(id)</a>
-    </li>
+    }    
+    <partial name="_ShopingCartButtonPartial" />
 </ul>

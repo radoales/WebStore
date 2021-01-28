@@ -16,30 +16,39 @@
 }
 <div class="container">
     <div class="row">
-        @foreach (var item in Model)
-        {       
-        <div class="card bg-light mb-3 list-galery-zoom" style="width: 13.5rem;">
-            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
-                @if (item.Image == null)
-                {
-                    <img class="card-img-top" src="~/no-image.png" />
-                }
-                else
-                {
-                    <img class="card-img-top" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
-                         alt="@Html.DisplayFor(modelItem => item.Name)">
-                }
-            </a>         
-            <div style="margin:5px; padding:3px;" class="card-body text-center">
-                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                <p class="card-text">Some quick example text to build on the card title.</p>
-                <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-                <a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">
-                    <input class="btn btn-success" type="button" value="Add">
-                </a>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-sm-3">
+                            <div class="card bg-light mb-3 list-galery-zoom" style="width: 13.5rem;">
+                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                                    @if (item.Image == null)
+                                    {
+                                        <img class="card-img-top" src="~/no-image.png" />
+                                    }
+                                    else
+                                    {
+                                        <img class="card-img-top" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
+                                             alt="@Html.DisplayFor(modelItem => item.Name)">
+                                    }
+                                </a>
+                                <div style="margin:5px; padding:3px;" class="card-body text-center">
+                                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                    <p class="card-text">Some quick example text to build on the card title.</p>
+                                    <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+                                    @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">*@
+                                    <input id="addToCardButton" onclick="send(@item.Id)" class="btn btn-success" type="button" value="Add">
+                                    @*</a>*@
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
             </div>
         </div>
-        }
     </div>
 
     @*Paging*@
@@ -90,5 +99,20 @@
         </a>
     </div>
 </div>
+<script>
+    function updateItemsInCart(items) {
+        document.getElementById("items-in-cart").innerHTML = items;
+    };
 
+     function send (id) {
+            $.ajax({
+                type: 'POST',
+                url: "@Url.Action("AddToCart","Cart")",
+                data: { "productId": id },
+                success: function (result) {
+                    updateItemsInCart(result);
+                }
+            });
+    };
+</script>
 
