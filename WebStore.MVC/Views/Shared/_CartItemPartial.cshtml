@@ -1,0 +1,27 @@
+﻿@model CartItemViewModel
+
+<td>
+    @if (Model.Product.Image == null)
+    {
+        <img src="~/no-image.png" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75" />
+    }
+    else
+    {
+        <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Product.Image)" alt="" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75">
+    }
+
+</td>
+<td width="100%">
+    <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.ProductId"> @Html.DisplayFor(modelItem => Model.Product.Name)</a><br>
+    <span class="small"></span>
+</td>
+<td class="change-quantity" align="center">
+    <input id="id-@Model.Id" hidden name="id" asp-for="@Model.Id" />
+    <input id="productId-@Model.ProductId" hidden name="productId" asp-for="@Model.ProductId" />@*<i class="fas fa-sort-up"></i>*@
+    <input id="quantity-@Model.Id" type="number" name="quantity" class="form-control qty" style="width:75px;" asp-for="@Model.Quantity">&nbsp;pc.<br>
+</td>
+<td align="right">@Html.DisplayFor(modelItem => Model.Product.Price)</td>
+<td align="right">@Html.DisplayFor(modelItem => Model.TotalPrice)</td>
+<td>
+    <a style="cursor: pointer;" onclick="deleteItem('@Model.Id')"><span class="fas fa-times" style="color:red"></span></a>
+</td>

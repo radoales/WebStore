@@ -18,34 +18,10 @@
                     </tr>
                     @foreach (var item in Model.CartItems)
                     {
-                        <tr>
-                            <td>
-                                @if (item.Product.Image == null)
-                                {
-                                    <img src="~/no-image.png" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75" />
-                                }
-                                else
-                                {
-                                    <img src="data:image/jpeg;base64,@Convert.ToBase64String(item.Product.Image)" alt="" class="hidden-xs hidden-sm" style="border:1px solid #eee" height="75">
-                                }
-
-                            </td>
-                            <td width="100%">
-                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.ProductId"> @Html.DisplayFor(modelItem => item.Product.Name)</a><br>
-                                <span class="small"></span>
-                            </td>
-                            <td align="center">
-                                <form asp-action="EditCartItemQuantity">
-                                    <input hidden name="id" asp-for="@item.Id" />
-                                    <input hidden name="productId" asp-for="@item.ProductId" />
-                                    <input type="number" name="quantity" class="form-control qty" style="width:75px;" asp-for="@item.Quantity">&nbsp;pc.<br>
-                                </form>
-                            </td>
-                            <td align="right">@Html.DisplayFor(modelItem => item.Product.Price)</td>
-                            <td align="right">@Html.DisplayFor(modelItem => item.TotalPrice)</td>
-                            <td>
-                                <a asp-action="DeleteCartItem" asp-route-id="@item.Id"><span class="fas fa-times" style="color:red"></span></a>
-                            </td>
+                        <tr id="cartItemId">
+                            @{
+                                await Html.RenderPartialAsync("_CartItemPartial", item);
+                            }
                         </tr>
                     }
                     <tr>
@@ -62,8 +38,41 @@
 
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
-    $(".qty").change(function () {
-        $(this).closest('form').submit();
-    });
+        function updateItemsInCart(items) {
+            document.getElementById("items-in-cart").innerHTML = items;
+    };
+    function deleteItem(id) {
+        $.ajax({
+            type: 'POST',
+            url: "@Url.Action("DeleteCartItem", "Cart")",
+            data: { "id": id },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    }
+
+        $(".change-quantity").change(function () {
+            var id;
+            var productId;
+            var quantity;
+            var arr = [];
+
+            $(this).children("input").each(function () {
+                arr.push(this.value); // "this" is the current element in the loop
+            });
+            id = arr[0];
+            productId = arr[1];
+            quantity = arr[2];
+
+                $.ajax({
+                    type: 'POST',
+                    url: "@Url.Action("EditCartItemQuantity", "Cart")",
+                    data: { "id": id, "productId": productId, "quantity": quantity },
+                    success: function (result) {
+                        $("body").html(result);
+                    }
+                });
+        });
 
 </script>

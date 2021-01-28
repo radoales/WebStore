@@ -61,28 +61,18 @@
             await this.orderService.DeleteCartItem(id);
             return RedirectToAction(nameof(Index));
         }
+
         public async Task<IActionResult> EditCartItemQuantity(CartItem cartItem)
         {
           var isChanged = await this.orderService.ChangeCartItemQuantity(cartItem);
             if (!isChanged)
             {
-                TempData[TempDataErrorMessageKey] = "For big orders, please contact us directly!";
+                TempData[TempDataErrorMessageKey] = "The limit is reached, please contact us directly!";
                 return RedirectToAction(nameof(Index));
             }
-            TempData[TempDataSuccessMessageKey] = "Product quantity was changed";
-
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet]
-        public async Task<IActionResult> CartButtonPartial()
-        {
-            //var cartId = Request.Cookies[CartKey];
-
-            //var model = new ShoppingCartViewModel();
-            //model.ItemsInCart = await this.orderService.GetNumberOfCartItemsInCart(cartId);
-
-            return PartialView("_ShopingCartButtonPartial");
-        }
+       
     }
 }

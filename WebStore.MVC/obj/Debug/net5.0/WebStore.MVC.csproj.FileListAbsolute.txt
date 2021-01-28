@@ -174,3 +174,4 @@ C:\Programming\Projects\WebStore\WebStore.MVC\bin\Debug\net5.0\AutoMapper.dll
 C:\Programming\Projects\WebStore\WebStore.MVC\bin\Debug\net5.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Shared\_SearchBarPartial.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Shared\_ShopingCartButtonPartial.cshtml.g.cs
+C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Shared\_CartItemPartial.cshtml.g.cs

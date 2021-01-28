@@ -87,6 +87,7 @@
             {
                 return false;
             }
+            
             this.context.CartItems.Update(cartItem);
             await this.context.SaveChangesAsync();
 
