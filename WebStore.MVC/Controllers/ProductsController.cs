@@ -35,11 +35,18 @@
         // GET: Products
         [HttpGet]
         //[ResponseCache(VaryByHeader = "User-Agent", Duration = 60)]
-        public async Task<IActionResult> Index(string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string searchString, int? pageNumber, int? productTypeId)
         {
-            if (String.IsNullOrEmpty(searchString))
+            if (String.IsNullOrEmpty(searchString) && productTypeId == null)
             {
                 var products = await this.productService.GettAll();
+
+                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 8));
+            }
+
+            if (productTypeId != null)
+            {
+                var products = await this.productService.GetAllProductsOfTypeById((int)productTypeId);
 
                 return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 8));
             }

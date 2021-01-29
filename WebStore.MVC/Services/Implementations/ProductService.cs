@@ -219,6 +219,20 @@
                 .Where(pt => pt.CategoryId == categoryId)
                  .ToListAsync();
         }
+        public async Task<IEnumerable<ListProductRequestModel>> GetAllProductsOfTypeById(int productTypeId)
+        {
+            return await this.context.Products
+                .Where(p => p.ProductTypeId == productTypeId)
+               .Select(p => new ListProductRequestModel
+               {
+                   Id = p.Id,
+                   Name = p.Name,
+                   Image = p.Image,
+                   Quantity = p.Quantity,
+                   Price = p.Price
+               })
+               .ToListAsync();
+        }
 
         public SelectList GetCategoriesAsSelectedList()
         {
@@ -239,5 +253,14 @@
 
             return new SelectList(productTypes, "Id", "Name");
         }
+
+        public async Task<IEnumerable<Category>> GetAllCategories()
+        {
+            return await this.context.Categories
+                .Include(x => x.ProductTypes)
+                .ToListAsync();
+        }
+
+      
     }
 }

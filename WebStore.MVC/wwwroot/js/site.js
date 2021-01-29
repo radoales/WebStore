@@ -12,3 +12,7 @@ function hideProductTypeDropdown() {
     }
 
 }
+
+$(".searchString").change(function () {
+    $(this).closest('form').submit();
+});

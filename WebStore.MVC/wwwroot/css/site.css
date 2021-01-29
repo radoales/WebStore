@@ -148,3 +148,7 @@ body {
     color: black;
     font-weight: bold;
 }
+
+.highligth-on-hoover:hover {
+    background-color: lightgrey;
+}

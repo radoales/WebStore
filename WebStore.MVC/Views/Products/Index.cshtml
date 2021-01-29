@@ -1,9 +1,16 @@
 ﻿@model WebStore.MVC.Helpers.PaginatedList<ListProductRequestModel>
+@inject IProductService productService
 
 @{
     ViewData["Title"] = "Products";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<style>
+.highligth-on-hoover:hover{
+    background-color:lightgrey;
+}
+</style>
 
 <h1>Products</h1>
 
@@ -16,7 +23,19 @@
 }
 <div class="container">
     <div class="row">
-        <div class="col-sm-2"></div>
+        <div class="col-sm-2">
+            <div style="line-height:0.9;" class="container">
+                @foreach (var item in await productService.GetAllCategories())
+                {
+                    <p><h5>@item.Name</h5></p>
+                    @foreach (var productType in item.ProductTypes)
+                    {
+                        <div class="highligth-on-hoover" style="cursor:pointer;" onclick="selectProductType('@productType.Id')">@productType.Name</div><br />
+                    }
+                    <hr />
+                }
+            </div>
+        </div>
         <div class="col-sm-10">
             <div class="container">
                 <div class="row">
@@ -100,6 +119,7 @@
     </div>
 </div>
 <script>
+
     function updateItemsInCart(items) {
         document.getElementById("items-in-cart").innerHTML = items;
     };
@@ -114,5 +134,16 @@
                 }
             });
     };
+
+    function selectProductType(productTypeId) {
+        $.ajax({
+            type: 'GET',
+            url: "@Url.Action("Index", "Products")",
+            data: { "productTypeId": productTypeId },
+            success: function (result) {
+                $("body").html(result);
+            }
+        });
+    }
 </script>
 

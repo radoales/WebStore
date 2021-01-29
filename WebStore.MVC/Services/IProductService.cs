@@ -29,8 +29,10 @@
         Task<IEnumerable<ListProductRequestModel>> GetFavoriteListByUser(string id);
         Task<int> GetProductQuantity(int id);
         Task<IEnumerable<ListProductRequestModel>> GetFiltered(string searchString);
+        Task<IEnumerable<ListProductRequestModel>> GetAllProductsOfTypeById(int productTypeId);
         Task<IEnumerable<string>> GetAllProductNames();
         Task<IEnumerable<string>> GetAllCategoryNames();
+        Task<IEnumerable<Category>> GetAllCategories();
         Task<IEnumerable<ProductType>> GetAllProductTypesInCategory(int categoryId);
         SelectList GetCategoriesAsSelectedList();
         SelectList GetProductTypesAsSelectedList();
