@@ -13,48 +13,67 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+  <style>
+      body {
+          padding-top: 30px;
+      }
+  </style>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 fixed-top">
             <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h4>Web Store Logo</h4></a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <div class="navbar-nav flex-grow-1">
+                        <div style="margin:auto">
+                            <partial name="_SearchBarPartial" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </nav>
+
+        <nav class=" navbar-expand-sm navbar-light bg-secondary border-bottom box-shadow mb-0">
+            <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Products" asp-action="Index">Browse Products</a>
+                            <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Products" asp-action="Index">Browse Products</a>
                         </li>
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             @if (this.User.IsInRole(Roles.AdminRole))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
+                                    <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
                                 </li>
                             }
                             else
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark list-galery-zoom" asp-area="" asp-controller="Products" asp-action="FavoriteList">Favorite Products</a>
+                                    <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Products" asp-action="FavoriteList">Favorite Products</a>
                                 </li>
                             }
                         }
-                        <li>
-                            <partial name="_SearchBarPartial" />
-                        </li>
                     </ul>
+
                 </div>
             </div>
         </nav>
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">
