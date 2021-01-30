@@ -5,50 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    /*--------------------------------------------------------*/
-    /* The Modal (background) */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 50px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    }
-
-    /* Modal Content */
-    .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        padding: 1px;
-        border: 1px solid #888;
-        width: 30%;
-        opacity: 0.9;
-        color: black;
-    }
-
-    /* The Close Button */
-    .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-</style>
-
 <div><hr /></div>
 <div class="media">
     @if (Model.Image == null)
@@ -63,7 +19,7 @@
     <h5 class="mt-0">@Html.DisplayFor(model => model.Name)</h5>
     <p> @Html.DisplayFor(model => model.Description)</p>
     <div><h5>Price:  @Html.DisplayFor(model => model.Price) kr.</h5></div>
-    <input id="addToCardButton" onclick="addToCart(@Model.Id, '@Model.Name', @Model.Price, 'data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)')" class="btn btn-success" type="button" value="Add to Cart">
+    <input id="addToCardButton" onclick="addToCart(@Model.Id, '@Model.Name', @Model.Price, 'data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add to Cart">
     @if (User.IsInRole(Roles.AdminRole))
     { 
         <div>Available on stock:  @Html.DisplayFor(model => model.Quantity)</div>

@@ -6,18 +6,24 @@
     <title>@ViewData["Title"]</title>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="~/css/site.css" />
 
-  <style>
-      body {
-          padding-top: 30px;
-      }
-  </style>
+    <style>
+        body {
+            padding-top: 30px;
+        }
+        .modal-content {
+            background-color: #383838;
+            border: 1px solid #888;
+            /*opacity: 0.9;*/
+            color: white;
+        }
+    </style>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
@@ -41,7 +47,7 @@
         <nav class=" navbar-expand-sm navbar-light bg-secondary border-bottom box-shadow mb-0">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -56,7 +62,7 @@
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             @if (this.User.IsInRole(Roles.AdminRole))
-                            {
+                            { 
                                 <li class="nav-item">
                                     <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
                                 </li>
@@ -74,7 +80,7 @@
             </div>
         </nav>
 
-    </header>
+    </header> 
     <div class="container">
         <main role="main" class="pb-3">
             @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
@@ -88,16 +94,30 @@
                 <div class="alert alert-success">
                     @TempData[WebConstants.TempDataSuccessMessageKey]
                 </div>
-            } 
-            @RenderBody()
-        </main>   
-    </div>
-    <footer class="border-top footer text-muted">
-        <div class="container">
+            }
 
-        </div>
-    </footer> 
-  
-    @RenderSection("Scripts", required: false)
+            @*Modal*@
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->   
+                    <div class="modal-content">                      
+                        <div id="modal-input" class="modal-body"></div>
+                        @*<div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>*@ 
+                    </div>
+                </div>
+            </div>
+            @RenderBody()
+        </main>
+    </div> 
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+
+            </div>
+        </footer>
+
+        @RenderSection("Scripts", required: false)
 </body>
 </html>

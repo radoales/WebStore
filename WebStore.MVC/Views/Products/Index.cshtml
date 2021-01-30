@@ -7,53 +7,9 @@
 }
 
 <style>
-.highligth-on-hoover:hover{
-    background-color:lightgrey;
-}
-</style>
-
-<style>
-    /*--------------------------------------------------------*/
-    /* The Modal (background) */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        padding-top: 50px; /* Location of the box */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgb(0,0,0); /* Fallback color */
-        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    .highligth-on-hoover:hover {
+        background-color: lightgrey;
     }
-
-    /* Modal Content */
-    .modal-content {
-        background-color: #fefefe;
-        margin: auto;
-        padding: 1px;
-        border: 1px solid #888;
-        width: 30%;
-        opacity: 0.9;
-        color: black;
-    }
-
-    /* The Close Button */
-    .close {
-        color: #aaaaaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-    }
-
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
 </style>
 
 <h1>Products</h1>
@@ -85,42 +41,40 @@
                 <div class="row">
                     @foreach (var item in Model)
                     {
-                        
-                            <div class="card bg-light mb-3 list-galery-zoom" style="width: 12.0rem; margin-left:20px; margin-bottom:30px">
-                                <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
-                                    @if (item.Image == null)
-                                    {
-                                        <img class="card-img-top" src="~/no-image.png" />
-                                    }
-                                    else
-                                    {
-                                        <img class="card-img-top" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
-                                             alt="@Html.DisplayFor(modelItem => item.Name)">
-                                    }
-                                </a>
-                                <div style="margin:5px; padding:3px;" class="card-body text-center">
-                                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                                    <p class="card-text">Some quick example text to build on the card title.</p>
-                                    <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-                                    @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">*@
-                                    <input id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@Convert.ToBase64String(item.Image)')" class="btn btn-success" type="button" value="Add">
-                                    @*</a>*@
-                                </div>
+                        <div class="card bg-light mb-3 list-galery-zoom" style="width: 12.0rem; margin-left:20px; margin-bottom:30px">
+                            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                                @if (item.Image == null)
+                                {
+                                    <img class="card-img-top" src="~/no-image.png" />
+                                }
+                                else
+                                {
+                                    <img class="card-img-top" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
+                                         alt="@Html.DisplayFor(modelItem => item.Name)">
+                                }
+                            </a>
+                            <div style="margin:5px; padding:3px;" class="card-body text-center">
+                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                                <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+                                @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">*@
+                                <input id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@Convert.ToBase64String(item.Image)')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add">
+                                @*</a>*@
                             </div>
-                        
+                        </div>
                     }
                     <div id="myModal" class="modal"></div>
                 </div>
             </div>
         </div>
-    </div> 
+    </div>
 
     @*Paging*@
     @{
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     }
-      
+
     <div class="center-div">
         <a asp-action="Index"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
@@ -162,5 +116,5 @@
             Next
         </a>
     </div>
-</div> 
+</div>
 

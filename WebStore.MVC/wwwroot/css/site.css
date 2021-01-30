@@ -152,3 +152,13 @@ body {
 .highligth-on-hoover:hover {
     background-color: lightgrey;
 }
+
+
+/*--------------------------------------------------------*/
+/* The Modal (background) */
+.modal-content {
+    background-color: #383838;
+    border: 1px solid #888;
+    /*opacity: 0.9;*/
+    color: white;
+}

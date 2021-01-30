@@ -50,47 +50,24 @@ function addRow(name, price, image) {
 
     div.innerHTML = `
      <!-- Modal content -->
-        <div class="modal-content">
-            <span class="close"></span>
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <img style="max-width:100%" src="${image}" />
-                    </div>
-                    <div class="col-sm-9">
-                         <h4>"${name}" (${price} kr.) was added to your cart</h4>
-                    </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-3">
+                    <img style="max-width:100%" src="${image}" />
+                </div>
+                <div class="col-sm-9">
+                     <h4>"${name}" (${price} kr.) was added to your cart</h4>
                 </div>
             </div>
         </div>
   `;
 
-    document.getElementById('myModal').appendChild(div);
+    document.getElementById('modal-input').appendChild(div);
 
-    // Get the modal
-    var modal = document.getElementById("myModal");
-
-    // Get the button that opens the modal
-    // var btn = document.getElementById("addToCardButton");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the button, open the modal
-
-    modal.style.display = "block";
-
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        // modal.style.display = "none";
-    }
-
-    // When the user clicks anywhere outside of the modal, close it
     window.onclick = function () {
-        var list = document.getElementById("myModal");
+        var list = document.getElementById("modal-input");
         list.removeChild(list.childNodes[0]);
-        modal.style.display = "none";
     }
 
 }
@@ -106,3 +83,69 @@ function addToCart(id, name, price, image) {
         }
     });
 };
+
+$(document).ready(function () {
+    $('.carousel').carousel({
+        interval: 5000
+    });
+});
+
+//Searchbar
+$(document).ready(function () {
+    $.ajax({
+        type: "GET",
+        url: "/Products/GetAllProductNames",
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+            $("#searchString").keyup(function (e) {
+                $("#searchString").autocomplete({
+                    source: response
+                });
+            });
+        },
+        failure: function (response) {
+            alert(response.responseText);
+        },
+        error: function (response) {
+            alert(response.responseText);
+        }
+    });
+});
+
+
+//Cart.Index
+
+//function deleteItem(id) {
+//    $.ajax({
+//        type: 'POST',
+//        url: "/cart/DeleteCartItem",
+//        data: { "id": id },
+//        success: function (result) {
+//            $("body").html(result);
+//        }
+//    });
+//}
+
+
+//$(".change-quantity").change(function () {
+//    var id;
+//    var productId;
+//    var quantity;
+//    var arr = [];
+
+//    $(this).children("input").each(function () {
+//        arr.push(this.value);
+//    });
+//    id = arr[0];
+//    productId = arr[1];
+//    quantity = arr[2];
+
+//    $.ajax({
+//        type: 'POST',
+//        url: "/Cart/EditCartItemQuantity",
+//        data: { "id": id, "productId": productId, "quantity": quantity },
+//        success: function (result) {
+//            $("body").html(result);
+//        }
+//    });
+//});

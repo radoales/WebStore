@@ -93,8 +93,9 @@
                     Name = p.Name,
                     Image = p.Image,
                     Quantity = p.Quantity,
-                    Price = p.Price
-                })
+                    Price = p.Price,
+                    Description = new string(p.Description.Take(50).ToArray())
+        })
                 .ToListAsync();
         }
 

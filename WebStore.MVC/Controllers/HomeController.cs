@@ -35,7 +35,7 @@
             //}
 
             var products = await this.productService.GettAll();
-            return View(products.Take(6));
+            return View(products.Take(5));
         }
 
         public IActionResult Privacy()

@@ -6,28 +6,3 @@
         </div>
     </div>
 </form>
-
-
-<script>
-    $(document).ready(function () {
-        $.ajax({
-            type: "GET",
-            url: "/Products/GetAllProductNames",
-            contentType: "application/json; charset=utf-8",
-            success: function (response) {
-                $("#searchString").keyup(function (e) {
-                    $("#searchString").autocomplete({
-                        source: response
-                    });
-                });
-            },
-            failure: function (response) {
-                alert(response.responseText);
-            },
-            error: function (response) {
-                alert(response.responseText);
-            }
-        });
-    });
-
-</script>
