@@ -16,3 +16,29 @@ function hideProductTypeDropdown() {
 $(".searchString").change(function () {
     $(this).closest('form').submit();
 });
+
+function updateItemsInCart(items) {
+    document.getElementById("items-in-cart").innerHTML = items;
+};
+
+function addToCart(id) {
+    $.ajax({
+        type: 'POST',
+        url: "/cart/addtocart",
+        data: { "productId": id },
+        success: function (result) {
+            updateItemsInCart(result);
+        }
+    });
+};
+
+function selectProductType(productTypeId) {
+    $.ajax({
+        type: 'GET',
+        url: "/products/index",
+        data: { "productTypeId": productTypeId },
+        success: function (result) {
+            $("body").html(result);
+        }
+    });
+}

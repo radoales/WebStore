@@ -48,7 +48,6 @@
             {
                 var parsedId = Guid.Parse(cartId);
                 await this.orderService.AddToShoppingCart(parsedId, productId);
-                TempData[TempDataSuccessMessageKey] = "Added to cart!";
             }
 
             itemsInCart = await this.orderService.GetNumberOfCartItemsInCart(cartId);

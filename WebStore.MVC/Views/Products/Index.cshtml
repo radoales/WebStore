@@ -59,11 +59,11 @@
                                     <p class="card-text">Some quick example text to build on the card title.</p>
                                     <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
                                     @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">*@
-                                    <input id="addToCardButton" onclick="send(@item.Id)" class="btn btn-success" type="button" value="Add">
+                                    <input id="addToCardButton" onclick="addToCart(@item.Id)" class="btn btn-success" type="button" value="Add">
                                     @*</a>*@
                                 </div>
                             </div>
-                        </div>
+                        </div>                     
                     }
                 </div>
             </div>
@@ -75,7 +75,7 @@
         var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
         var nextDisabled = !Model.HasNextPage ? "disabled" : "";
     }
-
+      
     <div class="center-div">
         <a asp-action="Index"
            asp-route-pageNumber="@(Model.PageIndex - 1)"
@@ -117,33 +117,5 @@
             Next
         </a>
     </div>
-</div>
-<script>
-
-    function updateItemsInCart(items) {
-        document.getElementById("items-in-cart").innerHTML = items;
-    };
-
-     function send (id) {
-            $.ajax({
-                type: 'POST',
-                url: "@Url.Action("AddToCart","Cart")",
-                data: { "productId": id },
-                success: function (result) {
-                    updateItemsInCart(result);
-                }
-            });
-    };
-
-    function selectProductType(productTypeId) {
-        $.ajax({
-            type: 'GET',
-            url: "@Url.Action("Index", "Products")",
-            data: { "productTypeId": productTypeId },
-            success: function (result) {
-                $("body").html(result);
-            }
-        });
-    }
-</script>
+</div> 
 
