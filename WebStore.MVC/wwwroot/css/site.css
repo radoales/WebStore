@@ -75,22 +75,9 @@ body {
 
 /*-------------------------------------------------------*/
 
-.list-gallery {
-    margin: 5px;
-    border: 1px solid #ccc;
-    float: left;
-    width: 180px;
-}
 
-    .list-gallery img {
-        width: 100%;
-        height: auto;
-    }
 
-.list-galery-text {
-    text-align: center;
-    white-space: pre;
-}
+
 
 .list-galery-zoom {
     transition: transform .2s;
@@ -103,31 +90,6 @@ body {
 
 /*-------------------------------------------------------*/
 
-.detail-galary {
-    margin: 5px;
-    border: 1px solid #ccc;
-    float: none;
-    width: 300px;
-}
-
-    .detail-galary img {
-        width: 100%;
-        height: auto;
-    }
-
-/*-------------------------------------------------------*/
-.column {
-    float: left;
-    width: 50%;
-    padding: 10px;
-    height: 300px;
-}
-
-.row1:after {
-    content: "";
-    display: table;
-    clear: both;
-}
 
 /*--------------------------------------------------------*/
 .navbar-button-zoom {
@@ -156,9 +118,55 @@ body {
 
 /*--------------------------------------------------------*/
 /* The Modal (background) */
-.modal-content {
+#modal-content {
     background-color: #383838;
     border: 1px solid #888;
     /*opacity: 0.9;*/
     color: white;
 }
+
+/*--------------------------------------------------------*/
+/* Carousel */
+#carouselContainer {
+    max-width: 800px;
+    position: relative;
+    margin: auto;
+    max-height: 500px;
+}
+
+/*--------------------------------------------------------*/
+/* Search Bar */
+.ui-autocomplete {
+    padding-top: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    max-height: 300px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+    /* add padding to account for vertical scrollbar */
+    /* padding-right: 20px;*/
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    background: #a9a9a9 !important;
+    border: none;
+    color: #ffffff !important;
+}
+
+#searchString {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #a9a9a9;
+}
+
+    #searchString:focus {
+        outline: none;
+    }
+
+#search-button {
+    border: none;
+    color: darkgray;
+} 

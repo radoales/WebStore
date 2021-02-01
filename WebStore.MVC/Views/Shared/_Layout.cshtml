@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8" /> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
 
@@ -16,12 +16,6 @@
     <style>
         body {
             padding-top: 30px;
-        }
-        .modal-content {
-            background-color: #383838;
-            border: 1px solid #888;
-            /*opacity: 0.9;*/
-            color: white;
         }
     </style>
 
@@ -43,7 +37,6 @@
                 </div>
             </div>
         </nav>
-
         <nav class=" navbar-expand-sm navbar-light bg-secondary border-bottom box-shadow mb-0">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"></a>
@@ -62,7 +55,7 @@
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             @if (this.User.IsInRole(Roles.AdminRole))
-                            { 
+                            {
                                 <li class="nav-item">
                                     <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
                                 </li>
@@ -79,8 +72,7 @@
                 </div>
             </div>
         </nav>
-
-    </header> 
+    </header>
     <div class="container">
         <main role="main" class="pb-3">
             @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
@@ -99,25 +91,25 @@
             @*Modal*@
             <div class="modal fade" id="myModal" role="dialog">
                 <div class="modal-dialog">
-                    <!-- Modal content-->   
-                    <div class="modal-content">                      
+                    <!-- Modal content-->
+                    <div id="modal-content" class="modal-content">
                         <div id="modal-input" class="modal-body"></div>
                         @*<div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>*@ 
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>*@
                     </div>
                 </div>
             </div>
             @RenderBody()
         </main>
-    </div> 
+    </div>
 
-        <footer class="border-top footer text-muted">
-            <div class="container">
+    <footer class="border-top footer text-muted">
+        <div class="container">
 
-            </div>
-        </footer>
+        </div>
+    </footer>
 
-        @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

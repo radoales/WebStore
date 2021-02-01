@@ -21,17 +21,6 @@ function updateItemsInCart(items) {
     document.getElementById("items-in-cart").innerHTML = items;
 };
 
-//function addToCart(id) {
-//    $.ajax({
-//        type: 'POST',
-//        url: "/cart/addtocart",
-//        data: { "productId": id },
-//        success: function (result) {
-//            updateItemsInCart(result);
-//        }
-//    });
-//};
-
 function selectProductType(productTypeId) {
     $.ajax({
         type: 'GET',
