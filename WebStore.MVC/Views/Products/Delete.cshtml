@@ -22,7 +22,7 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class="list-gallery">
-            <img src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" />
+            <img src="data:image/jpeg;base64,@Model.Image" />
         </dd>
     </dl>
 

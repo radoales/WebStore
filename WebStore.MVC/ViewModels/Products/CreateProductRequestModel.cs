@@ -21,6 +21,8 @@
         [AllowedExtensions(new string[] { ".jpg", ".png" })]
         public IFormFile Image { get; set; }
 
+        public byte[] Thumbnail { get; set; }
+
         public int Quantity { get; set; }
 
         [Required(ErrorMessage = ErrorMessages.RequiredField)]

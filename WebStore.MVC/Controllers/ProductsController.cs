@@ -119,15 +119,18 @@
             {
                 //Transform the image file to byte[];
                 byte[] imageFileToArray = null;
+                byte[] thumbnailToArray = null;
                 if (model.Image != null)
                 {
                     imageFileToArray = FileToArray(model.Image);
+                    thumbnailToArray = FileThumbnailToArray(model.Image);
                 }
 
                 var id = await this.productService.Create(
                     model.Name,
                     model.Description, 
                     imageFileToArray,
+                    thumbnailToArray,
                     model.Price, 
                     (int)model.ProductTypeId);
 

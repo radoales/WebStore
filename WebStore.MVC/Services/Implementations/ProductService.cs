@@ -12,6 +12,7 @@
     using System;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using System.IO;
 
     public class ProductService : IProductService
     {
@@ -24,13 +25,14 @@
             this.webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<int> Create(string name, string description, byte[] image, decimal price, int productTypeId)
+        public async Task<int> Create(string name, string description, byte[] image, byte[] thumbnail, decimal price, int productTypeId)
         {
             var product = new Product
             {
                 Name = name,
                 Description = description,
                 Image = image,
+                Thumbnail = thumbnail,
                 Price = price,
                 ProductTypeId = productTypeId
             };
@@ -56,9 +58,9 @@
                     Id = p.Id,
                     Name = p.Name,
                     Description = p.Description,
-                    Image = p.Image,
                     Price = p.Price,
-                    Quantity = p.Quantity
+                    Image = (p.Image == null) ? WebConstants.NoImageString : Convert.ToBase64String(p.Image),
+            Quantity = p.Quantity
                 })
                 .FirstOrDefaultAsync();
         }
@@ -91,7 +93,7 @@
                 {
                     Id = p.Id,
                     Name = p.Name,
-                    Image = p.Image,
+                    Thumbnail = (p.Thumbnail == null) ? WebConstants.NoImageString : Convert.ToBase64String(p.Thumbnail),
                     Quantity = p.Quantity,
                     Price = p.Price,
                     Description = new string(p.Description.Take(50).ToArray())
@@ -107,7 +109,7 @@
                {
                    Id = p.Id,
                    Name = p.Name,
-                   Image = p.Image,
+                   Thumbnail = (p.Thumbnail == null) ? WebConstants.NoImageString : Convert.ToBase64String(p.Thumbnail),
                    Quantity = p.Quantity,
                    Price = p.Price
                })
@@ -183,8 +185,7 @@
                 .Select(up => new ListProductRequestModel
                 {
                     Id = up.ProductId,
-                    Name = up.Product.Name,
-                    Image = up.Product.Image
+                    Name = up.Product.Name
                 })
                 .ToListAsync();
 
@@ -228,7 +229,7 @@
                {
                    Id = p.Id,
                    Name = p.Name,
-                   Image = p.Image,
+                   Thumbnail = (p.Thumbnail == null) ? WebConstants.NoImageString : Convert.ToBase64String(p.Thumbnail),
                    Quantity = p.Quantity,
                    Price = p.Price
                })

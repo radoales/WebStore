@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5JY/GbVzo5R/nAwuEfDNzbkARuEm+zwc9x0m28wKispsg1G3Q8W15G9k70zetibPWa6zZgeKxoY0X8y9Bs49WQ==",
+  "dgSpecHash": "1BMQ4nQpy3CUoPFzJbsT3fcTWEWWtgdLFcFvCxNm0yVrdKUpUECF7MxQp4vdUh6ZRJULDb+80QR8Ho2nQd9aqA==",
   "success": true,
   "projectFilePath": "C:\\Programming\\Projects\\WebStore\\WebStore.Test\\WebStore.Test.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\aspose.imaging\\20.12.0\\aspose.imaging.20.12.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\automapper\\10.1.0\\automapper.10.1.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",

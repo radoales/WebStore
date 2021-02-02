@@ -13,13 +13,13 @@
     }
     else
     {
-        <img style="max-width:50%" class="align-self-start mr-3" src="data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)" alt="Generic placeholder image">
+        <img style="max-width:50%" class="align-self-start mr-3" src="data:image/jpeg;base64,@Model.Image" alt="Generic placeholder image">
     }
 <div class="media-body"> 
     <h5 class="mt-0">@Html.DisplayFor(model => model.Name)</h5>
     <p> @Html.DisplayFor(model => model.Description)</p>
     <div><h5>Price:  @Html.DisplayFor(model => model.Price) kr.</h5></div>
-    <input id="addToCardButton" onclick="addToCart(@Model.Id, '@Model.Name', @Model.Price, 'data:image/jpeg;base64,@Convert.ToBase64String(Model.Image)')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add to Cart">
+    <input id="addToCardButton" onclick="addToCart(@Model.Id, '@Model.Name', @Model.Price, 'data:image/jpeg;base64,@Model.Image')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add to Cart">
     @if (User.IsInRole(Roles.AdminRole))
     { 
         <div>Available on stock:  @Html.DisplayFor(model => model.Quantity)</div>

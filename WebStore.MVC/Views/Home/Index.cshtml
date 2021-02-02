@@ -8,6 +8,7 @@
         <div class="text-center">
             <h1 class="display-4">Welcome</h1>
         </div>
+        @*<-------------Carousel------------>*@
         <div class="row">
             <div id="carouselContainer" class="carousel slide slideshow-container" data-ride="carousel">
                 <ol class="carousel-indicators">
@@ -52,29 +53,20 @@
         </div>
         <div class="row"><hr /></div>
 
+        @*<-------------Top Items------------>*@
         <div class="container">
             <div class="row">
                 @foreach (var item in Model)
                 {
-                    <div class="card bg-light mb-3 list-galery-zoom" style="width: 14.7rem; margin-left:20px;">
+                    <div class="card bg-light mb-3 list-galery-zoom" style="width: 11.7rem; margin-left:20px;">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
-                            @if (item.Image == null)
-                            {
-                                <img class="card-img-top" src="~/no-image.png" />
-                            }
-                            else
-                            {
-                                <img class="card-img-top" src="data:image/jpeg;base64,@Convert.ToBase64String(item.Image)"
-                                     alt="@Html.DisplayFor(modelItem => item.Name)">
-                            }
+                            <img class="card-img-top" src="data:image/jpeg;base64,@item.Thumbnail" alt="@Html.DisplayFor(modelItem => item.Name)">
                         </a>
                         <div style="margin:5px; padding:3px;" class="card-body text-center">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                             <p class="card-text">@Html.DisplayFor(modelItem => item.Description)...</p>
                             <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-                            @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">*@
-                            <input id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@Convert.ToBase64String(item.Image)')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add">
-                            @*</a>*@
+                            <input id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add">
                         </div>
                     </div>
                 }

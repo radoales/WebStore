@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "P1hcFLru0N1GpCzhlS1h06Qd7A8JUR3RNkw2INKF1I01lFqTk8G6sXv0Y1SEFItZjxZqQx9GyeyH9uNRRHdphg==",
+  "dgSpecHash": "SxZd3vlM7Z0tIu5kqf0HGKbJd8lAYzdUu6fYahKj9vPlUgjKvWssoHITfFx7lfTZyJ/nMNJLch5kj67Jl4VG9Q==",
   "success": true,
   "projectFilePath": "C:\\Programming\\Projects\\WebStore\\WebStore.MVC\\WebStore.MVC.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\aspose.imaging\\20.12.0\\aspose.imaging.20.12.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\automapper\\10.1.0\\automapper.10.1.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.0\\automapper.extensions.microsoft.dependencyinjection.8.1.0.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",

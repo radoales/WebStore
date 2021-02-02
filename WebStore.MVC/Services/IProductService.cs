@@ -10,7 +10,7 @@
 
     public interface IProductService
     {
-        public Task<int> Create(string name, string description, byte[] image, decimal price, int productTypeId);
+        public Task<int> Create(string name, string description, byte[] image, byte[] thumbnail, decimal price, int productTypeId);
 
         public Task<IEnumerable<ListProductRequestModel>> GettAll();
 

@@ -4,7 +4,6 @@
     using SixLabors.ImageSharp;
     using SixLabors.ImageSharp.Processing;
     using System;
-    using System.Drawing;
     using System.IO;
 
     public static class ImageHelper
@@ -13,6 +12,20 @@
         {
             var resized = ReduceImage(file, 8);
                   
+            var imageArray = new byte[] { };
+            using (var ms = new MemoryStream())
+            {
+                resized.SaveAsJpeg(ms);
+                imageArray = ms.ToArray();
+            }
+
+            return imageArray;
+        }
+
+        public static byte[] FileThumbnailToArray(IFormFile file)
+        {
+            var resized = ReduceImage(file, 16);
+
             var imageArray = new byte[] { };
             using (var ms = new MemoryStream())
             {
@@ -33,12 +46,14 @@
                 height = image.Height;
             }
             var resized = Image.Load(file.OpenReadStream());
-            if (width > 300 || height > 300)
-            {
+            //if (width > 300 || height > 300)
+            //{
                 resized.Mutate(x => x.Resize(width / n, height / n));
-            }
+            //}
 
             return resized;
         }
+
+       
     }
 }
