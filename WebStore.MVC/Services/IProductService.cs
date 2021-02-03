@@ -21,12 +21,7 @@
         public Task Update(int id, string name, string description, int quantity, decimal price, byte[] imageNew);
 
         public Task Delete(int id);
-
-        Task AddTooFavoriteList(string userId, int productId);
-        Task RemoveFromFavoriteList(string userId, int productId);
-
-        Task<bool> IsproductInFavoriteList(string userId, int productId);
-        Task<IEnumerable<ListProductRequestModel>> GetFavoriteListByUser(string id);
+       
         Task<int> GetProductQuantity(int id);
         Task<IEnumerable<ListProductRequestModel>> GetFiltered(string searchString);
         Task<IEnumerable<ListProductRequestModel>> GetAllProductsOfTypeById(int productTypeId);

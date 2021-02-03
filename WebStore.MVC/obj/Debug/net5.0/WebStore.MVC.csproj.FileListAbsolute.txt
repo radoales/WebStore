@@ -89,7 +89,6 @@ C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Produ
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Products\Delete.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Products\Details.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Products\Edit.cshtml.g.cs
-C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Products\FavoriteList.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Products\Index.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Users\Delete.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Users\Details.cshtml.g.cs

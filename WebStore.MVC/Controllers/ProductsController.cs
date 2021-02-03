@@ -34,7 +34,7 @@
 
         // GET: Products
         [HttpGet]
-        [ResponseCache(VaryByHeader = "User-Agent", Duration = 300)]
+        //[ResponseCache(VaryByHeader = "User-Agent", Duration = 300)]
         public async Task<IActionResult> Index(string searchString, int? pageNumber, int? productTypeId)
         {
             if (String.IsNullOrEmpty(searchString) && productTypeId == null)
@@ -72,23 +72,7 @@
             {
                 return NotFound();
             }
-
-            if (this.User.Identity.IsAuthenticated)
-            {
-                var user = await this.userManager.GetUserAsync(this.User);
-
-                var isInFavorite = await this.productService
-                    .IsproductInFavoriteList(user.Id, product.Id);
-
-                if (!isInFavorite)
-                {
-                    ViewBag.isFavorite = false;
-                }
-                else
-                {
-                    ViewBag.isFavorite = true;
-                }
-            }
+          
             return View(product);
         }
 
@@ -221,38 +205,6 @@
             await this.productService.Delete(id);
 
             return RedirectToAction(nameof(Index));
-        }
-
-        [HttpGet]
-        [Authorize]
-        public async Task<IActionResult> FavoriteList()
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            var favList = await this.productService.GetFavoriteListByUser(user.Id);
-
-            return View(favList);
-        }
-
-        [Authorize]
-        public async Task<IActionResult> AddToFavoriteList(int id)
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            await this.productService.AddTooFavoriteList(user.Id, id);
-            TempData[TempDataSuccessMessageKey] = "Added to favorites.";
-
-            return RedirectToAction(nameof(Details), new { id = id });
-        }
-        [Authorize]
-        public async Task<IActionResult> RemoveFromFavoriteList(int id)
-        {
-            var user = await this.userManager.GetUserAsync(this.User);
-
-            await this.productService.RemoveFromFavoriteList(user.Id, id);
-            TempData[TempDataSuccessMessageKey] = "Removed from favorites.";
-
-            return RedirectToAction(nameof(Details), new { id = id });
         }
 
         public async Task<IEnumerable<string>> GetAllProductNames()

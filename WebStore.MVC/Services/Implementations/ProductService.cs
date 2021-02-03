@@ -133,63 +133,9 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task AddTooFavoriteList(string userId, int productId)
-        {
-            var userProduct = new UserProducts
-            {
-                UserId = userId,
-                ProductId = productId
-            };
-
-            this.context.UserProducts.Add(userProduct);
-            await this.context.SaveChangesAsync();
-        }
-
         private bool ProductExists(int id)
         {
             return this.context.Products.Any(e => e.Id == id);
-        }
-
-        public async Task RemoveFromFavoriteList(string userId, int productId)
-        {
-            var userProduct = new UserProducts
-            {
-                UserId = userId,
-                ProductId = productId
-            };
-
-            this.context.UserProducts.Remove(userProduct);
-            await this.context.SaveChangesAsync();
-        }
-
-        public async Task<bool> IsproductInFavoriteList(string userId, int productId)
-        {
-            var isInFavorite = await this.context
-                .UserProducts
-                .FirstOrDefaultAsync(x => x.UserId == userId && x.ProductId == productId);
-
-            if (isInFavorite == null)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        public async Task<IEnumerable<ListProductRequestModel>> GetFavoriteListByUser(string id)
-        {
-            var products = await this.context
-                .UserProducts
-                .Include(up => up.Product)
-                .Where(u => u.UserId == id)
-                .Select(up => new ListProductRequestModel
-                {
-                    Id = up.ProductId,
-                    Name = up.Product.Name
-                })
-                .ToListAsync();
-
-            return products;
         }
 
         public async Task<int> GetProductQuantity(int id)
