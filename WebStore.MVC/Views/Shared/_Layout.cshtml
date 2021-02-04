@@ -18,6 +18,19 @@
         body {
             padding-top: 30px;
         }
+        .category-name {
+            background-color: darkgray;
+            color: white;
+            border:none;
+        }
+        .list-group {
+            border-radius: 0px;
+        }
+
+        .category-name:hover {
+            background-color: white;
+            color: darkgray;
+        }
     </style>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -57,7 +70,7 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
-                            </li>
+                            </li> 
                         }
                     </ul>
 
@@ -93,32 +106,30 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div class="container" style="padding-left:0px;">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <div>Categories</div>
-                        <div id="accordion">
+                    <div class="col-sm-2" style="padding-top:40px">
+                        <div><br /></div>
+                        <div id="accordion" style="line-height:0px;">
                             @foreach (var item in await productService.GetAllCategories())
                             {
-                                <div style="line-height:0.3">
-                                    <div class="card-header" id="heading-@item.Id">
-                                        <h5 class="mb-0">
-                                            <button class="btn btn-link btn-lg btn-block" data-toggle="collapse" data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
-                                                @item.Name
-                                            </button>
-                                        </h5>
-                                    </div>
-                                    @foreach (var productType in item.ProductTypes)
-                                    {
-                                        <ul id="collapse-@item.Id" class="collapse list-group" aria-labelledby="heading-@item.Id" data-parent="#accordion">
-                                            <li class="highligth-on-hoover list-group-item" style="cursor:pointer;" onclick="selectProductType('@productType.Id')">@productType.Name</li>
-                                        </ul>
-                                    }
-                                </div>
+                                <ul class="list-group" id="heading-@item.Id">
+                                    <li class="category-name  list-group-item" style="cursor:pointer;" data-toggle="collapse"
+                                               data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
+                                        <h6>@item.Name</h6>
+                                    </li>
+                                </ul>
+                                @foreach (var productType in item.ProductTypes)
+                                {
+                                    <ul id="collapse-@item.Id" class="collapse list-group" aria-labelledby="heading-@item.Id" data-parent="#accordion">
+                                        <li class="category-name  list-group-item" style="cursor:pointer;" onclick="selectProductType('@productType.Id')">@productType.Name</li>
+                                    </ul>
+                                }
+                                <div><br /></div>
                             }
                         </div>
                     </div>
-                    <div class="col-sm-10" style="background-color:#c2b9b0">
+                    <div class="col-sm-10" style="">
                         @RenderBody()
                     </div>
                 </div>

@@ -29,7 +29,7 @@
             }
 
             var cart = await this.orderService.GetShoppingCartWithItems(cartId);
-          //  var items = cart.CartItems;
+            //  var items = cart.CartItems;
 
             return View(cart);
         }
@@ -63,7 +63,17 @@
 
         public async Task<IActionResult> EditCartItemQuantity(CartItem cartItem)
         {
-          var isChanged = await this.orderService.ChangeCartItemQuantity(cartItem);
+            //Check if Quantity is 0 or negative
+            //If so, Redirect to Delete CartItem action
+            if (cartItem.Quantity <= 0)
+            {
+                return RedirectToAction(nameof(DeleteCartItem), new { id = cartItem.Id });
+            }
+
+            //Set the new quantity and return True if it was successfull
+            var isChanged = await this.orderService.ChangeCartItemQuantity(cartItem);
+
+            //If isChanged is false show a message
             if (!isChanged)
             {
                 TempData[TempDataErrorMessageKey] = "The limit is reached, please contact us directly!";
@@ -72,6 +82,6 @@
             return RedirectToAction(nameof(Index));
         }
 
-       
+
     }
 }

@@ -60,7 +60,7 @@
                     Description = p.Description,
                     Price = p.Price,
                     Image = (p.Image == null) ? WebConstants.NoImageString : Convert.ToBase64String(p.Image),
-            Quantity = p.Quantity
+                    Quantity = p.Quantity
                 })
                 .FirstOrDefaultAsync();
         }
@@ -97,7 +97,7 @@
                     Quantity = p.Quantity,
                     Price = p.Price,
                     Description = new string(p.Description.Take(50).ToArray())
-        })
+                })
                 .ToListAsync();
         }
 
@@ -209,6 +209,6 @@
                 .ToListAsync();
         }
 
-      
+
     }
 }

@@ -18,7 +18,7 @@
 <td class="change-quantity" align="center">
     <input id="id-@Model.Id" hidden name="id" asp-for="@Model.Id" />
     <input id="productId-@Model.ProductId" hidden name="productId" asp-for="@Model.ProductId" />@*<i class="fas fa-sort-up"></i>*@
-    <input id="quantity-@Model.Id" type="number" name="quantity" class="form-control qty" style="width:75px;" asp-for="@Model.Quantity">&nbsp;pc.<br>
+    <input id="quantity-@Model.Id" type="number" min="0" name="quantity" class="form-control qty" style="width:75px;" asp-for="@Model.Quantity">&nbsp;pc.<br>
 </td>
 <td align="right">@Html.DisplayFor(modelItem => Model.Product.Price)</td>
 <td align="right">@Html.DisplayFor(modelItem => Model.TotalPrice)</td>

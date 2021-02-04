@@ -10,7 +10,7 @@
     {
         public static byte[] FileToArray(IFormFile file)
         {
-            var resized = ReduceImage(file, 8);
+            var resized = ReduceImage(file, 400, 300);
                   
             var imageArray = new byte[] { };
             using (var ms = new MemoryStream())
@@ -24,7 +24,7 @@
 
         public static byte[] FileThumbnailToArray(IFormFile file)
         {
-            var resized = ReduceImage(file, 16);
+            var resized = ReduceImage(file, 200, 200);
 
             var imageArray = new byte[] { };
             using (var ms = new MemoryStream())
@@ -36,20 +36,12 @@
             return imageArray;
         }
 
-        public static Image ReduceImage(IFormFile file, int n)
+        public static Image ReduceImage(IFormFile file, int width, int height)
         {
-            var width = 0;
-            var height = 0;
-            using (var image = Image.Load(file.OpenReadStream()))
-            {
-                width = image.Width;
-                height = image.Height;
-            }
+            
             var resized = Image.Load(file.OpenReadStream());
-            //if (width > 300 || height > 300)
-            //{
-                resized.Mutate(x => x.Resize(width / n, height / n));
-            //}
+
+                resized.Mutate(x => x.Resize(width, height));
 
             return resized;
         }

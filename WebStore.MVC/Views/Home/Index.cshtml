@@ -64,9 +64,14 @@
                         </a>
                         <div style="margin:5px; padding:3px;" class="card-body text-center">
                             <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)...</p>
-                            <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-                            <input id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add">
+                            <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                            <hr />
+                            <div class="">
+                                <span class="price-text float-left"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+                                <div class="btn btn-success float-right" id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')"
+                                     data-toggle="modal" data-target="#myModal" type="button">  <i class="fas fa-shopping-cart"></i></div>
+
+                            </div>
                         </div>
                     </div>
                 }

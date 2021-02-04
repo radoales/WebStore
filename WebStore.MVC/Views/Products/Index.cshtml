@@ -14,14 +14,19 @@
     </p>
 }
 
-<div class="container">
+<div class="container" style="">
     <div class="row">      
         <div class="col-sm-12">
             <div class="container">
                 <div class="row">
+                    <div><hr /></div>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row">
                     @foreach (var item in Model)
                     {
-                        <div class="card bg-light mb-3 list-galery-zoom" style="width: 11.0rem; margin-left:20px; margin-bottom:30px">
+                        <div class="card bg-light mb-3 list-galery-zoom" style="width: 15.1rem; margin-right:20px; margin-bottom:30px">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
                                 @if (item.Thumbnail == null)
                                 {
@@ -36,10 +41,13 @@
                             <div style="margin:5px; padding:3px;" class="card-body text-center">
                                 <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
                                 <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                                <span class="price-text"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-                                @*<a asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@item.Id">*@
-                                <input id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add">
-                                @*</a>*@
+                                <hr />
+                                <div class="">
+                                    <span class="price-text float-left"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+                                    <div class="btn btn-success float-right" id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')"
+                                         data-toggle="modal" data-target="#myModal" type="button">  <i class="fas fa-shopping-cart"></i></div>
+                                    
+                                </div>
                             </div>
                         </div>
                     }
