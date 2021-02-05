@@ -7,8 +7,8 @@
 
     public interface IOrderService
     {
-        Task<Guid> CreateShoppingCart(int productId);
-        Task<bool> AddToShoppingCart(Guid id, int productId);
+        Task<string> CreateShoppingCart();
+        Task<int> AddToShoppingCart(Guid id, int productId);
         Task<ShoppingCartViewModel> GetShoppingCartWithItems(string id);
         Task<int> GetNumberOfCartItemsInCart(string id);
         Task<bool> ChangeCartItemQuantity(CartItem cartItem);

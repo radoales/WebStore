@@ -68,8 +68,10 @@
     <a asp-action="Index">All Products</a>
 </div>
 
+<script src="~/js/site.js" type="text/javascript"></script>
 
-<script type="text/javascript">
+
+<script type="text/javascript"> 
     $(document).ready(function () {
         $('#CategoryId').change(function () {
             var url = '@Url.Content("~/")' + "Products/ProductTypesInCategory";

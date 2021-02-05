@@ -2,7 +2,9 @@
 {
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.EntityFrameworkCore;
     using Moq;
+    using WebStore.MVC.Data;
     using WebStore.MVC.Data.Models;
     using WebStore.MVC.Services;
 
@@ -32,6 +34,15 @@
         public static Mock<IIdentityService> IdentityServiceMock()
         {
             return new Mock<IIdentityService>();
+        }
+
+        public static WebStoreDbContext DbContextMock ()
+        {
+            var options = new DbContextOptionsBuilder<WebStoreDbContext>()
+            .UseInMemoryDatabase(databaseName: "WebStoreDbContextTest")
+            .Options;
+
+            return new WebStoreDbContext(options);
         }
     }
 }

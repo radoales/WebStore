@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "1BMQ4nQpy3CUoPFzJbsT3fcTWEWWtgdLFcFvCxNm0yVrdKUpUECF7MxQp4vdUh6ZRJULDb+80QR8Ho2nQd9aqA==",
+  "dgSpecHash": "Cv+tq8FlKmQREdTly3VA8PglmJm0zqkhdQvOjaC/qDWx9tbn/heegytP+oaDcU7dTCMo2kEuHxgaXhLyOFCwtQ==",
   "success": true,
   "projectFilePath": "C:\\Programming\\Projects\\WebStore\\WebStore.Test\\WebStore.Test.csproj",
   "expectedPackageFiles": [
@@ -34,6 +34,7 @@
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\5.0.2\\microsoft.entityframeworkcore.abstractions.5.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\5.0.2\\microsoft.entityframeworkcore.analyzers.5.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.design\\5.0.2\\microsoft.entityframeworkcore.design.5.0.2.nupkg.sha512",
+    "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\5.0.2\\microsoft.entityframeworkcore.inmemory.5.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\5.0.2\\microsoft.entityframeworkcore.relational.5.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\5.0.2\\microsoft.entityframeworkcore.sqlserver.5.0.2.nupkg.sha512",
     "C:\\Users\\Radoslav Naydenov\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\5.0.2\\microsoft.entityframeworkcore.tools.5.0.2.nupkg.sha512",

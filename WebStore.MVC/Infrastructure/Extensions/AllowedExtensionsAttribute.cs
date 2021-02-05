@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.IO;
-using System.Linq;
-
-namespace WebStore.MVC.Infrastructure.Extensions
+﻿namespace WebStore.MVC.Infrastructure.Extensions
 {
+    using Microsoft.AspNetCore.Http;
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.IO;
+    using System.Linq;
+
     public class AllowedExtensionsAttribute : ValidationAttribute
     {
         private readonly string[] _extensions;
@@ -32,7 +32,7 @@ namespace WebStore.MVC.Infrastructure.Extensions
 
         public string GetErrorMessage()
         {
-            return $"This photo extension is not allowed!";
+            return $"This file type is not supported!";
         }
     }
 }

@@ -1,26 +1,18 @@
-﻿//Show image name in upload field
+﻿//Show image name in Input field
 $(".custom-file-input").on("change", function () {
     var fileName = $(this).val().split("\\").pop();
     $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
 });
 
-//Hide ProductType dropdown when no category is selected
-function hideProductTypeDropdown() {
-    var x = document.getElementById("CategoryId").value;
-    if (x === "0") {
-        document.getElementById("productTypes").style.visibility = "hidden";
-    }
-
-}
-
-$(".searchString").change(function () {
-    $(this).closest('form').submit();
-});
+//$(".searchString").change(function () {
+//    $(this).closest('form').submit();
+//});
 
 function updateItemsInCart(items) {
     document.getElementById("items-in-cart").innerHTML = items;
 };
 
+//----------------Product types dropdown----------------------->
 function selectProductType(productTypeId) {
     $.ajax({
         type: 'GET',
@@ -32,7 +24,20 @@ function selectProductType(productTypeId) {
     });
 }
 
-function addRow(name, price, image) {
+//Hide ProductType dropdown when no category is selected
+function hideProductTypeDropdown() {
+    var x = document.getElementById("CategoryId").value;
+    if (x === "0") {
+        document.getElementById("productTypes").style.visibility = "hidden";
+    }
+
+}
+
+//------------------------------------------------------//
+
+
+//------------------------Modal------------------------->
+function addModal(name, price, image) {
     const div = document.createElement('div');
 
     div.className = 'row';
@@ -54,6 +59,7 @@ function addRow(name, price, image) {
 
     document.getElementById('modal-input').appendChild(div);
 
+    //When Click outside the Modal, Remove the Modal
     window.onclick = function () {
         var list = document.getElementById("modal-input");
         list.removeChild(list.childNodes[0]);
@@ -61,6 +67,7 @@ function addRow(name, price, image) {
 
 }
 
+//------------------Add to Card--------------------------------->
 function addToCart(id, name, price, image) {
     $.ajax({
         type: 'POST',
@@ -68,18 +75,19 @@ function addToCart(id, name, price, image) {
         data: { "productId": id },
         success: function (result) {
             updateItemsInCart(result);
-            addRow(name, price, image)
+            addModal(name, price, image)
         }
     });
 };
 
+//-----------------Carousel Slideshow--------------------------->
 $(document).ready(function () {
     $('.carousel').carousel({
         interval: 5000
     });
 });
 
-//Searchbar
+//-------------------------Searchbar----------------------------->
 $(document).ready(function () {
     $.ajax({
         type: "GET",

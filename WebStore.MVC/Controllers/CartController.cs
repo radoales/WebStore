@@ -37,20 +37,15 @@
         public async Task<int> AddToCart(int productId)
         {
             var cartId = Request.Cookies[CartKey];
-            var itemsInCart = 0;
 
             if (cartId == null)
             {
-                var cart = await this.orderService.CreateShoppingCart(productId);
-                HttpContext.Response.Cookies.Append(CartKey, cart.ToString("D"));
-            }
-            else
-            {
-                var parsedId = Guid.Parse(cartId);
-                await this.orderService.AddToShoppingCart(parsedId, productId);
+                cartId = await this.orderService.CreateShoppingCart();
+                HttpContext.Response.Cookies.Append(CartKey, cartId);
             }
 
-            itemsInCart = await this.orderService.GetNumberOfCartItemsInCart(cartId);
+            var parsedId = Guid.Parse(cartId);
+            var itemsInCart = await this.orderService.AddToShoppingCart(parsedId, productId);
 
             return itemsInCart;
         }

@@ -104,7 +104,7 @@
         public async Task<IEnumerable<ListProductRequestModel>> GetFiltered(string searchString)
         {
             return await this.context.Products
-                .Where(p => p.Name.StartsWith(searchString))
+                .Where(p => p.Name.Contains(searchString))
                .Select(p => new ListProductRequestModel
                {
                    Id = p.Id,

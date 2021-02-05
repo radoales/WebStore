@@ -19,42 +19,23 @@
             this.productService = productService;
         }
 
-        public async Task<Guid> CreateShoppingCart(int productId)
+        public async Task<string> CreateShoppingCart()
         {
-            var cartItem = new CartItem
-            {
-                Id = Guid.NewGuid(),
-                ProductId = productId,
-                Quantity = +1
-            };
-
             var cart = new ShoppingCart
             {
                 Id = Guid.NewGuid(),
                 CreatedOn = DateTime.Now
             };
 
-            cart.CartItems.Add(cartItem);
-
             await this.context.ShoppingCarts.AddAsync(cart);
             await this.context.SaveChangesAsync();
 
-            return cart.Id;
+            return cart.Id.ToString("D");
         }
 
-        public async Task<bool> AddToShoppingCart(Guid id, int productId)
+        public async Task<int> AddToShoppingCart(Guid id, int productId)
         {
-            var cart = await this.context
-                .ShoppingCarts
-                .Include(sc => sc.CartItems)
-                .FirstOrDefaultAsync(sc => sc.Id == id);
-
-            if (cart == null)
-            {
-                await CreateShoppingCart(productId);
-                return true;
-            }
-
+            var cart = await GetShoppingCart(id);
 
             if (cart.CartItems.Any(ci => ci.ProductId == productId))
             {
@@ -76,7 +57,7 @@
             this.context.ShoppingCarts.Update(cart);
             await this.context.SaveChangesAsync();
 
-            return true;
+            return cart.CartItems.Sum(x => x.Quantity);
         }
 
         public async Task<bool> ChangeCartItemQuantity(CartItem cartItem)
@@ -146,6 +127,14 @@
 
             this.context.CartItems.Remove(cartItem);
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task<ShoppingCart> GetShoppingCart(Guid id)
+        {
+           return await this.context
+                .ShoppingCarts
+                .Include(sc => sc.CartItems)
+                .FirstOrDefaultAsync(sc => sc.Id == id);
         }
     }
 }
