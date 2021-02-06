@@ -9,14 +9,17 @@
 
 @if (this.User.IsInRole(Roles.AdminRole))
 {
-    <p>
-        <a asp-action="Create">Add Product</a>
-    </p>
+    <div class="center-div">
+        <div style="border: solid; max-width:200px; margin:auto;">
+            <p>Admin Section</p>
+            <a type="button" class="btn btn-success" asp-action="Create">AddNew Product</a>
+        </div>
+    </div>
 }
 
 <div class="container" style="">
     <div class="row">      
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <div class="container">
                 <div class="row">
                     <div><hr /></div>
@@ -26,7 +29,7 @@
                 <div class="row">
                     @foreach (var item in Model)
                     {
-                        <div class="card bg-light mb-3 list-galery-zoom" style="width: 15.1rem; margin-right:20px; margin-bottom:30px">
+                        <div class="card bg-light mb-3 list-galery-zoom" style="width: 15.8rem; margin-right:20px; margin-bottom:30px">
                             <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
                                 @if (item.Thumbnail == null)
                                 {

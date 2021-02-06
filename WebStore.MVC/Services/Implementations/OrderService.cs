@@ -39,6 +39,7 @@
 
             if (cart.CartItems.Any(ci => ci.ProductId == productId))
             {
+                //var onStock = await productService.GetProductQuantity(productId) > 0;
                 cart.CartItems.FirstOrDefault(ci => ci.ProductId == productId).Quantity++;
             }
             else

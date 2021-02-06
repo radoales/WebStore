@@ -15,13 +15,22 @@
     {
         <img style="max-width:40%" class="align-self-start mr-3" src="data:image/jpeg;base64,@Model.Image" alt="Generic placeholder image">
     }
-<div class="media-body"> 
+<div class="media-body">
     <h5 class="mt-0">@Html.DisplayFor(model => model.Name)</h5>
     <p> @Html.DisplayFor(model => model.Description)</p>
     <div><h5>Price:  @Html.DisplayFor(model => model.Price) kr.</h5></div>
-    <input id="addToCardButton" onclick="addToCart(@Model.Id, '@Model.Name', @Model.Price, 'data:image/jpeg;base64,@Model.Image')" data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add to Cart">
+    @if (Model.IsAvailable)
+    {
+        <input id="addToCardButton" onclick="addToCart(@Model.Id, '@Model.Name', @Model.Price, 'data:image/jpeg;base64,@Model.Image')"
+               data-toggle="modal" data-target="#myModal" class="btn btn-success" type="button" value="Add to Cart">
+    }
+    else
+    {
+        <input class="btn btn-secondary disabled" type="button" value="Out of Stock">
+    }
+
     @if (User.IsInRole(Roles.AdminRole))
-    { 
+    {
         <div>Available on stock:  @Html.DisplayFor(model => model.Quantity)</div>
         <a asp-action="Edit" asp-route-id="@Model.Id">Edit |</a>
         <a asp-action="Delete" asp-route-id="@Model.Id">Delete |</a>
