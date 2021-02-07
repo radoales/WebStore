@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title> 
+    <title>@ViewData["Title"]</title>
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -18,11 +18,13 @@
         body {
             padding-top: 30px;
         }
+
         .category-name {
             background-color: #646870;
             color: white;
             border: none;
         }
+
         .list-group {
             border-radius: 0px;
         }
@@ -70,7 +72,8 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
-                            </li> 
+                            </li>
+
                         }
                     </ul>
 
@@ -78,8 +81,9 @@
             </div>
         </nav>
     </header>
-    <div class="container" style="padding:0; margin:0">
-        <main role="main" class="pb-3">
+
+    <main role="main" class="pb-3">
+        <div class="container" style="padding:0; margin:0">
             @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
             {
                 <div class="alert alert-danger">
@@ -115,7 +119,7 @@
                             {
                                 <ul class="list-group" id="heading-@item.Id">
                                     <li class="category-name  list-group-item" style="cursor:pointer;" data-toggle="collapse"
-                                               data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
+                                        data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
                                         <h6>@item.Name</h6>
                                     </li>
                                 </ul>
@@ -134,12 +138,13 @@
                     </div>
                 </div>
             </div>
-        </main>
-    </div>
+        </div>
+    </main>
+
 
     <footer class="border-top footer text-muted">
         <div class="container">
-
+            @*Web Store Logo&reg;*@
         </div>
     </footer>
 
