@@ -6,7 +6,11 @@
     public class User : IdentityUser
     {
         public IEnumerable<UserProducts> UserProducts { get; set; } = new List<UserProducts>();
+
         public int? AddressId { get; set; }
         public Address Address { get; set; }
+
+        public IEnumerable<Order> Orders { get; set; }
+
     }
 }
