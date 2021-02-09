@@ -28,8 +28,9 @@
 
             if (cartId == null)
             {
-                var emptyCart = new List<CartItemViewModel>();
-                return View(emptyCart);
+                var model = new ShoppingCartViewModel();
+                model.CartItems = new List<CartItemViewModel>();
+                return View(model);
             }
 
             var cart = await this.orderService.GetShoppingCartWithItems(cartId);
@@ -106,6 +107,7 @@
             var cartId = Request.Cookies[CartKey];
 
             await this.orderService.CreateOrder(model.UserId, (int)model.AddressId, cartId);
+            Response.Cookies.Delete(CartKey);
 
             return RedirectToAction("index", "home");
         }

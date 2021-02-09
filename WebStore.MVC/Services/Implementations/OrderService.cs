@@ -175,6 +175,10 @@
             };
 
             this.context.Orders.Add(order);
+
+            this.context.CartItems.RemoveRange(cart.CartItems);
+            this.context.ShoppingCarts.Remove(cart);
+
             await this.context.SaveChangesAsync();
 
             return true;

@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using Services;
     using static WebConstants;
+    using WebStore.MVC.ViewModels.Users;
 
     [Authorize]
     public class UsersController : Controller
@@ -26,7 +27,8 @@
         }
 
         [Authorize]
-        public async Task<IActionResult> Details(string id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
             {
@@ -50,6 +52,43 @@
 
             return View(user);
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserDetailRequestModel model)
+        {
+            if (model.Id == null)
+            {
+                return NotFound();
+            }
+
+            var isAdmin = this.User.IsInRole(Roles.AdminRole);
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!isAdmin && currentUserId != model.Id)
+            {
+                return Unauthorized();
+            }
+
+            var user = await this.userService.UpdateUser(
+                model.Id,
+                model.FirstName,
+                model.LastName,
+                model.Email,
+                model.PhoneNumber,
+                model.Address.Town,
+                model.Address.Zip,
+                model.Address.AddressField);
+
+            //if (user == null)
+            //{
+            //    return NotFound();
+            //}
+
+            return RedirectToAction("edit", new { id = user });
+        }
+
+
 
         [HttpGet]
         [Authorize]

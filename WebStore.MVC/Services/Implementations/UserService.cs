@@ -20,7 +20,12 @@
             {
                 Id = x.Id,
                 Username = x.UserName,
-                Email = x.Email
+                Email = x.Email,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                PhoneNumber = x.PhoneNumber,
+                Address = x.Address, 
+                AddressId = x.AddressId
             });
         }
 
@@ -28,12 +33,18 @@
         {
             return await this.context
                 .Users
+                .Include(x => x.Address)
                 .Where(u => u.Id == id)
                 .Select(x => new UserDetailRequestModel
                 {
                     Id = x.Id,
                     Username = x.UserName,
-                    Email = x.Email
+                    Email = x.Email,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    PhoneNumber = x.PhoneNumber,
+                    Address = x.Address,
+                    AddressId = x.AddressId
                 }).FirstOrDefaultAsync();
         }
 
@@ -42,6 +53,27 @@
             var user = await this.context.Users.FindAsync(id);
             this.context.Users.Remove(user);
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task<string> UpdateUser(string id, string firstName, string lastName, string email, string phoneNumber,
+            string town, int zip, string addressField)
+        {
+            var user = await this.context.Users
+                .Include(x => x.Address)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            user.FirstName = firstName;
+            user.LastName = lastName;
+            user.Email = email;
+            user.PhoneNumber = phoneNumber;
+            user.Address.Town = town;
+            user.Address.Zip = zip;
+            user.Address.AddressField = addressField;
+
+            this.context.Users.Update(user);
+            await this.context.SaveChangesAsync();
+
+            return user.Id;
         }
     }
 }
