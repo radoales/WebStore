@@ -1,6 +1,7 @@
 ﻿namespace WebStore.MVC.Services
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Data.Models;
     using ViewModels.Cart;
@@ -13,5 +14,7 @@
         Task<int> GetNumberOfCartItemsInCart(string id);
         Task<bool> ChangeCartItemQuantity(CartItem cartItem);
         Task DeleteCartItem(Guid id);
+        Task<bool> CreateOrder(string userId, int addressId, string cardId);
+        Task<OrderViewModel> CreateOrderViewModel(string cartId, string userId);
     }
 }

@@ -7,13 +7,17 @@
     using ViewModels.Cart;
     using Data;
     using Data.Models;
+    using System.Collections.Generic;
+    using Microsoft.AspNetCore.Identity;
 
     public class OrderService : IOrderService
     {
         private readonly WebStoreDbContext context;
         private readonly IProductService productService;
 
-        public OrderService(WebStoreDbContext context, IProductService productService)
+        public OrderService(
+            WebStoreDbContext context,
+            IProductService productService)
         {
             this.context = context;
             this.productService = productService;
@@ -136,6 +140,68 @@
                 .ShoppingCarts
                 .Include(sc => sc.CartItems)
                 .FirstOrDefaultAsync(sc => sc.Id == id);
+        }
+
+        public async Task<bool> CreateOrder(string userId, int addressId, string cartId)
+        {
+            var cart = await context
+                .ShoppingCarts
+                .Include(x => x.CartItems)
+                .ThenInclude(x => x.Product)
+                .FirstOrDefaultAsync(x => x.Id == Guid.Parse(cartId));
+
+            var orderItems = new List<OrderItem>();
+            foreach (var item in cart.CartItems)
+            {
+                var orderItem = new OrderItem
+                {
+                    Product = item.Product,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Product.Price
+                };
+
+                orderItems.Add(orderItem);
+            }
+
+            this.context.OrderItems.AddRange(orderItems);
+
+            var order = new Order
+            {
+                UserId = userId,
+                AddressId = addressId,
+                CreatedOn = DateTime.Now,
+                OrderItems = orderItems
+            };
+
+            this.context.Orders.Add(order);
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<OrderViewModel> CreateOrderViewModel(string cartId, string userId)
+        {
+            var cart = await this.context
+                .ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Product)
+                .FirstOrDefaultAsync(x => x.Id == Guid.Parse(cartId));
+
+            var user = await this.context.Users
+               .Include(x => x.Address)
+               .FirstOrDefaultAsync(x => x.Id == userId);
+
+            var orderVm = new OrderViewModel
+            {
+                CreatedOn = DateTime.Now,
+               User = user,
+               UserId = userId,
+                Address = user.Address,
+                AddressId = user.AddressId,
+                CartItems = cart.CartItems,
+                Total = cart.CartItems.Sum(x => x.Product.Price * x.Quantity)
+            };
+
+            return orderVm;
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace WebStore.MVC.Data
+﻿using Microsoft.EntityFrameworkCore;
+using WebStore.MVC.Data.Models;
+namespace WebStore.MVC.Data
 {
     using Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -18,6 +20,8 @@
         public DbSet<Category> Categories { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

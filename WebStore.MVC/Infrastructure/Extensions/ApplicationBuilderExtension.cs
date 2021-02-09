@@ -51,7 +51,10 @@
                             adminUser = new User
                             {
                                 Email = adminMail,
-                                UserName = "admin"
+                                UserName = "admin",
+                                PhoneNumber = "12345678",
+                                FirstName = "Rado",
+                                LastName = "Naydenov"
                             };
 
                             await userManager.CreateAsync(adminUser, "222222");

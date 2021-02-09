@@ -1,0 +1,135 @@
+﻿@model OrderViewModel
+
+@{
+    ViewData["Title"] = "CreateOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h4>Order</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @*<partial name="_CreateAddress" />*@
+        <form asp-action="CreateOrder">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CartItems" />
+            <input type="hidden" asp-for="AddressId" />
+            <input type="hidden" asp-for="UserId" />
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="User.FirstName" class="control-label"></label>
+                    <input type="text" asp-for="User.FirstName" class="form-control" />
+                    <span asp-validation-for="User.FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label asp-for="User.LastName" class="control-label"></label>
+                    <input type="text" asp-for="User.LastName" class="form-control" />
+                    <span asp-validation-for="User.LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-9 mb-4">
+                    <label asp-for="User.Email" class="control-label"></label>
+                    <input type="text" asp-for="User.Email" class="form-control" />
+                    <span asp-validation-for="User.Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 mb-2">
+                    <label asp-for="User.PhoneNumber" class="control-label"></label>
+                    <input type="text" asp-for="User.PhoneNumber" class="form-control" />
+                    <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-9 mb-3">
+                    <label asp-for="Address.Town" class="control-label"></label>
+                    <input type="text" asp-for="Address.Town" class="form-control" />
+                    <span asp-validation-for="Address.Town" class="text-danger"></span>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div>
+                        <label asp-for="Address.Zip" class="control-label"></label>
+                        <input type="text" asp-for="Address.Zip" class="form-control" />
+                        <span asp-validation-for="Address.Zip" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <label asp-for="Address.AddressField" class="control-label"></label>
+                <input type="text" asp-for="Address.AddressField" class="form-control" />
+                <span asp-validation-for="Address.AddressField" class="text-danger"></span>
+            </div>
+            <div>
+                <hr />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Confirm" style="width:100%;" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <div class="col-sm-8 hidden-xs">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><h2 class="panel-title">Your Order: </h2></div>
+                <div class="panel-body">
+
+                    <table border="0" width="100%" cellpadding="3" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <th class="text-right">Price</th>
+                            </tr>
+                            @foreach (var item in Model.CartItems)
+                            {
+                                <tr>
+                                    <td style="line-height:1.2em;padding-bottom:10px">
+                                        @item.Product.Name<br>
+                                        <span style="font-size:10px;">(@item.Quantity pc.)</span>
+                                    </td>
+                                    <td align="right" valign="top">@item.Product.Price</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2"><hr style="margin:0px;"></td>
+                                </tr>
+                            }
+                            <tr>
+                                <td>Subtotal</td>
+                                <td align="right">@Model.Total</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    Delivery<br>
+                                    <span style="font-size:10px;">
+                                        Delivery Option<br>
+                                        Delivery time:
+                                    </span>
+                                </td>
+                                <td align="right" valign="top">
+                                    0,00
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>Total Amount</th>
+                                <th class="text-right">@Model.Total</th>
+                            </tr>
+
+                            <tr>
+                                <td align="center" colspan="2">
+                                    <hr>
+                                    <div>
+                                        <a asp-action="Index">Edit Order</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

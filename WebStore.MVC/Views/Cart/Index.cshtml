@@ -4,7 +4,7 @@
     ViewData["Title"] = "Cart";
 }
 <div class="row">
-    
+
     <div class="col-xs-12 col-sm-8 col-md-7">
         <h1>My Shopping Cart</h1>
         <div class="table-responsive table-responsive-mobile">
@@ -32,6 +32,11 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="container-fluid">
+                <a class="btn btn-block btn-success" style="width:100%;"
+                   asp-action="createOrder" asp-route-cartId="@Model.Id"
+                   >Check Out</a>
+            </div>
         </div>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-3"></div>

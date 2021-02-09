@@ -1,8 +1,10 @@
 ﻿namespace WebStore.MVC.Controllers
 {
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using WebStore.MVC.Data.Models;
     using WebStore.MVC.Services;
@@ -12,10 +14,12 @@
     public class CartController : Controller
     {
         private readonly IOrderService orderService;
+        private readonly UserManager<User> userManager;
 
-        public CartController(IOrderService orderService)
+        public CartController(IOrderService orderService, UserManager<User> userManager)
         {
             this.orderService = orderService;
+            this.userManager = userManager;
         }
 
         public async Task<IActionResult> Index()
@@ -77,6 +81,34 @@
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CreateOrder(string cartId)
+        {
+            if (!this.User.Identity.IsAuthenticated)
+            {
+               return RedirectToAction("login", "identity");
+            }
+
+            var userId = userManager.GetUserId(this.User);
+
+            var model = await this.orderService.CreateOrderViewModel(cartId, userId);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder(OrderViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var cartId = Request.Cookies[CartKey];
+
+            await this.orderService.CreateOrder(model.UserId, (int)model.AddressId, cartId);
+
+            return RedirectToAction("index", "home");
+        }
 
     }
 }

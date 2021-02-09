@@ -175,3 +175,5 @@ C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Share
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Shared\_ShopingCartButtonPartial.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Shared\_CartItemPartial.cshtml.g.cs
 C:\Programming\Projects\WebStore\WebStore.MVC\bin\Debug\net5.0\Aspose.Imaging.dll
+C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Cart\CreateOrder.cshtml.g.cs
+C:\Programming\Projects\WebStore\WebStore.MVC\obj\Debug\net5.0\Razor\Views\Shared\_CreateAddress.cshtml.g.cs
