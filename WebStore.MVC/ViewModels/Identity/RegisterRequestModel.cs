@@ -1,6 +1,8 @@
 ﻿namespace WebStore.MVC.ViewModels.Identity
 {
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using WebStore.MVC.Data.Models;
     using static WebConstants;
     public class RegisterRequestModel
     {
@@ -22,5 +24,16 @@
         [Required]
         [Compare("Password", ErrorMessage = "Passwords do not match")]
         public string ConfirmPassword { get; set; }
+
+        [DisplayName("First Name")]
+        public string FirstName { get; set; }
+
+        [DisplayName("Last Name")]
+        public string LastName { get; set; }
+
+        [DisplayName("Phone Number")]
+        public string PhoneNumber { get; set; }
+
+        public Address Address { get; set; }
     }
 }

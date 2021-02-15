@@ -8,66 +8,83 @@
 <h4>Order</h4>
 <hr />
 <div class="row">
-    <div class="col-md-6">
-        @*<partial name="_CreateAddress" />*@
+    <div class="col-md-8">
+        <div class="row" style="border:solid; border-color:lightgrey">
+            <div class="col-md-6">
+                <h6>Billing Address: </h6>
+                <div>@Model.User.Address.AddressField</div>
+                <div>@Model.User.Address.Town</div>
+                <div>@Model.User.Address.Zip</div>
+            </div>
+            <div class="col-md-6">
+                <div>@Model.User.FirstName</div>
+                <div>@Model.User.LastName</div>
+                <div>@Model.User.Email</div>
+                <div>@Model.User.PhoneNumber</div>
+            </div>
+        </div>
+        <h2>Shipping Address: </h2>
         <form asp-action="CreateOrder">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="CartItems" />
-            <input type="hidden" asp-for="AddressId" />
-            <input type="hidden" asp-for="UserId" />
-            <div class="form-row">
-                <div class="col-md-6 mb-3">
-                    <label asp-for="User.FirstName" class="control-label"></label>
-                    <input type="text" asp-for="User.FirstName" class="form-control" />
-                    <span asp-validation-for="User.FirstName" class="text-danger"></span>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label asp-for="User.LastName" class="control-label"></label>
-                    <input type="text" asp-for="User.LastName" class="form-control" />
-                    <span asp-validation-for="User.LastName" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-9 mb-4">
-                    <label asp-for="User.Email" class="control-label"></label>
-                    <input type="text" asp-for="User.Email" class="form-control" />
-                    <span asp-validation-for="User.Email" class="text-danger"></span>
-                </div>
-                <div class="col-md-3 mb-2">
-                    <label asp-for="User.PhoneNumber" class="control-label"></label>
-                    <input type="text" asp-for="User.PhoneNumber" class="form-control" />
-                    <span asp-validation-for="User.PhoneNumber" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-md-9 mb-3">
-                    <label asp-for="Address.Town" class="control-label"></label>
-                    <input type="text" asp-for="Address.Town" class="form-control" />
-                    <span asp-validation-for="Address.Town" class="text-danger"></span>
-                </div>
-                <div class="col-md-3 mb-3">
-                    <div>
-                        <label asp-for="Address.Zip" class="control-label"></label>
-                        <input type="text" asp-for="Address.Zip" class="form-control" />
-                        <span asp-validation-for="Address.Zip" class="text-danger"></span>
+            <label asp-for="ShippingSameAsBilling"> Same as Billing</label>
+            <input id="ShippingSameAsBillingCheck" asp-for="ShippingSameAsBilling" type="checkbox" onclick="check()" />
+            <div id="address-form">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="BillingAddressId" />
+                <input type="hidden" asp-for="UserId" />
+                <div class="form-row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="FirstName" class="control-label"></label>
+                        <input type="text" asp-for="FirstName" class="form-control" />
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="LastName" class="control-label"></label>
+                        <input type="text" asp-for="LastName" class="form-control" />
+                        <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
-            <div>
-                <label asp-for="Address.AddressField" class="control-label"></label>
-                <input type="text" asp-for="Address.AddressField" class="form-control" />
-                <span asp-validation-for="Address.AddressField" class="text-danger"></span>
-            </div>
-            <div>
-                <hr />
+                <div class="form-row">
+                    <div class="col-md-7 mb-4">
+                        <label asp-for="Email" class="control-label"></label>
+                        <input type="text" asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-5 mb-2">
+                        <label asp-for="PhoneNumber" class="control-label"></label>
+                        <input type="text" asp-for="PhoneNumber" class="form-control" />
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-8 mb-3">
+                        <label asp-for="ShippingAddress.Town" class="control-label"></label>
+                        <input type="text" asp-for="ShippingAddress.Town" class="form-control" />
+                        <span asp-validation-for="ShippingAddress.Town" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div>
+                            <label asp-for="ShippingAddress.Zip" class="control-label"></label>
+                            <input type="text" asp-for="ShippingAddress.Zip" class="form-control" />
+                            <span asp-validation-for="ShippingAddress.Zip" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label asp-for="ShippingAddress.AddressField" class="control-label"></label>
+                    <input type="text" asp-for="ShippingAddress.AddressField" class="form-control" />
+                    <span asp-validation-for="ShippingAddress.AddressField" class="text-danger"></span>
+                </div>
+                <div>
+                    <hr />
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Confirm" style="width:100%;" class="btn btn-success" />
             </div>
         </form>
     </div>
-    <div class="col-md-6">
-        <div class="col-sm-8 hidden-xs">
+    <div class="col-md-4" style="border:solid; border-color:darkgray">
+        <div>
             <div class="panel panel-primary">
                 <div class="panel-heading"><h2 class="panel-title">Your Order: </h2></div>
                 <div class="panel-body">
@@ -94,6 +111,7 @@
                             }
                             <tr>
                                 <td>Subtotal</td>
+
                                 <td align="right">@Model.Total</td>
                             </tr>
                             <tr>
@@ -132,4 +150,16 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function check() {
+            var checkbox = document.getElementById('ShippingSameAsBillingCheck');
+            var form = document.getElementById('address-form');
+            if (checkbox.checked == true) {
+                form.hidden = true;
+            } else {
+                form.hidden = false;
+            }
+        }      
+       
+    </script>
 }

@@ -24,7 +24,8 @@
                   AddTransient<IIdentityService, IdentityService>()
                  .AddTransient<IUserService, UserService>()
                  .AddTransient<IProductService, ProductService>()
-                 .AddTransient<IOrderService, OrderService>();
+                 .AddTransient<IOrderService, OrderService>()
+                 .AddTransient<IAddressService, AddressService>();
 
             return services;
         }

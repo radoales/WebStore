@@ -39,7 +39,7 @@
 
         public async Task<int> AddToShoppingCart(Guid id, int productId)
         {
-            var cart = await GetShoppingCart(id);
+            var cart = await GetShoppingCartWithCartItems(id);
 
             if (cart.CartItems.Any(ci => ci.ProductId == productId))
             {
@@ -73,14 +73,14 @@
             {
                 return false;
             }
-            
+
             this.context.CartItems.Update(cartItem);
             await this.context.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<ShoppingCartViewModel> GetShoppingCartWithItems(string id)
+        public async Task<ShoppingCartViewModel> GetShoppingCartWithItemsAsVM(string id)
         {
             var parsedId = Guid.Parse(id);
 
@@ -134,42 +134,40 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<ShoppingCart> GetShoppingCart(Guid id)
+        public async Task<ShoppingCart> GetShoppingCartWithCartItems(Guid id)
         {
-           return await this.context
-                .ShoppingCarts
-                .Include(sc => sc.CartItems)
-                .FirstOrDefaultAsync(sc => sc.Id == id);
+            return await this.context
+                 .ShoppingCarts
+                 .Include(sc => sc.CartItems)
+                 .ThenInclude(ci => ci.Product)
+                 .FirstOrDefaultAsync(sc => sc.Id == id);
         }
 
-        public async Task<bool> CreateOrder(string userId, int addressId, string cartId)
+        public async Task<bool> CreateOrder(string userId, int shippingAddressId, string cartId, string firstName, string lastName)
         {
-            var cart = await context
-                .ShoppingCarts
-                .Include(x => x.CartItems)
-                .ThenInclude(x => x.Product)
-                .FirstOrDefaultAsync(x => x.Id == Guid.Parse(cartId));
+            var cart = await GetShoppingCartWithCartItems(Guid.Parse(cartId));
 
-            var orderItems = new List<OrderItem>();
-            foreach (var item in cart.CartItems)
-            {
-                var orderItem = new OrderItem
-                {
-                    Product = item.Product,
-                    ProductId = item.ProductId,
-                    Quantity = item.Quantity,
-                    Price = item.Product.Price
-                };
+            var user = await this.context.Users
+              .FirstOrDefaultAsync(x => x.Id == userId);
 
-                orderItems.Add(orderItem);
-            }
-
+            var orderItems = CartItemsAsOrderItemsList(cart);
+           
             this.context.OrderItems.AddRange(orderItems);
+
+            if (firstName == null)
+            {
+                firstName = user.FirstName;
+                lastName = user.LastName;
+            }
 
             var order = new Order
             {
                 UserId = userId,
-                AddressId = addressId,
+                FirstName = firstName,
+                LastName = lastName,
+                //todo User should always have an address
+                BillingAddressId = (int)user.AddressId,
+                ShippingAddressId = shippingAddressId,
                 CreatedOn = DateTime.Now,
                 OrderItems = orderItems
             };
@@ -186,9 +184,7 @@
 
         public async Task<OrderViewModel> CreateOrderViewModel(string cartId, string userId)
         {
-            var cart = await this.context
-                .ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Product)
-                .FirstOrDefaultAsync(x => x.Id == Guid.Parse(cartId));
+            var cart = await GetShoppingCartWithCartItems(Guid.Parse(cartId));
 
             var user = await this.context.Users
                .Include(x => x.Address)
@@ -197,15 +193,34 @@
             var orderVm = new OrderViewModel
             {
                 CreatedOn = DateTime.Now,
-               User = user,
-               UserId = userId,
-                Address = user.Address,
-                AddressId = user.AddressId,
+                User = user,
+                UserId = userId,
                 CartItems = cart.CartItems,
-                Total = cart.CartItems.Sum(x => x.Product.Price * x.Quantity)
+                Total = cart.CartItems.Sum(x => x.Product.Price * x.Quantity),
+                BillingAddress = user.Address,
+                BillingAddressId = user.AddressId
             };
 
             return orderVm;
+        }
+
+        private static List<OrderItem> CartItemsAsOrderItemsList(ShoppingCart cart)
+        {
+            var orderItems = new List<OrderItem>();
+
+            foreach (var item in cart.CartItems)
+            {
+                var orderItem = new OrderItem
+                {
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Product.Price
+                };
+
+                orderItems.Add(orderItem);
+            }
+
+            return orderItems;
         }
     }
 }

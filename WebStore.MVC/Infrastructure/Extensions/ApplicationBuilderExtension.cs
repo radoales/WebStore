@@ -7,6 +7,8 @@
     using System.Threading.Tasks;
     using Data;
     using Data.Models;
+    using WebStore.MVC.Services;
+
     public static class ApplicationBuilderExtension
     {
         public static IApplicationBuilder UseDatasaseMigration(this IApplicationBuilder app)
@@ -17,6 +19,7 @@
 
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                var addressService = serviceScope.ServiceProvider.GetService<IAddressService>();
 
                 Task
                     .Run(async () =>
@@ -48,13 +51,24 @@
 
                         if (adminUser == null)
                         {
+                            var address = new Address
+                            {
+                                Town = "Copenhagen",
+                                Zip = 2300,
+                                AddressField = "Østrigsgade 7,3"
+                            };
+
+                          var addressId = await addressService.CreateAddress("Copenhagen", 2300, "Østrigsgade 7,3");
+
                             adminUser = new User
                             {
                                 Email = adminMail,
                                 UserName = "admin",
                                 PhoneNumber = "12345678",
                                 FirstName = "Rado",
-                                LastName = "Naydenov"
+                                LastName = "Naydenov",
+                                AddressId = addressId
+                               
                             };
 
                             await userManager.CreateAsync(adminUser, "222222");

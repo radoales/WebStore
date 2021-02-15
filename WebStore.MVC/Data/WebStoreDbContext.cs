@@ -39,6 +39,18 @@ namespace WebStore.MVC.Data
                 .HasForeignKey(up => up.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Order>()
+                .HasOne(o => o.BillingAddress)
+                .WithMany(ba => ba.OrdersBilled)
+                .HasForeignKey(o => o.BillingAddressId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Order>()
+               .HasOne(o => o.ShippingAddress)
+               .WithMany(sh => sh.OrdersShipped)
+               .HasForeignKey(o => o.ShippingAddressId)
+               .OnDelete(DeleteBehavior.NoAction);
+
             base.OnModelCreating(modelBuilder);
         }
     }

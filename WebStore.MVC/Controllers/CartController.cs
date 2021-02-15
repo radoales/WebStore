@@ -15,15 +15,21 @@
     {
         private readonly IOrderService orderService;
         private readonly UserManager<User> userManager;
+        private readonly IAddressService addressService;
 
-        public CartController(IOrderService orderService, UserManager<User> userManager)
+        public CartController(
+            IOrderService orderService,
+            UserManager<User> userManager,
+            IAddressService addressService)
         {
             this.orderService = orderService;
             this.userManager = userManager;
+            this.addressService = addressService;
         }
 
         public async Task<IActionResult> Index()
         {
+            //todo Inactive create order button if cart is empty
             var cartId = Request.Cookies[CartKey];
 
             if (cartId == null)
@@ -33,7 +39,7 @@
                 return View(model);
             }
 
-            var cart = await this.orderService.GetShoppingCartWithItems(cartId);
+            var cart = await this.orderService.GetShoppingCartWithItemsAsVM(cartId);
             //  var items = cart.CartItems;
 
             return View(cart);
@@ -99,14 +105,29 @@
         [HttpPost]
         public async Task<IActionResult> CreateOrder(OrderViewModel model)
         {
-            if (!ModelState.IsValid)
+            //Check if the shipping address is the same as billing
+            if (model.ShippingSameAsBilling)
             {
-                return View(model);
+                //If so, set the ShippingAddressId = BillingAddressId
+                model.ShippingAddressId = model.BillingAddressId;
+            }
+            else
+            {
+                //If not, create new Address, add it to database and set the ShippingAddressId = the newly created Address id
+                var shippingAddresId = await addressService.CreateAddress(
+                       model.ShippingAddress.Town,
+                       model.ShippingAddress.Zip,
+                       model.ShippingAddress.AddressField);
+
+                model.ShippingAddressId = shippingAddresId;
             }
 
             var cartId = Request.Cookies[CartKey];
 
-            await this.orderService.CreateOrder(model.UserId, (int)model.AddressId, cartId);
+            await this.orderService.CreateOrder(model.UserId, model.ShippingAddressId, 
+                cartId, model.FirstName, model.LastName);
+
+            // Delete the cart cookie from user's browser
             Response.Cookies.Delete(CartKey);
 
             return RedirectToAction("index", "home");

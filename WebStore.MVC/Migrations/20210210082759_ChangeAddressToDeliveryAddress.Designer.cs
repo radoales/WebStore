@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebStore.MVC.Data;
 
 namespace WebStore.MVC.Migrations
 {
     [DbContext(typeof(WebStoreDbContext))]
-    partial class WebStoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210210082759_ChangeAddressToDeliveryAddress")]
+    partial class ChangeAddressToDeliveryAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -219,7 +221,7 @@ namespace WebStore.MVC.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<int>("BillingAddressId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
@@ -231,17 +233,12 @@ namespace WebStore.MVC.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ShippingAddressId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BillingAddressId");
-
-                    b.HasIndex("ShippingAddressId");
+                    b.HasIndex("AddressId");
 
                     b.HasIndex("UserId");
 
@@ -353,7 +350,7 @@ namespace WebStore.MVC.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -504,25 +501,17 @@ namespace WebStore.MVC.Migrations
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.Order", b =>
                 {
-                    b.HasOne("WebStore.MVC.Data.Models.Address", "BillingAddress")
-                        .WithMany("OrdersBilled")
-                        .HasForeignKey("BillingAddressId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("WebStore.MVC.Data.Models.Address", "ShippingAddress")
-                        .WithMany("OrdersShipped")
-                        .HasForeignKey("ShippingAddressId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                    b.HasOne("WebStore.MVC.Data.Models.Address", "DeliveryAddress")
+                        .WithMany()
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WebStore.MVC.Data.Models.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId");
 
-                    b.Navigation("BillingAddress");
-
-                    b.Navigation("ShippingAddress");
+                    b.Navigation("DeliveryAddress");
 
                     b.Navigation("User");
                 });
@@ -570,9 +559,7 @@ namespace WebStore.MVC.Migrations
                 {
                     b.HasOne("WebStore.MVC.Data.Models.Address", "Address")
                         .WithMany("Users")
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.Navigation("Address");
                 });
@@ -598,10 +585,6 @@ namespace WebStore.MVC.Migrations
 
             modelBuilder.Entity("WebStore.MVC.Data.Models.Address", b =>
                 {
-                    b.Navigation("OrdersBilled");
-
-                    b.Navigation("OrdersShipped");
-
                     b.Navigation("Users");
                 });
 

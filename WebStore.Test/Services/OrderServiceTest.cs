@@ -62,7 +62,7 @@
                 Quantity = 1
             };
 
-            var cart = await orderService.GetShoppingCart(Guid.Parse(cartId));
+            var cart = await orderService.GetShoppingCartWithCartItems(Guid.Parse(cartId));
             dbContextMock.CartItems.Add(cartItem);
             cart.CartItems.Add(cartItem);
 

@@ -14,22 +14,26 @@
         // private readonly AppSettings appSettings;
         private readonly IIdentityService identityService;
         private readonly SignInManager<User> signInManager;
+        private readonly IAddressService addressService;
 
         public IdentityController(
             UserManager<User> userManager,
            SignInManager<User> signInManager,
-            IIdentityService identityService)
+            IIdentityService identityService,
+            IAddressService addressService)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.identityService = identityService;
+            this.addressService = addressService;
         }
 
         [HttpGet]
         [Route("Identity/register")]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterRequestModel { Address = new Address() };
+            return View(model);
         }
 
         [HttpPost]
@@ -39,10 +43,15 @@
         {
             if (ModelState.IsValid)
             {
+                var addressId = await this.addressService.CreateAddress(model.Address.Town, model.Address.Zip, model.Address.AddressField);
                 var user = new User
                 {
                     UserName = model.Username,
-                    Email = model.Email
+                    Email = model.Email,
+                    AddressId = addressId,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhoneNumber = model.PhoneNumber
                 };
 
                 await this.userManager.CreateAsync(user, model.Password);

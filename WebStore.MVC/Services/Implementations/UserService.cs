@@ -6,6 +6,8 @@
     using System.Threading.Tasks;
     using Data;
     using ViewModels.Users;
+    using WebStore.MVC.Data.Models;
+
     public class UserService : IUserService
     {
         private readonly WebStoreDbContext context;
@@ -62,13 +64,20 @@
                 .Include(x => x.Address)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
+            if (user.Address == null)
+            {
+                user.Address = new Address()
+                {
+                    Town = town,
+                    Zip = zip,
+                    AddressField = addressField
+                };
+            }
+
             user.FirstName = firstName;
             user.LastName = lastName;
             user.Email = email;
             user.PhoneNumber = phoneNumber;
-            user.Address.Town = town;
-            user.Address.Zip = zip;
-            user.Address.AddressField = addressField;
 
             this.context.Users.Update(user);
             await this.context.SaveChangesAsync();

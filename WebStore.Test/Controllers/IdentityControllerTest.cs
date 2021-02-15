@@ -20,7 +20,7 @@
         public void RegisterGet_ShouldReturn_ViewPage()
         {
             //arrange
-            var identityController = new IdentityController(null, null, null);
+            var identityController = new IdentityController(null, null, null, null);
 
             //act
             var result = identityController.Register();
@@ -39,7 +39,7 @@
             var signinManagerMock = SignInManagerMock();
 
             var identityController = new IdentityController(
-                userManagerMock.Object, signinManagerMock.Object, identityServiceMock.Object);
+                userManagerMock.Object, signinManagerMock.Object, identityServiceMock.Object, null);
             identityController.ModelState.AddModelError("", "");
 
             var model = new RegisterRequestModel();
