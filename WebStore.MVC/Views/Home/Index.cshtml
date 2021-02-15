@@ -56,7 +56,7 @@
         @*<-------------Top Items------------>*@
         <div class="container">
             <div class="row">
-                @foreach (var item in Model)
+                @foreach (var item in Model)   
                 {
                     <div class="card bg-light mb-3 list-galery-zoom" style="width: 11.7rem; margin-left:20px;">
                         <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
@@ -70,7 +70,6 @@
                                 <span class="price-text float-left"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
                                 <div class="btn btn-success float-right" id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')"
                                      data-toggle="modal" data-target="#myModal" type="button">  <i class="fas fa-shopping-cart"></i></div>
-
                             </div>
                         </div>
                     </div>

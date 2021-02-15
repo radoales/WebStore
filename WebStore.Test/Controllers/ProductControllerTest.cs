@@ -65,62 +65,62 @@
         }
 
         //Products.Index Tests
-        [Fact]
-        public async Task Index_ShouldReturn_ViewResultWithListOfProducts()
-        {
-            //arrange
-            var productServiceMock = ProductServiceMock();
+        //[Fact]
+        //public async Task Index_ShouldReturn_ViewResultWithListOfProducts()
+        //{
+        //    //arrange
+        //    var productServiceMock = ProductServiceMock();
 
-            var productsController = new ProductsController(null, productServiceMock.Object, null);
+        //    var productsController = new ProductsController(null, productServiceMock.Object, null);
 
-            //act
-            var result = await productsController.Index(null,null, null);
+        //    //act
+        //    var result = await productsController.Index(null,null, null);
 
-            //assert
-            result
-                .Should().BeOfType<ViewResult>()
-                .Subject
-                .Model
-                .Should().BeOfType<ListProductRequestModel[]>();
-        }
+        //    //assert
+        //    result
+        //        .Should().BeOfType<ViewResult>()
+        //        .Subject
+        //        .Model
+        //        .Should().BeOfType<ListProductRequestModel[]>();
+        //}
 
-        //Product.Create Tests
-        [Fact]
-        public void CreateProductGet_ShouldReturn_ViewResult()
-        {
-            //arrange
-            var productsController = new ProductsController(null, null, null);
+        ////Product.Create Tests
+        //[Fact]
+        //public void CreateProductGet_ShouldReturn_ViewResult()
+        //{
+        //    //arrange
+        //    var productsController = new ProductsController(null, null, null);
 
-            //act
-            var result = productsController.Create();
+        //    //act
+        //    var result = productsController.Create();
 
-            //assert
-            result.Should().BeOfType<ViewResult>();
-        }
+        //    //assert
+        //    result.Should().BeOfType<ViewResult>();
+        //}
 
-        [Fact]
-        public async Task CreateProductPost_WithValidModelState_ShouldReturnRedirectToActionDetails()
-        {
-            //arrange
-            var userManagerMock = UserManagerMock();
-            var productServiceMock = ProductServiceMock();       
+        //[Fact]
+        //public async Task CreateProductPost_WithValidModelState_ShouldReturnRedirectToActionDetails()
+        //{
+        //    //arrange
+        //    var userManagerMock = UserManagerMock();
+        //    var productServiceMock = ProductServiceMock();       
 
-            var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
-            var model = new CreateProductRequestModel();
+        //    var productsController = new ProductsController(userManagerMock.Object, productServiceMock.Object, null);
+        //    var model = new CreateProductRequestModel();
 
-            model.Image = new FormFile(new MemoryStream(new byte[] { }), 0, 0, "", "");
+        //    model.Image = new FormFile(new MemoryStream(new byte[] { }), 0, 0, "", "");
 
-            //act
-            var result = await productsController.Create(model);
+        //    //act
+        //    var result = await productsController.Create(model);
 
-            //assert
-            result
-                .Should().BeOfType<RedirectToActionResult>()
-                .Subject
-                .ActionName
-                .Should()
-                .Be("Details");
-        }
+        //    //assert
+        //    result
+        //        .Should().BeOfType<RedirectToActionResult>()
+        //        .Subject
+        //        .ActionName
+        //        .Should()
+        //        .Be("Details");
+        //}
 
         [Fact]
         public async Task CreateProductPost_WithInvalidModelState_ShouldReturnViewResultWithCtreateProductRequestModel()

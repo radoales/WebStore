@@ -88,8 +88,6 @@
             return RedirectToAction("edit", new { id = user });
         }
 
-
-
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> Delete(string id)
@@ -125,6 +123,5 @@
 
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

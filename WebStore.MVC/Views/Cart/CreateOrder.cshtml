@@ -26,7 +26,7 @@
         <h2>Shipping Address: </h2>
         <form asp-action="CreateOrder">
             <label asp-for="ShippingSameAsBilling"> Same as Billing</label>
-            <input id="ShippingSameAsBillingCheck" asp-for="ShippingSameAsBilling" type="checkbox" onclick="check()" />
+            <input class="form-group" id="ShippingSameAsBillingCheck" asp-for="ShippingSameAsBilling" type="checkbox" onclick="check()" />
             <div id="address-form">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="BillingAddressId" />
@@ -136,7 +136,7 @@
                                 <td align="center" colspan="2">
                                     <hr>
                                     <div>
-                                        <a asp-action="Index">Edit Order</a>
+                                        <a class="btn btn-primary" asp-action="Index">Edit Order</a>
                                     </div>
                                 </td>
                             </tr>
