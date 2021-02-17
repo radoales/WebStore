@@ -150,16 +150,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        function check() {
-            var checkbox = document.getElementById('ShippingSameAsBillingCheck');
-            var form = document.getElementById('address-form');
-            if (checkbox.checked == true) {
-                form.hidden = true;
-            } else {
-                form.hidden = false;
-            }
-        }      
-       
-    </script>
+
 }

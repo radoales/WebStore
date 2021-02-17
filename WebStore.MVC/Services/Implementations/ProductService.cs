@@ -208,7 +208,5 @@
                 .Include(x => x.ProductTypes)
                 .ToListAsync();
         }
-
-
     }
 }

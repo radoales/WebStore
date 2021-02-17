@@ -63,18 +63,24 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-white " asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Products" asp-action="Index">Browse Products</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="Index">All Products</a>
                         </li>
                         @if (this.User.Identity.IsAuthenticated && this.User.IsInRole(Roles.AdminRole))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-white list-galery-zoom" asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
+                                <a class="nav-link text-white " asp-area="" asp-controller="Users" asp-action="Index">User Management</a>
                             </li>
 
                         }
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="Index">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="Products" asp-action="Index">Contacts</a>
+                        </li>
                     </ul>
 
                 </div>
@@ -83,7 +89,7 @@
     </header>
 
     <main role="main" class="pb-3">
-        <div class="container" style="padding:0; margin:0">
+        <div class="" style="padding:10px; margin:0">
             @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
             {
                 <div class="alert alert-danger">
@@ -110,27 +116,33 @@
                 </div>
             </div>
 
-            <div class="container" style="padding-left:0px;">
+            <div class="" style="padding-left:0px;">
                 <div class="row">
-                    <div class="col-md-2" style="padding-top:40px; padding-right:0;">
-                        <div><br /></div>
-                        <div id="accordion" style="line-height:0px;">
-                            @foreach (var item in await productService.GetAllCategories())
-                            {
-                                <ul class="list-group" id="heading-@item.Id">
-                                    <li class="category-name  list-group-item" style="cursor:pointer;" data-toggle="collapse"
-                                        data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
-                                        <h6>@item.Name</h6>
-                                    </li>
-                                </ul>
-                                @foreach (var productType in item.ProductTypes)
+                    <div class="col-md-2" style="padding-right:0;">
+                        <div class="row">
+                            <div id="accordion" style="line-height:0px;">
+                                @foreach (var item in await productService.GetAllCategories())
                                 {
-                                    <ul id="collapse-@item.Id" class="collapse list-group" aria-labelledby="heading-@item.Id" data-parent="#accordion">
-                                        <li class="category-name  list-group-item" style="cursor:pointer;" onclick="selectProductType('@productType.Id')">@productType.Name</li>
+                                    <ul class="list-group" id="heading-@item.Id">
+                                        <li class="category-name  list-group-item" style="cursor:pointer;" data-toggle="collapse"
+                                            data-target="#collapse-@item.Id" aria-expanded="true" aria-controls="collapse-@item.Id">
+                                            <h6>@item.Name</h6>
+                                        </li>
                                     </ul>
+                                    @foreach (var productType in item.ProductTypes)
+                                    {
+                                        <ul id="collapse-@item.Id" class="collapse list-group" aria-labelledby="heading-@item.Id" data-parent="#accordion">
+                                            <li class="category-name  list-group-item" style="cursor:pointer;" onclick="selectProductType('@productType.Id')">@productType.Name</li>
+                                        </ul>
+                                    }
+                                    <div><br /></div>
                                 }
-                                <div><br /></div>
-                            }
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="container">
+                                <img src="~/Images/Logoes/4.jpg" style="width:inherit"  />
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-10" style="">

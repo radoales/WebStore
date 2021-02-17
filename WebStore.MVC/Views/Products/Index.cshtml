@@ -1,4 +1,4 @@
-﻿@model WebStore.MVC.Helpers.PaginatedList<ListProductRequestModel>
+﻿@model ProductIndexViewModel
 @inject IProductService productService
 
 @{
@@ -6,7 +6,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
+<div id="productTypeId" data-value="@Model.ProductTypeId"></div>
 @if (this.User.IsInRole(Roles.AdminRole))
 {
     <div class="center-div">
@@ -17,95 +17,90 @@
     </div>
 }
 
-<div class="container" style="">
-    <div class="row">      
-        <div class="col-md-12">
-            <div class="container">
-                <div class="row">
-                    <div><hr /></div>
-                </div>
-            </div>
-            <div class="container">
-                <div class="row">
-                    @foreach (var item in Model)
-                    {
-                        <div class="card bg-light mb-3 list-galery-zoom" style="width: 15.8rem; margin-right:20px; margin-bottom:30px">
-                            <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
-                                @if (item.Thumbnail == null)
-                                {
-                                    <img class="card-img-top" src="~/no-image.png" />
-                                }
-                                else
-                                {
-                                    <img class="card-img-top" src="data:image/jpeg;base64,@item.Thumbnail"
-                                         alt="@Html.DisplayFor(modelItem => item.Name)">
-                                }
-                            </a>
-                            <div style="margin:5px; padding:3px;" class="card-body text-center">
-                                <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
-                                <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
-                                <hr />
-                                <div class="">
-                                    <span class="price-text float-left"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
-                                    <div class="btn btn-success float-right" id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')"
-                                         data-toggle="modal" data-target="#myModal" type="button">  <i class="fas fa-shopping-cart"></i></div>
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    }
-                    <div id="myModal" class="modal"></div>
+    <div class="container border">
+        <div class="row">
+            <div class="container" style="">
+                <div class="float-right" style="">
+                    <label asp-for="@Model.SortBy"></label>
+                    <select class="btn btn-light dropdown-toggle" asp-for="@Model.SortBy" asp-items="@Model.SortList" id="sortId"></select>
                 </div>
             </div>
         </div>
+        <div class="row" style="margin:auto">
+            @foreach (var item in Model.Products)
+            {
+                <div class="card bg-light mb-3 list-galery-zoom  mb-5 rounded" style="width: 14.1rem; margin-top:5px;margin-right:10px; margin-right:10px; margin-bottom:30px">
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@item.Id">
+                        @if (item.Thumbnail == null)
+                        {
+                            <img class="card-img-top" src="~/no-image.png" />
+                        }
+                        else
+                        {
+                            <img class="card-img-top" src="data:image/jpeg;base64,@item.Thumbnail"
+                                 alt="@Html.DisplayFor(modelItem => item.Name)">
+                        }
+                    </a>
+                    <div style="margin:5px; padding:3px;" class="card-body text-center">
+                        <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                        <p class="card-text">@Html.DisplayFor(modelItem => item.Description)</p>
+                        <hr />
+                        <div class="">
+                            <span class="price-text float-left"> @Html.DisplayFor(modelItem => item.Price) kr.</span>
+                            <div class="btn btn-success float-right" id="addToCardButton" onclick="addToCart(@item.Id, '@item.Name',  @item.Price, 'data:image/jpeg;base64,@item.Thumbnail')"
+                                 data-toggle="modal" data-target="#myModal" type="button">  <i class="fas fa-shopping-cart"></i></div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="myModal" class="modal"></div>
     </div>
 
-    @*Paging*@
-    @{
-        var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.HasNextPage ? "disabled" : "";
-    }
 
+@*Paging*@
+@{
+    var prevDisabled = !Model.Products.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Products.HasNextPage ? "disabled" : "";
+}
+<div class="container">
     <div class="center-div" style="padding-bottom:40px;">
-        <a asp-action="Index"
-           asp-route-pageNumber="@(Model.PageIndex - 1)"
+        <a onclick="paging(@(Model.Products.PageIndex - 1))"
            class="btn btn-default @prevDisabled">
             Previous
         </a>
-        @if (Model.PageIndex > 2)
+        @if (Model.Products.PageIndex > 2)
         {
-            <a asp-action="Index"
-               asp-route-pageNumber="1">
+            <a class="btn btn-default" onclick="paging(1)">
                 1
             </a>
             <span>...</span>
         }
-        @if (Model.HasPreviousPage)
+        @if (Model.Products.HasPreviousPage)
         {
-            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">
-                @(Model.PageIndex - 1)
+            <a class="btn btn-default" onclick="paging(@(Model.Products.PageIndex - 1))">
+                @(Model.Products.PageIndex - 1)
             </a>
         }
-        <span>@Model.PageIndex</span>
-        @if (Model.HasNextPage)
+        <span>@Model.Products.PageIndex</span>
+        @if (Model.Products.HasNextPage)
         {
-            <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">
-                @(Model.PageIndex + 1)
+            <a class="btn btn-default" onclick="paging(@(Model.Products.PageIndex + 1))">
+                @(Model.Products.PageIndex + 1)
             </a>
         }
-        @if (Model.TotalPages > Model.PageIndex + 1)
+        @if (Model.Products.TotalPages > Model.Products.PageIndex + 1)
         {
             <span>...</span>
-            <a asp-action="Index"
-               asp-route-pageNumber="@Model.TotalPages">
-                @Model.TotalPages
+            <a class="btn btn-default" onclick="paging(@(Model.Products.TotalPages))">
+                @Model.Products.TotalPages
             </a>
         }
-        <a asp-action="Index"
-           asp-route-pageNumber="@(Model.PageIndex + 1)"
+        <a onclick="paging(@(Model.Products.PageIndex + 1))"
            class="btn btn-default @nextDisabled">
             Next
         </a>
     </div>
 </div>
-
+</div>

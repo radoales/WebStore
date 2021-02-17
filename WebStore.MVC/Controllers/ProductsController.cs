@@ -24,7 +24,10 @@
         private readonly IProductService productService;
         private readonly IWebHostEnvironment webHostEnvironment;
 
-        public ProductsController(UserManager<User> userManager, IProductService productService, IWebHostEnvironment webHostEnvironment)
+        public ProductsController(
+            UserManager<User> userManager,
+            IProductService productService,
+            IWebHostEnvironment webHostEnvironment)
         {
 
             this.userManager = userManager;
@@ -35,26 +38,61 @@
         // GET: Products
         [HttpGet]
         //[ResponseCache(VaryByHeader = "User-Agent", Duration = 300)]
-        public async Task<IActionResult> Index(string searchString, int? pageNumber, int? productTypeId)
+        public async Task<IActionResult> Index(string searchString, int? pageNumber, int? productTypeId, string sortBy)
         {
+            var sortList = new SelectList(new List<string>() { "A-Z", "Z-A", "Lowest Price", "Highest Price" });
+
+            var model = new ProductIndexViewModel();
+
             if (String.IsNullOrEmpty(searchString) && productTypeId == null)
             {
                 var products = await this.productService.GettAll();
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    products = SortProductsBy(products, sortBy);
+                }
 
-                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10));
+                model = new ProductIndexViewModel
+                {
+                    Products = await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10),
+                    SortList = sortList
+                };
             }
 
-            if (productTypeId != null)
+            else if (productTypeId != null)
             {
                 var products = await this.productService.GetAllProductsOfTypeById((int)productTypeId);
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    products = SortProductsBy(products, sortBy);
+                }
 
-                return View(await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10));
+                model = new ProductIndexViewModel
+                {
+                    Products = await PaginatedList<ListProductRequestModel>.CreateAsync(products, pageNumber ?? 1, 10),
+                    SortList = sortList,
+                    ProductTypeId = productTypeId
+                };
+            }
+            else
+            {
+                pageNumber = 1;
+                var filteredProducts = await this.productService.GetFiltered(searchString);
+                if (!string.IsNullOrEmpty(sortBy))
+                {
+                    filteredProducts = SortProductsBy(filteredProducts, sortBy);
+                }
+
+                model = new ProductIndexViewModel
+                {
+                    Products = await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 10),
+                    SortList = sortList
+                };
             }
 
-            pageNumber = 1;
-            var filteredProducts = await this.productService.GetFiltered(searchString);
 
-            return View(await PaginatedList<ListProductRequestModel>.CreateAsync(filteredProducts, pageNumber ?? 1, 10));
+
+            return View(model);
         }
 
         // GET: Products/Details/5
@@ -72,7 +110,7 @@
             {
                 return NotFound();
             }
-          
+
             return View(product);
         }
 
@@ -112,10 +150,10 @@
 
                 var id = await this.productService.Create(
                     model.Name,
-                    model.Description, 
+                    model.Description,
                     imageFileToArray,
                     thumbnailToArray,
-                    model.Price, 
+                    model.Price,
                     (int)model.ProductTypeId);
 
                 return RedirectToAction(nameof(Details), new { id = id });
@@ -216,11 +254,33 @@
         {
             var productTypes = await this.productService.GetAllProductTypesInCategory(categoryId);
 
-           var productTypesList = productTypes.ToList();
+            var productTypesList = productTypes.ToList();
 
             productTypesList.Insert(0, new ProductType { Id = 0, Name = "Select Product Type" });
 
             return Json(new SelectList(productTypes, "Id", "Name"));
+        }
+
+        private static IEnumerable<ListProductRequestModel> SortProductsBy(IEnumerable<ListProductRequestModel> products, string sortBy)
+        {
+            switch (sortBy)
+            {
+                case "A-Z": products = products.OrderBy(p => p.Name).ToList();
+                    break;
+                case "Z-A":
+                    products = products.OrderByDescending(p => p.Name).ToList();
+                    break;
+                case "Highest Price":
+                    products = products.OrderByDescending(p => p.Price).ToList();
+                    break;
+                case "Lowest Price":
+                    products = products.OrderBy(p => p.Price).ToList();
+                    break;
+                default:
+                    break;
+            }
+
+            return products;
         }
     }
 }
